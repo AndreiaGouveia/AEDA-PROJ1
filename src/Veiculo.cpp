@@ -1,14 +1,13 @@
-#include <Veiculo.h>
-Veiculo::Veiculo(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc):idV(idV),matricula(matricula),capacDeposito(capacDeposito),tipoComb(tipoComb)
-{
-	this->precoComb=precoComb;
-	this->consumoPerc=consumoPerc;
-}
+#include "Veiculo.h"
+
+Veiculo::Veiculo(const unsigned int &idV,const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc)
+: idV(idV), matricula(matricula), capacDeposito(capacDeposito), tipoComb(tipoComb), precoComb(precoComb), consumoPerc(consumoPerc) {}
 
 float Veiculo::calcGasto()//assumindo que consumoPerc sao os km que anda
 {
 	return precoComb*consumoPerc;
 }
+
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -17,6 +16,7 @@ TransporteEscolar::TransporteEscolar(const unsigned int idV,const string matricu
 	this->lotacao=lotacao;
 	this->lugaresLivres=lugaresLivres;
 }
+
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Recreativo////////////////////////
 ////////////////////////////////////////////////////////////////

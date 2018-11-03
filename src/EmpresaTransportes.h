@@ -1,14 +1,16 @@
 #include "Utente.h"
 #include "Veiculo.h"
 
-class EmpresaTrans
+class Empresa
 {
 private:
 	vector <Utente *> utentes;
 	vector <Veiculo *> veiculos;
 	vector<vector<float>> precos;
 	vector<float>lucrosMensais;
+	string nome_empresa;
 public:
+	Empresa(string nome);
 	void alocaUtentes();
 	void calculoMensal();
 	bool alugarTransRecreativo();

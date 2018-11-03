@@ -2,8 +2,10 @@
 #include "ide_listener.h"
 #include "xml_listener.h"
 #include "cute_runner.h"
+#include "EmpresaTransportes.h"
+#include <iomanip>
 
-void thisIsATest() {
+/*void thisIsATest() {
 	ASSERTM("start writing tests", false);	
 }
 
@@ -16,8 +18,136 @@ bool runAllTests(int argc, char const *argv[]) {
 	auto runner = cute::makeRunner(lis, argc, argv);
 	bool success = runner(s, "AllTests");
 	return success;
+}*/
+
+void adiciona_utente()
+{
+
 }
 
-int main(int argc, char const *argv[]) {
-    return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;
+void remove_utente()
+{
+
+}
+
+void modifica_utente()
+{
+
+}
+
+void adiciona_veiculo()
+{
+
+}
+
+void remove_veiculo()
+{
+
+}
+
+void modifica_veiculo()
+{
+
+}
+
+void sair()
+{
+	//deseja sair sem guardar ou guardar e sair?
+}
+
+void display_opcoes()
+{
+	cout << endl <<"1. Adicionar utente" << setw(5) << "2. Remover utente" << setw(5) << "3. Modificar utente" << endl
+		 << "4. Adicionar veículo" << setw(5) << "5. Remover veículo" << setw(5) << "6. Modificar Veículo" << endl
+		 << "7. Sair" << endl;
+}
+
+void tratamento_opcoes(char opcao)
+{
+	switch(opcao)
+	{
+	case 1:
+		adiciona_utente();
+		break;
+	case 2:
+		remove_utente();
+		break;
+	case 3:
+		modifica_utente();
+		break;
+	case 4:
+		adiciona_veiculo();
+		break;
+	case 5:
+		remove_veiculo();
+		break;
+	case 6:
+		modifica_veiculo();
+		break;
+	case 7:
+		sair();
+	}
+}
+
+bool interface()
+{
+	string nome_empresa;
+
+	cout << "////////////////////////////" << endl
+		 << "///Empresa de Transportes///" << endl
+		 << "////////////////////////////" << endl;
+
+	cout << endl << "Crie a sua empresa!" << endl;
+
+	cout << "Nome da Empresa: " << endl;
+
+	cin >> nome_empresa;
+
+	Empresa empresa = Empresa(nome_empresa);
+
+	char opcao;
+
+	while(true)
+	{
+		cout << endl << "O que gostaria de fazer na " << nome_empresa << "?" << endl;
+
+		display_opcoes();
+
+		cin >> opcao;
+
+		if(cin.eof())
+		{
+			break;
+		}
+
+		while(cin.fail() || opcao < '1' || opcao > '7')
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << endl << "A opção que colocou não é válida. Coloque um número válido (ou  para rever as opções) ";
+
+			cin >> opcao;
+
+			if (opcao == 'H')
+			{
+				display_opcoes();
+			}
+		}
+
+		tratamento_opcoes(opcao);
+	}
+
+	return 0;
+}
+
+int main(/*int argc, char const *argv[]*/)
+{
+    /*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
+
+	interface();
+
+	return 0;
+
+
 }

@@ -2,6 +2,7 @@
 #include <string>
 
 using namespace std;
+
 class Veiculo
 {
 private:
@@ -13,11 +14,11 @@ private:
 		float precoComb;
 		float consumoPerc;
 public:
-		Veiculo(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc);
-		float calcGasto()
+		Veiculo(const unsigned int &idV,const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc);
+		float calcGasto();
 };
 
-class	TransporteEscolar:public Veiculo
+class	TransporteEscolar : public Veiculo
 {
 private:
 	unsigned int lotacao;
