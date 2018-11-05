@@ -13,9 +13,14 @@ private:
 		const string tipoComb;
 		float precoComb;
 		float consumoPerc;
+		int numero;
+		vector <unsigned int> zonasAtravessadas;
+
 public:
 		Veiculo(const unsigned int &idV,const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc);
 		float calcGasto();
+		void adicionarZona(unsigned int zona);
+		void removerZona(unsigned int zona);
 };
 
 class	TransporteEscolar : public Veiculo
@@ -25,7 +30,6 @@ private:
 	unsigned int lugaresLivres;
 public:
 	TransporteEscolar(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres);
-	vector <unsigned int> zonasAtravessadas;
 
 };
 class	TransporteActividadeRecreativa:public Veiculo
