@@ -11,7 +11,17 @@ float Veiculo::calcGasto()//assumindo que consumoPerc sao os km que anda
 
 void Veiculo::adicionarZona(unsigned int zona)
 {
-	zonasAtravessadas.push_back(zona);
+	bool existe = false;
+	for (int i = 0; i < zonasAtravessadas.size(); i++)
+	{
+		if (zonasAtravessadas[i] == zona)
+		{
+			existe = true;
+			break;
+		}
+	}
+	if (!existe)
+		zonasAtravessadas.push_back(zona);
 }
 void Veiculo::removerZona(unsigned int zona)
 {
