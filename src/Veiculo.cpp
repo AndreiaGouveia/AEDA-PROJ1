@@ -1,8 +1,8 @@
 #include "Veiculo.h"
 
-unsigned int Veiculo::numVeiculos=1;
-Veiculo::Veiculo(const unsigned int &idV,const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc)
-: idV(idV), matricula(matricula), capacDeposito(capacDeposito), tipoComb(tipoComb), precoComb(precoComb), consumoPerc(consumoPerc),numero(numVeiculos++) {}
+unsigned int Veiculo::numVeiculos = 0;
+Veiculo::Veiculo(const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc)
+: idV(++numVeiculos), matricula(matricula), capacDeposito(capacDeposito), tipoComb(tipoComb), precoComb(precoComb), consumoPerc(consumoPerc) {}
 
 float Veiculo::calcGasto()//assumindo que consumoPerc sao os km que anda
 {
@@ -34,7 +34,7 @@ void Veiculo::removerZona(unsigned int zona)
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
-TransporteEscolar::TransporteEscolar(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres):Veiculo(idV, matricula,capacDeposito,tipoComb,precoComb,consumoPerc)
+TransporteEscolar::TransporteEscolar(const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres):Veiculo(matricula,capacDeposito,tipoComb,precoComb,consumoPerc)
 {
 	this->lotacao=lotacao;
 	this->lugaresLivres=lugaresLivres;
@@ -43,7 +43,7 @@ TransporteEscolar::TransporteEscolar(const unsigned int idV,const string matricu
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Recreativo////////////////////////
 ////////////////////////////////////////////////////////////////
-TransporteActividadeRecreativa::TransporteActividadeRecreativa(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,bool alugado,const unsigned int capacidade):Veiculo(idV, matricula,capacDeposito,tipoComb,precoComb,consumoPerc),capacidade(capacidade)
+TransporteActividadeRecreativa::TransporteActividadeRecreativa(const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,bool alugado,const unsigned int capacidade):Veiculo(matricula,capacDeposito,tipoComb,precoComb,consumoPerc),capacidade(capacidade)
 {	this->alugado=alugado;
 }
 

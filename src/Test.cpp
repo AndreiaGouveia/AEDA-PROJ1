@@ -52,7 +52,7 @@ void modifica_veiculo()
 
 void sair()
 {
-	//deseja sair sem guardar ou guardar e sair?
+	cout << "deseja sair sem guardar ou guardar e sair?" << endl;
 }
 
 void display_opcoes()
@@ -125,7 +125,7 @@ bool interface()
 			cin.clear();
 			cin.ignore(1000, '\n');
 
-			cout << endl << "A opção que colocou não é válida. Coloque um número válido (ou  para rever as opções) ";
+			cout << endl << "A op�ao que colocou nao e valida. Coloque um numero valido (ou  para rever as op�oes) ";
 
 			cin >> opcao;
 
@@ -145,7 +145,45 @@ int main(/*int argc, char const *argv[]*/)
 {
     /*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
 
-	interface();
+	//interface();
+
+	Empresa emp("TPVV");
+
+	ifstream f;
+
+	f.open("matrix.txt");
+
+	emp.setPrecos(f);
+
+	f.close();
+
+	cout << endl;
+
+	vector<vector<double>> aux = emp.getPrecos();
+
+	for(size_t i = 0; i < aux.size(); i++)
+	{
+		for(size_t j = 0; j < aux[i].size(); j++)
+		{
+			cout << aux[i][j] << '\t';
+		}
+		cout << endl;
+	}
+
+	vector<vector<double>> lol({{1, 2, 3}, {1, 2, 1}, {3,2,1}});
+
+	emp.setPrecos(lol);
+
+	aux = emp.getPrecos();
+
+	for(size_t i = 0; i < aux.size(); i++)
+	{
+		for(size_t j = 0; j < aux[i].size(); j++)
+		{
+			cout << aux[i][j] << '\t';
+		}
+		cout << endl;
+	}
 
 	return 0;
 

@@ -13,11 +13,11 @@ private:
 		const string tipoComb;
 		float precoComb;
 		float consumoPerc;
-		int numero;
+		//int numero; -> a ideia de numVeiculos é ser o idV de cada veiculo adicionado
 		vector <unsigned int> zonasAtravessadas;
 
 public:
-		Veiculo(const unsigned int &idV,const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc);
+		Veiculo(const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc);
 		float calcGasto();
 		void adicionarZona(unsigned int zona);
 		void removerZona(unsigned int zona);
@@ -29,7 +29,7 @@ private:
 	unsigned int lotacao;
 	unsigned int lugaresLivres;
 public:
-	TransporteEscolar(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres);
+	TransporteEscolar(const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres);
 
 };
 class	TransporteActividadeRecreativa:public Veiculo
@@ -38,5 +38,5 @@ private:
 	bool alugado;
 	const unsigned int capacidade;
 public:
-	TransporteActividadeRecreativa(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,bool alugado,const unsigned int capacidade);
+	TransporteActividadeRecreativa(const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,bool alugado,const unsigned int capacidade);
 };
