@@ -1,6 +1,7 @@
 #include "Utente.h"
 #include "Veiculo.h"
 #include <iostream>
+#include <sstream>
 #include <fstream>
 
 class Empresa
@@ -23,13 +24,14 @@ public:
 	vector<vector<double>> getPrecos() const;
 	void setUtentes(vector <Utente *> vUt);
 	void setVeiculos(vector <Veiculo *> vVeic);
-	void setPrecos(ifstream &fprecos);
+	void setPrecos(istream &fprecos);
 	void setPrecos(const vector<vector<double>> &vet);
 	void adicionarVeiculo(Veiculo *vc);
 	void adicionaruUtente(Utente *ut);
 	void atualizarPrecos(double delta);
-	void guardarInfo(ofstream &f);
+	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
+	friend ostream& operator <<(const ostream& out,const Empresa &emp);
 	//undone
 	void atualizarPasses();
 	void alocaUtentes();
