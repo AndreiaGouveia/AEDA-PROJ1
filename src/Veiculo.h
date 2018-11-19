@@ -10,10 +10,10 @@ private:
 	    const unsigned int idV;
 		const string matricula;
 		const int capacDeposito;
-		//const string tipoComb; -> é desnecessario, por isso vamos poupar uma variavel
+		//const string tipoComb; -> ï¿½ desnecessario, por isso vamos poupar uma variavel
 		float precoComb;
 		float consumoPerc;
-		//int numero; -> a ideia de numVeiculos é ser o idV de cada veiculo adicionado
+		//int numero; -> a ideia de numVeiculos ï¿½ ser o idV de cada veiculo adicionado
 		vector <unsigned int> zonasAtravessadas;
 
 public:
@@ -32,6 +32,7 @@ public:
 	TransporteEscolar(const string matricula,const int capacDeposito,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres);
 
 };
+
 class	TransporteActividadeRecreativa:public Veiculo
 {
 private:

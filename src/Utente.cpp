@@ -60,12 +60,10 @@ bool Funcionario::getDocente()
 {
 	return docente;
 }
-unsigned int Funcionario::getContacto()
+unsigned int Funcionario::getContacto() const
 {
 	return contacto;
 }
-
-
 
 ////////////////////////////////////////////////////////////////
 //////////////////////Crianca///////////////////////////////////
@@ -79,8 +77,43 @@ string Crianca::getNomeEE()
 	return nomeEE;
 }
 
-unsigned int Crianca::getContacto()
+unsigned int Crianca::getContacto() const
 {
 	return contactoEE;
 }
 
+////////////////////////////
+/////OPERADORES/////////////
+////////////////////////////
+
+ostream& operator<< (ostream &out, const Funcionario &utente)
+{
+	char funcionario = 'F';
+
+	out << funcionario << '\t' << utente.nome << '\t' << utente.data_nascimento << '\t' << utente.BI << '\t'
+		<< utente.numUtente << '\t' << utente.zonaHabitacao << '\t' << utente.zonaEscola << '\t';
+
+	if(utente.docente)
+	{
+		out << "Docente" << '\t';
+	}
+	else
+	{
+		out << "Funcionario" << '\t';
+	}
+
+	out << utente.contacto;
+
+	return out;
+}
+
+ostream& operator<< (ostream &out, const Crianca &utente)
+{
+	char funcionario = 'F';
+
+	out << funcionario << '\t' << utente.nome << '\t' << utente.data_nascimento << '\t' << utente.BI << '\t'
+		<< utente.numUtente << '\t' << utente.zonaHabitacao << '\t' << utente.zonaEscola << '\t'
+		<< utente.nomeEE << '\t' << utente.contactoEE;
+
+	return out;
+}
