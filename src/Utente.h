@@ -16,6 +16,7 @@ private:
 	static unsigned int ult_numUtente;
 public:
 	Utente(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc);
+	virtual ~Utente() {}
 	string getNome();
 	string getData_Nasc();
 	string getBI();
@@ -24,6 +25,7 @@ public:
 	unsigned int getZonaEscola();
 	void setZonaHabitacao(unsigned int zona);
 	void setZonaEscola(unsigned int zona);
+	virtual unsigned int getContacto() const = 0;
 };
 
 class Funcionario : public Utente
@@ -34,7 +36,8 @@ private:
 public:
 	Funcionario(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const bool &docente, const unsigned int &contacto);
 	bool getDocente();
-	unsigned int getContacto();
+	unsigned int getContacto() const;
+	friend ostream& operator<< (ostream &out, const Funcionario &utente);
 };
 
 class Crianca : public Utente
@@ -45,5 +48,6 @@ private:
 public:
 	Crianca(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const string & nomeEE, const unsigned int &contactoEE);
 	string getNomeEE();
-	unsigned int getContacto();
+	unsigned int getContacto() const;
+	friend ostream& operator<< (ostream &out, const Crianca &utente);
 };

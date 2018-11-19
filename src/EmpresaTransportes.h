@@ -10,14 +10,14 @@ private:
 	string nome_empresa;
 	vector <Utente *> utentes;
 	vector <Veiculo *> veiculos;
-	vector<vector<double>> precos; //matriz de preços
-	vector<double>lucrosMensais; //registo dos lucros
+	vector<vector<double>> precos; //matriz de preï¿½os
+	vector<double> lucrosMensais; //registo dos lucros
 public:
 	//cria empresa apenas com nome
 	Empresa(string nome);
 	//carrega empresa de um ficheiro .txt
 	Empresa(ifstream &f);
-	//cria empresa com todos os atributos especificados (exceto lucrosMensais) e carrega de um ficheiro a matrix de preços
+	//cria empresa com todos os atributos especificados (exceto lucrosMensais) e carrega de um ficheiro a matrix de preï¿½os
 	Empresa(string nome, vector <Utente *> vUt, vector <Veiculo *> vVeic, ifstream &fprecos);
 	vector<Veiculo*> getVeiculos() const;
 	vector<Utente*> getUtentes() const;
@@ -32,7 +32,6 @@ public:
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
 	friend ostream& operator <<(const ostream& out,const Empresa &emp);
-	//undone
 	void atualizarPasses();
 	void alocaUtentes();
 	void calculoMensal();
