@@ -2,9 +2,8 @@
 
 unsigned int Veiculo::numVeiculos = 0;
 
-Veiculo::Veiculo(const string &matricula, int deposito, float consumo100km, float precoComb) : idV(++numVeiculos), matricula(matricula)
+Veiculo::Veiculo(const string &matricula, float consumo100km, float precoComb) : idV(++numVeiculos), matricula(matricula)
 {
-	this->deposito = deposito;
 	this->consumo100km = consumo100km;
 	this->precoComb = precoComb;
 }
@@ -22,8 +21,8 @@ string Veiculo::getMatricula() const
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
-Escolar::Escolar(const string &matricula, int deposito, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas = vector<unsigned int>()) :
-		Veiculo(matricula, deposito, consumo100km, precoComb)
+Escolar::Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas = vector<unsigned int>()) :
+		Veiculo(matricula, consumo100km, precoComb)
 {
 	lugaresLivres = capacidade;
 	this->zonasAtravessadas = zonasAtravessadas;
@@ -31,7 +30,7 @@ Escolar::Escolar(const string &matricula, int deposito, float consumo100km, floa
 
 void Escolar::adicionarZona(unsigned int zona)
 {
-	for(size_t i = 0; i < zonasAtravessadas; i++)
+	for(size_t i = 0; i < zonasAtravessadas.size(); i++)
 	{
 		if(zonasAtravessadas[i] == zona)
 			return;
@@ -52,15 +51,15 @@ void Escolar::removerZona(unsigned int zona)
 	zonasAtravessadas.erase(it);
 }
 
-float Escolar::calcGasto(float kmsZona) const
+float Escolar::calcGasto(float kms) const
 {
-	return zonasAtravessadas.size() * kmsZona * consumo100km / 100.0;
+	return zonasAtravessadas.size() * kms * consumo100km / 100.0;
 }
 
 ostream& operator <<(ostream& out, const Escolar& veic)
 {
 	out << "Transporte Escolar" << '\t' << veic.idV << '\t' << veic.matricula << '\t'
-			<< veic.deposito << '\t' << veic.consumo100km << '\t' << veic.precoComb << '\t'
+			<< veic.consumo100km << '\t' << veic.precoComb << '\t'
 			<< veic.lugaresLivres << '\t' << '{';
 
 	for(size_t i = 0; i < veic.zonasAtravessadas.size(); i++)
@@ -79,12 +78,10 @@ ostream& operator <<(ostream& out, const Escolar& veic)
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Recreativo////////////////////////
 ////////////////////////////////////////////////////////////////
-Recreativo::Recreativo(const string &matricula, int deposito, float consumo100km, float precoComb, unsigned int cap, bool alugado) :
-	Veiculo(matricula, deposito, consumo100km, precoComb)
+Recreativo::Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado) :
+	Veiculo(matricula, consumo100km, precoComb), capacidade(cap)
 {
-	capacidade = cap;
-	this->alugado=alugado;
-	kmsPercorridos = 0;
+	this->alugado = alugado;
 }
 
 unsigned int Recreativo::getCapacidade() const
@@ -102,12 +99,16 @@ void Recreativo::setEstado(bool alugado)
 	this->alugado = alugado;
 }
 
-void Recreativo::setKmsPercorridos(float kms)
+float Recreativo::calcGasto(float kms) const
 {
-	kmsPercorridos = kms;
+	return kms * consumo100km / 100.0;
 }
 
-float Recreativo::calcGasto() const
+ostream& operator <<(ostream& out, const Recreativo& veic)
 {
-	return
+	out << "Transporte Escolar" << '\t' << veic.idV << '\t' << veic.matricula << '\t'
+			<< veic.consumo100km << '\t' << veic.precoComb << '\t'
+			<< veic.capacidade << '\t' << veic.alugado;
+
+	return out;
 }

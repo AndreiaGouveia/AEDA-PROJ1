@@ -203,11 +203,11 @@ void Empresa::carregarInfo(ifstream &f)
 					}
 				}
 				if(atributos[6] == "livre")
-					veiculos.push_back(new Recreativo(atributos[1],stoi(atributos[2]),stof(atributos[3]), stof(atributos[4]), false, stoul(atributos[7])));
+					break;
 				else if(atributos[6] == "alugado")
-					veiculos.push_back(new Recreativo(atributos[1],stoi(atributos[2]),stof(atributos[3]), stof(atributos[4]), true, stoul(atributos[7])));
+					break;
 				else
-					veiculos.push_back(new Escolar(atributos[1],stoi(atributos[2]),stof(atributos[3]), stof(atributos[4]), stoul(atributos[6]), stoul(atributos[7])));
+					break;
 				break;
 
 			case 'p':
