@@ -52,7 +52,7 @@ void modifica_veiculo()
 
 void sair()
 {
-	//deseja sair sem guardar ou guardar e sair?
+	cout << "deseja sair sem guardar ou guardar e sair?" << endl;
 }
 
 void display_opcoes()
@@ -125,7 +125,7 @@ bool interface()
 			cin.clear();
 			cin.ignore(1000, '\n');
 
-			cout << endl << "A opção que colocou não é válida. Coloque um número válido (ou  para rever as opções) ";
+			cout << endl << "A op�ao que colocou nao e valida. Coloque um numero valido (ou  para rever as op�oes) ";
 
 			cin >> opcao;
 
@@ -145,7 +145,14 @@ int main(/*int argc, char const *argv[]*/)
 {
     /*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
 
-	interface();
+	//interface();
+	ifstream f;
+
+	f.open("emp.txt");
+
+	Empresa emp(f);
+
+	f.close();
 
 	return 0;
 

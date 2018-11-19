@@ -1,42 +1,46 @@
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <ostream>
 
 using namespace std;
 
-class Veiculo
-{
-private:
-	    static unsigned int numVeiculos;
-	    const unsigned int idV;
-		const string matricula;
-		const int capacDeposito;
-		const string tipoComb;
-		float precoComb;
-		float consumoPerc;
-		int numero;
-		vector <unsigned int> zonasAtravessadas;
-
+class Veiculo {
+protected:
+	static unsigned int numVeiculos;
+	const unsigned int idV;
+	const string matricula;
+	float consumo100km;
+	float precoComb;
 public:
-		Veiculo(const unsigned int &idV,const string &matricula,const int &capacDeposito,const string &tipoComb,const float &precoComb, const float &consumoPerc);
-		float calcGasto();
-		void adicionarZona(unsigned int zona);
-		void removerZona(unsigned int zona);
+	Veiculo(const string &matricula, float consumo100km, float precoComb);
+	virtual ~Veiculo() {}
+	virtual float calcGasto(float kms) const = 0;
+	unsigned int getId() const;
+	string getMatricula() const;
 };
 
-class	TransporteEscolar : public Veiculo
-{
+class Escolar: public Veiculo {
 private:
-	unsigned int lotacao;
 	unsigned int lugaresLivres;
+	vector<unsigned int> zonasAtravessadas;
 public:
-	TransporteEscolar(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,unsigned int lotacao,unsigned int lugaresLivres);
-
+	Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas);
+	void adicionarZona(unsigned int zona);
+	void removerZona(unsigned int zona);
+	float calcGasto(float kms) const;
+	friend ostream& operator <<(ostream& out, const Escolar& veic);
 };
-class	TransporteActividadeRecreativa:public Veiculo
-{
+
+class Recreativo: public Veiculo {
 private:
-	bool alugado;
 	const unsigned int capacidade;
+	bool alugado;
 public:
-	TransporteActividadeRecreativa(const unsigned int idV,const string matricula,const int capacDeposito,const string tipoComb,float precoComb,float consumoPerc,bool alugado,const unsigned int capacidade);
+	Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado);
+	unsigned int getCapacidade() const;
+	bool getEstado() const;
+	void setEstado(bool alugado);
+	float calcGasto(float kms) const;
+	friend ostream& operator <<(ostream& out, const Recreativo& veic);
 };
