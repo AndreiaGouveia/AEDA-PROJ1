@@ -135,9 +135,9 @@ string Recreativo::getInfo() const
 	out << Veiculo::getInfo() << '\t' << capacidade << '\t';
 
 	if(alugado)
-		out << "alugado" << endl;
+		out << "alugado";
 	else
-		out << "livre" << endl;
+		out << "livre";
 
 	return out.str();
 }

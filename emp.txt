@@ -3,7 +3,7 @@ ToneTrans
 //utentes
 Carlos	22/04/1999	30060485	1	1	3	funcionario(a)	963258741
 Andreia Gouveia	12/1/98	12345678	2	2	3	docente	918563214
-Sofia Araujo Lajes	23/5/2012	87654321	3	3	3 Carlos 917899688
+Sofia Araujo Lajes	23/5/2012	87654321	3	3	3	Carlos	917899688
 //veiculos
 1	63-FO-75	8	1.4	30	{1,2}
 2	12-59-PT	7	1.1	60	alugado
