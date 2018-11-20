@@ -1,0 +1,12 @@
+//empresa
+ToneTran
+//utentes
+//veiculos
+1	63-FO-75	8	1.4	30	{49,50}
+2	12-59-PT	7	1.1	60	alugado
+
+3	14-27-RT	4	0.9	20	livre
+
+//precos
+	//lucros
+{1200,1000,978,1100,1156,1400,1963,2700,-1,-1,-1,-1}

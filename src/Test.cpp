@@ -154,6 +154,14 @@ int main(/*int argc, char const *argv[]*/)
 
 	f.close();
 
+	ofstream nf;
+
+	nf.open("emp(1).txt");
+
+	emp.guardarInfo(nf);
+
+	nf.close();
+
 	return 0;
 
 

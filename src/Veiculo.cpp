@@ -18,6 +18,23 @@ string Veiculo::getMatricula() const
 	return matricula;
 }
 
+string Veiculo::getInfo() const
+{
+	ostringstream out;
+
+	out << idV << '\t' << matricula << '\t'
+			<< consumo100km << '\t' << precoComb;
+
+	return out.str();
+}
+
+ostream& operator <<(ostream& out, const Veiculo& veic)
+{
+	out << veic.getInfo();
+
+	return out;
+}
+
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -56,21 +73,28 @@ float Escolar::calcGasto(float kms) const
 	return zonasAtravessadas.size() * kms * consumo100km / 100.0;
 }
 
-ostream& operator <<(ostream& out, const Escolar& veic)
+string Escolar::getInfo() const
 {
-	out << "Transporte Escolar" << '\t' << veic.idV << '\t' << veic.matricula << '\t'
-			<< veic.consumo100km << '\t' << veic.precoComb << '\t'
-			<< veic.lugaresLivres << '\t' << '{';
+	ostringstream out;
 
-	for(size_t i = 0; i < veic.zonasAtravessadas.size(); i++)
+	out << Veiculo::getInfo() << '\t' << lugaresLivres << '\t' << '{';
+
+	for(size_t i = 0; i < zonasAtravessadas.size(); i++)
 	{
-		if (i == veic.zonasAtravessadas.size() - 1)
-			out << veic.zonasAtravessadas[i];
+		if (i == zonasAtravessadas.size() - 1)
+			out << zonasAtravessadas[i];
 		else
-			out << veic.zonasAtravessadas[i] << ',';
+			out << zonasAtravessadas[i] << ',';
 	}
 
 	out << '}';
+
+	return out.str();
+}
+
+ostream& operator <<(ostream& out, const Escolar& veic)
+{
+	out << veic.getInfo();
 
 	return out;
 }
@@ -104,11 +128,23 @@ float Recreativo::calcGasto(float kms) const
 	return kms * consumo100km / 100.0;
 }
 
+string Recreativo::getInfo() const
+{
+	ostringstream out;
+
+	out << Veiculo::getInfo() << '\t' << capacidade << '\t';
+
+	if(alugado)
+		out << "alugado";
+	else
+		out << "livre";
+
+	return out.str();
+}
+
 ostream& operator <<(ostream& out, const Recreativo& veic)
 {
-	out << "Transporte Escolar" << '\t' << veic.idV << '\t' << veic.matricula << '\t'
-			<< veic.consumo100km << '\t' << veic.precoComb << '\t'
-			<< veic.capacidade << '\t' << veic.alugado;
+	out << veic.getInfo();
 
 	return out;
 }

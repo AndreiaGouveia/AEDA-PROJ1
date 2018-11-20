@@ -6,7 +6,7 @@ Empresa::Empresa(string nome) {
 
 Empresa::Empresa(ifstream &f)
 {
- carregarInfo(f);
+	carregarInfo(f);
 }
 
 Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic, ifstream &fprecos) {
@@ -107,11 +107,11 @@ void Empresa::guardarInfo(ostream &f) const
 	f << "//empresa" << endl
 			<< nome_empresa << endl
 			<< "//utentes" << endl;
-
+	/*
 	for(i = 0; i < utentes.size(); i++)
 	{
 		f << *utentes[i] << endl;
-	}
+	}*/
 
 	f << "//veiculos" << endl;
 
@@ -120,14 +120,27 @@ void Empresa::guardarInfo(ostream &f) const
 		f << *veiculos[i] << endl;
 	}
 
-	f << "//precos" << endl;
+	f << "//precos" << endl
+			<< '\t';
 
 	for(i = 0; i < precos.size(); i++)
 	{
+		f << 'Z' << i;
+
+		if(i != precos.size() - 1)
+			f << '\t';
+		else
+			f << endl;
+	}
+
+	for(i = 0; i < precos.size(); i++)
+	{
+		f << 'Z' << i;
 		for(size_t j = 0; j < precos[i].size(); j++)
 		{
-
+			f << '\t' << precos[i][j];
 		}
+		f << endl;
 	}
 
 	f << "//lucros" << endl
@@ -151,27 +164,27 @@ void Empresa::carregarInfo(ifstream &f)
 
 	while(getline(f,line))
 	{
-		if(line == "//empresa\n")
-		{
-			getline(f,line);
-			nome_empresa = line.substr(line.length() - 1);
-		}
-		else if(line == "//utentes\n")
+		if(line == "//empresa")
+			seletor = 'e';
+		else if(line == "//utentes")
 			seletor = 'u';
-		else if(line == "//veiculos\n")
+		else if(line == "//veiculos")
 			seletor = 'v';
-		else if(line == "//precos\n")
+		else if(line == "//precos")
 			seletor = 'p';
-		else if(line == "//lucros\n")
+		else if(line == "//lucros")
 			seletor = 'l';
 		else
 		{
 			switch(seletor)
 			{
+			case 'e':
+				nome_empresa = line.substr(0, line.length() - 1);
+				break;
 			case 'u':
-				for(size_t i = 0; i < line.length(); i++)
+				for(size_t i = 0; i <= line.length(); i++)
 				{
-					if(line[i] == '\t')
+					if(line[i] == '\t' || i == line.length() - 1)
 					{
 						atributos.push_back(aux);
 						aux.clear();
@@ -187,12 +200,13 @@ void Empresa::carregarInfo(ifstream &f)
 					utentes.push_back(new Funcionario(atributos[0],atributos[1],atributos[2],stoul(atributos[4]),stoul(atributos[5]),true,stoul(atributos[7])));
 				else
 					utentes.push_back(new Crianca(atributos[0],atributos[1],atributos[2],stoul(atributos[4]),stoul(atributos[5]),atributos[6],stoul(atributos[7])));
+				atributos.resize(0);
 				break;
 
 			case 'v':
-				for(size_t i = 0; i < line.length(); i++)
+				for(size_t i = 0; i <= line.length(); i++)
 				{
-					if(line[i] == '\t')
+					if(line[i] == '\t' || i == line.length())
 					{
 						atributos.push_back(aux);
 						aux.clear();
@@ -202,12 +216,23 @@ void Empresa::carregarInfo(ifstream &f)
 						aux += line[i];
 					}
 				}
-				if(atributos[6] == "livre")
-					break;
-				else if(atributos[6] == "alugado")
-					break;
+				if(atributos[5] == "livre")
+					veiculos.push_back(new Recreativo(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), false));
+				else if(atributos[5] == "alugado")
+					veiculos.push_back(new Recreativo(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), true));
 				else
-					break;
+				{
+					vector<unsigned int> vecZonas;
+
+					for(string::iterator it = atributos[5].begin(); it != atributos[5].end(); it++)
+					{
+						if(isdigit(*it))
+							vecZonas.push_back(*it);
+					}
+
+					veiculos.push_back(new Escolar(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), vecZonas));
+				}
+				atributos.resize(0);
 				break;
 
 			case 'p':
@@ -216,9 +241,9 @@ void Empresa::carregarInfo(ifstream &f)
 
 			case 'l':
 				setPrecos(str);
-				for(size_t i = 1; i < line.length() - 2; i++)
+				for(size_t i = 1; i <= line.length() - 1; i++)
 				{
-					if(isdigit(line[i]))
+					if(isdigit(line[i]) || line[i] == '-')
 					{
 						aux += line[i];
 					}
@@ -229,6 +254,9 @@ void Empresa::carregarInfo(ifstream &f)
 					}
 				}
 				break;
+
+			default:
+				return;
 			}
 		}
 	}

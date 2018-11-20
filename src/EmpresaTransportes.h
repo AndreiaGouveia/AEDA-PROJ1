@@ -19,6 +19,7 @@ public:
 	Empresa(ifstream &f);
 	//cria empresa com todos os atributos especificados (exceto lucrosMensais) e carrega de um ficheiro a matrix de pre�os
 	Empresa(string nome, vector <Utente *> vUt, vector <Veiculo *> vVeic, ifstream &fprecos);
+	string getNome() const {return nome_empresa;}
 	vector<Veiculo*> getVeiculos() const;
 	vector<Utente*> getUtentes() const;
 	vector<vector<double>> getPrecos() const;
@@ -32,6 +33,7 @@ public:
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
 	friend ostream& operator <<(const ostream& out,const Empresa &emp);
+	//undone
 	void atualizarPasses();
 	void alocaUtentes();
 	void calculoMensal();
