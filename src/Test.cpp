@@ -154,6 +154,8 @@ int main(/*int argc, char const *argv[]*/)
 
 	f.close();
 
+	cout << emp.getNome();
+
 	return 0;
 
 

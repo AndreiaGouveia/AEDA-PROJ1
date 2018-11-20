@@ -6,7 +6,7 @@ Empresa::Empresa(string nome) {
 
 Empresa::Empresa(ifstream &f)
 {
- carregarInfo(f);
+	carregarInfo(f);
 }
 
 Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic, ifstream &fprecos) {
@@ -107,11 +107,11 @@ void Empresa::guardarInfo(ostream &f) const
 	f << "//empresa" << endl
 			<< nome_empresa << endl
 			<< "//utentes" << endl;
-
+	/*
 	for(i = 0; i < utentes.size(); i++)
 	{
 		f << *utentes[i] << endl;
-	}
+	}*/
 
 	f << "//veiculos" << endl;
 
@@ -120,14 +120,27 @@ void Empresa::guardarInfo(ostream &f) const
 		f << *veiculos[i] << endl;
 	}
 
-	f << "//precos" << endl;
+	f << "//precos" << endl
+			<< '\t';
 
 	for(i = 0; i < precos.size(); i++)
 	{
+		f << 'Z' << i;
+
+		if(i != precos.size() - 1)
+			f << '\t';
+		else
+			f << endl;
+	}
+
+	for(i = 0; i < precos.size(); i++)
+	{
+		f << 'Z' << i;
 		for(size_t j = 0; j < precos[i].size(); j++)
 		{
-
+			f << '\t' << precos[i][j];
 		}
+		f << endl;
 	}
 
 	f << "//lucros" << endl
@@ -154,7 +167,8 @@ void Empresa::carregarInfo(ifstream &f)
 		if(line == "//empresa\n")
 		{
 			getline(f,line);
-			nome_empresa = line.substr(line.length() - 1);
+			//nome_empresa = line.substr(line.length() - 1);
+			cout << line.substr(line.length() - 1);
 		}
 		else if(line == "//utentes\n")
 			seletor = 'u';
@@ -202,12 +216,22 @@ void Empresa::carregarInfo(ifstream &f)
 						aux += line[i];
 					}
 				}
-				if(atributos[6] == "livre")
-					break;
-				else if(atributos[6] == "alugado")
-					break;
+				if(atributos[5] == "livre")
+					veiculos.push_back(new Recreativo(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), false));
+				else if(atributos[5] == "alugado")
+					veiculos.push_back(new Recreativo(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), true));
 				else
-					break;
+				{
+					vector<unsigned int> vecZonas;
+
+					for(string::iterator it = atributos[5].begin(); it != atributos[5].end(); it++)
+					{
+						if(isdigit(*it))
+							vecZonas.push_back(*it);
+					}
+
+					veiculos.push_back(new Escolar(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), vecZonas));
+				}
 				break;
 
 			case 'p':
