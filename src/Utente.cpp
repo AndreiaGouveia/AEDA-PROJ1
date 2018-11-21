@@ -75,6 +75,11 @@ unsigned int Funcionario::getContacto() const
 	return contacto;
 }
 
+void Funcionario::setContacto(unsigned int cont)
+{
+	contacto = cont;
+}
+
 string Funcionario::getInfo() const
 {
 	ostringstream out;
@@ -110,6 +115,11 @@ string Crianca::getNomeEE()
 unsigned int Crianca::getContacto() const
 {
 	return contactoEE;
+}
+
+void Crianca::setContacto(unsigned int cont)
+{
+	contactoEE = cont;
 }
 
 string Crianca::getInfo() const

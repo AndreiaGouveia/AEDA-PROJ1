@@ -29,8 +29,12 @@ public:
 	void setVeiculos(vector <Veiculo *> vVeic);
 	void setPrecos(istream &fprecos);
 	void setPrecos(const vector<vector<double>> &vet);
-	void adicionarVeiculo(Veiculo *vc); //TODO Adicionar exceçao
-	void adicionarUtente(Utente *ut); //TODO adicionar exceçao
+	void adicionarVeiculo(Veiculo *vc); 	//TODO VeiculoJaExistente
+	void adicionarUtente(Utente *ut);		//TODO UtenteJaExistente
+	void removerVeiculo(unsigned int id);	//TODO VeiculoNaoExistente
+	void removerVeiculo(string matricula);	//TODO VeiculoNaoExistente
+	void removerUtente(unsigned int numUt);	//TODO UtenteNaoExistente
+	void removerUtente(string BI);			//TODO UtenteNaoExistente
 	double calculoPasseMensal(unsigned int numUtente);
 	void atualizarPasses();
 	void atualizarPrecos(double delta);
@@ -38,15 +42,11 @@ public:
 	void carregarInfo(ifstream &f);
 	friend ostream& operator <<(const ostream& out,const Empresa &emp);
 	//undone
-	void removerVeiculo(unsigned int id);
-	void removerVeiculo(string matricula);
-	void removerUtente(unsigned int id);
-	void removerUtente(string BI);
 	void alocaUtentes();
 	void calculoMensal();
 	bool alugarTransRecreativo();
 	void adicionarZonaEscolar(unsigned int idV);
-	void adicionarZonaEscolar(unsigned int idV);
+	void removerZonaEscolar(unsigned int idV);
 };
 
 class CmpId

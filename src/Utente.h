@@ -26,6 +26,7 @@ public:
 	void setZonaHabitacao(unsigned int zona);
 	void setZonaEscola(unsigned int zona);
 	virtual unsigned int getContacto() const = 0;
+	virtual void setContacto(unsigned int cont) = 0;
 	virtual string getInfo() const;
 	friend ostream& operator<<(ostream &out, const Utente &utente);
 };
@@ -38,6 +39,7 @@ public:
 	Funcionario(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const bool &docente, const unsigned int &contacto);
 	bool getDocente();
 	unsigned int getContacto() const;
+	void setContacto(unsigned int cont);
 	string getInfo() const;
 	friend ostream& operator<<(ostream &out, const Funcionario &utente);
 };
@@ -50,6 +52,7 @@ public:
 	Crianca(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const string & nomeEE, const unsigned int &contactoEE);
 	string getNomeEE();
 	unsigned int getContacto() const;
+	void setContacto(unsigned int cont);
 	string getInfo() const;
 	friend ostream& operator<<(ostream &out, const Crianca &utente);
 };

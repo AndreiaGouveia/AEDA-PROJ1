@@ -97,17 +97,73 @@ void Empresa::adicionarVeiculo(Veiculo *vc) {
 
 void Empresa::adicionarUtente(Utente *ut) {
 	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getBI == ut->getBI())
 		{
-			if(utentes[i]->getBI == ut->getBI())
-			{
-				//throw UtenteJaExistente(utentes[i]->getNumUtente(), utentes[i]->getBI());
-				cout << "Ja Existe" << endl;
-				return;
-			}
+			//throw UtenteJaExistente(utentes[i]->getNumUtente(), utentes[i]->getBI());
+			cout << "Ja Existe" << endl;
+			return;
 		}
+	}
 
-		utentes.push_back(ut);
-		sort(utentes.begin(),utentes.end(),CmpId());
+	utentes.push_back(ut);
+	sort(utentes.begin(),utentes.end(),CmpId());
+}
+
+void Empresa::removerVeiculo(unsigned int id)
+{
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getId() == id)
+		{
+			veiculos.erase(veiculos.begin() + i);
+			return;
+		}
+	}
+
+	//throw VeiculoNaoExistente(id);
+}
+
+void Empresa::removerVeiculo(string matricula)
+{
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getMatricula() == matricula)
+		{
+			veiculos.erase(veiculos.begin() + i);
+			return;
+		}
+	}
+
+	//throw VeiculoNaoExistente(matricula);
+}
+
+void Empresa::removerUtente(unsigned int numUt)
+{
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUt)
+		{
+			utentes.erase(utentes.begin() + i);
+			return;
+		}
+	}
+
+	//throw UtenteNaoExistente(id);
+}
+
+void Empresa::removerUtente(string BI)
+{
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getBI() == BI)
+		{
+			utentes.erase(utentes.begin() + i);
+			return;
+		}
+	}
+
+	//throw UtenteNaoExistente(BI);
 }
 
 double Empresa::calculoPasseMensal(unsigned int numUtente)
