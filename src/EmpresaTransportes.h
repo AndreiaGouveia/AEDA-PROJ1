@@ -1,5 +1,6 @@
 #include "Utente.h"
 #include "Veiculo.h"
+#include <map>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -10,8 +11,9 @@ private:
 	string nome_empresa;
 	vector <Utente *> utentes;
 	vector <Veiculo *> veiculos;
-	vector<vector<double>> precos; //matriz de preï¿½os
+	vector<vector<double>> precos; //matriz de precos dos passes de acordo com as zonas
 	vector<double> lucrosMensais; //registo dos lucros
+	map<unsigned int,double> tabelaPasses;
 public:
 	//cria empresa apenas com nome
 	Empresa(string nome);
@@ -27,13 +29,15 @@ public:
 	void setVeiculos(vector <Veiculo *> vVeic);
 	void setPrecos(istream &fprecos);
 	void setPrecos(const vector<vector<double>> &vet);
-	void adicionarVeiculo(Veiculo *vc);
-	void adicionaruUtente(Utente *ut);
+	void adicionarVeiculo(Veiculo *vc); //TODO Adicionar exceçao
+	void adicionaruUtente(Utente *ut); //TODO adicionar exceçao
 	void atualizarPrecos(double delta);
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
 	friend ostream& operator <<(const ostream& out,const Empresa &emp);
 	//undone
+	void removerVeiculo(unsigned int id);
+	void removerVeiculo(string matricula);
 	void atualizarPasses();
 	void alocaUtentes();
 	void calculoMensal();
