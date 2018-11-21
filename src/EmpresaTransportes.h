@@ -30,7 +30,9 @@ public:
 	void setPrecos(istream &fprecos);
 	void setPrecos(const vector<vector<double>> &vet);
 	void adicionarVeiculo(Veiculo *vc); //TODO Adicionar exceçao
-	void adicionaruUtente(Utente *ut); //TODO adicionar exceçao
+	void adicionarUtente(Utente *ut); //TODO adicionar exceçao
+	double calculoPasseMensal(unsigned int numUtente);
+	void atualizarPasses();
 	void atualizarPrecos(double delta);
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
@@ -38,10 +40,24 @@ public:
 	//undone
 	void removerVeiculo(unsigned int id);
 	void removerVeiculo(string matricula);
-	void atualizarPasses();
+	void removerUtente(unsigned int id);
+	void removerUtente(string BI);
 	void alocaUtentes();
 	void calculoMensal();
 	bool alugarTransRecreativo();
-	void definirTrajecto(unsigned int idV);
-	void calculoPasseMensal(unsigned int numUtente);
+	void adicionarZonaEscolar(unsigned int idV);
+	void adicionarZonaEscolar(unsigned int idV);
+};
+
+class CmpId
+{
+public:
+	bool operator() (Veiculo* left, Veiculo* right)
+	{
+		return left->getId() < right->getId();
+	}
+	bool operator() (Utente* left, Utente* right)
+	{
+		return left->getNumUtente() < right->getNumUtente();
+	}
 };

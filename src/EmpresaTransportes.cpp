@@ -81,11 +81,48 @@ void Empresa::setPrecos(const vector<vector<double>> &vet) {
 }
 
 void Empresa::adicionarVeiculo(Veiculo *vc) {
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getMatricula == vc->getMatricula())
+		{
+			//throw VeiculoJaExistente(veiculos[i]->getId(), veiculos[i]->getMatricula());
+			cout << "Ja Existe" << endl;
+			return;
+		}
+	}
+
 	veiculos.push_back(vc);
+	sort(veiculos.begin(),veiculos.end(),CmpId());
 }
 
-void Empresa::adicionaruUtente(Utente *ut) {
-	utentes.push_back(ut);
+void Empresa::adicionarUtente(Utente *ut) {
+	for(size_t i = 0; i < utentes.size(); i++)
+		{
+			if(utentes[i]->getBI == ut->getBI())
+			{
+				//throw UtenteJaExistente(utentes[i]->getNumUtente(), utentes[i]->getBI());
+				cout << "Ja Existe" << endl;
+				return;
+			}
+		}
+
+		utentes.push_back(ut);
+		sort(utentes.begin(),utentes.end(),CmpId());
+}
+
+double Empresa::calculoPasseMensal(unsigned int numUtente)
+{
+	unsigned int zona1 = utentes[numUtente]->getZonaEscola(), zona2 = utentes[numUtente]->getZonaHabitacao();
+
+	return precos[zona1][zona2];
+}
+
+void Empresa::atualizarPasses()
+{
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		tabelaPasses.insert(pair<unsigned int, double>(i,calculoPasseMensal(i)));
+	}
 }
 
 void Empresa::atualizarPrecos(double delta) {
@@ -97,6 +134,8 @@ void Empresa::atualizarPrecos(double delta) {
 	}
 
 }
+
+
 
 void Empresa::guardarInfo(ostream &f) const {
 	size_t i;
