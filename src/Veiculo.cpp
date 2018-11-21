@@ -44,6 +44,7 @@ void Escolar::adicionarZona(unsigned int zona) {
 	for (size_t i = 0; i < zonasAtravessadas.size(); i++) {
 		if (zonasAtravessadas[i] == zona)
 			return;
+			//throw ZonaJaExistente(zona); TODO ZonaJaExistente
 	}
 
 	zonasAtravessadas.push_back(zona);

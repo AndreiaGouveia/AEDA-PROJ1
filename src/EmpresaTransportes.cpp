@@ -83,7 +83,7 @@ void Empresa::setPrecos(const vector<vector<double>> &vet) {
 void Empresa::adicionarVeiculo(Veiculo *vc) {
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getMatricula == vc->getMatricula())
+		if(veiculos[i]->getMatricula() == vc->getMatricula())
 		{
 			//throw VeiculoJaExistente(veiculos[i]->getId(), veiculos[i]->getMatricula());
 			cout << "Ja Existe" << endl;
@@ -98,7 +98,7 @@ void Empresa::adicionarVeiculo(Veiculo *vc) {
 void Empresa::adicionarUtente(Utente *ut) {
 	for(size_t i = 0; i < utentes.size(); i++)
 	{
-		if(utentes[i]->getBI == ut->getBI())
+		if(utentes[i]->getBI() == ut->getBI())
 		{
 			//throw UtenteJaExistente(utentes[i]->getNumUtente(), utentes[i]->getBI());
 			cout << "Ja Existe" << endl;
@@ -164,6 +164,11 @@ void Empresa::removerUtente(string BI)
 	}
 
 	//throw UtenteNaoExistente(BI);
+}
+
+void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
+{
+
 }
 
 double Empresa::calculoPasseMensal(unsigned int numUtente)

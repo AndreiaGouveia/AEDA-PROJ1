@@ -35,6 +35,8 @@ public:
 	void removerVeiculo(string matricula);	//TODO VeiculoNaoExistente
 	void removerUtente(unsigned int numUt);	//TODO UtenteNaoExistente
 	void removerUtente(string BI);			//TODO UtenteNaoExistente
+	void adicionarZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaJaExistente
+	void removerZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaInexistente
 	double calculoPasseMensal(unsigned int numUtente);
 	void atualizarPasses();
 	void atualizarPrecos(double delta);
@@ -45,8 +47,6 @@ public:
 	void alocaUtentes();
 	void calculoMensal();
 	bool alugarTransRecreativo();
-	void adicionarZonaEscolar(unsigned int idV);
-	void removerZonaEscolar(unsigned int idV);
 };
 
 class CmpId
