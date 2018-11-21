@@ -2,34 +2,30 @@
 
 unsigned int Veiculo::numVeiculos = 0;
 
-Veiculo::Veiculo(const string &matricula, float consumo100km, float precoComb) : idV(++numVeiculos), matricula(matricula)
-{
+Veiculo::Veiculo(const string &matricula, float consumo100km, float precoComb) :
+				idV(++numVeiculos), matricula(matricula) {
 	this->consumo100km = consumo100km;
 	this->precoComb = precoComb;
 }
 
-unsigned int Veiculo::getId() const
-{
+unsigned int Veiculo::getId() const {
 	return idV;
 }
 
-string Veiculo::getMatricula() const
-{
+string Veiculo::getMatricula() const {
 	return matricula;
 }
 
-string Veiculo::getInfo() const
-{
+string Veiculo::getInfo() const {
 	ostringstream out;
 
-	out << idV << '\t' << matricula << '\t'
-			<< consumo100km << '\t' << precoComb;
+	out << idV << '\t' << matricula << '\t' << consumo100km << '\t'
+			<< precoComb;
 
 	return out.str();
 }
 
-ostream& operator <<(ostream& out, const Veiculo& veic)
-{
+ostream& operator <<(ostream& out, const Veiculo& veic) {
 	out << veic.getInfo();
 
 	return out;
@@ -39,48 +35,41 @@ ostream& operator <<(ostream& out, const Veiculo& veic)
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
 Escolar::Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas = vector<unsigned int>()) :
-		Veiculo(matricula, consumo100km, precoComb)
-{
+		Veiculo(matricula, consumo100km, precoComb) {
 	lugaresLivres = capacidade;
 	this->zonasAtravessadas = zonasAtravessadas;
 }
 
-void Escolar::adicionarZona(unsigned int zona)
-{
-	for(size_t i = 0; i < zonasAtravessadas.size(); i++)
-	{
-		if(zonasAtravessadas[i] == zona)
+void Escolar::adicionarZona(unsigned int zona) {
+	for (size_t i = 0; i < zonasAtravessadas.size(); i++) {
+		if (zonasAtravessadas[i] == zona)
 			return;
 	}
 
 	zonasAtravessadas.push_back(zona);
 
-	sort(zonasAtravessadas.begin(),zonasAtravessadas.end()); //o vector zonasAtravessadas
+	sort(zonasAtravessadas.begin(), zonasAtravessadas.end()); //o vector zonasAtravessadas está sempre ordenado
 }
 
-void Escolar::removerZona(unsigned int zona)
-{
+void Escolar::removerZona(unsigned int zona) {
 	vector<unsigned int>::iterator it = find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona);
 
-	if(it == zonasAtravessadas.end())
-		//throw ZonaInexistente(zona); //IMPLEMENTAR ZONAINEXISTENTE
+	/*if (it == zonasAtravessadas.end())
+		throw ZonaInexistente(zona); //TODO ZONAINEXISTENTE*/
 
 	zonasAtravessadas.erase(it);
 }
 
-float Escolar::calcGasto(float kms) const
-{
+float Escolar::calcGasto(float kms) const {
 	return zonasAtravessadas.size() * kms * consumo100km / 100.0;
 }
 
-string Escolar::getInfo() const
-{
+string Escolar::getInfo() const {
 	ostringstream out;
 
 	out << Veiculo::getInfo() << '\t' << lugaresLivres << '\t' << '{';
 
-	for(size_t i = 0; i < zonasAtravessadas.size(); i++)
-	{
+	for (size_t i = 0; i < zonasAtravessadas.size(); i++) {
 		if (i == zonasAtravessadas.size() - 1)
 			out << zonasAtravessadas[i];
 		else
@@ -92,8 +81,7 @@ string Escolar::getInfo() const
 	return out.str();
 }
 
-ostream& operator <<(ostream& out, const Escolar& veic)
-{
+ostream& operator <<(ostream& out, const Escolar& veic) {
 	out << veic.getInfo();
 
 	return out;
@@ -103,38 +91,32 @@ ostream& operator <<(ostream& out, const Escolar& veic)
 //////////////////Transporte  Recreativo////////////////////////
 ////////////////////////////////////////////////////////////////
 Recreativo::Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado) :
-	Veiculo(matricula, consumo100km, precoComb), capacidade(cap)
-{
+		Veiculo(matricula, consumo100km, precoComb), capacidade(cap) {
 	this->alugado = alugado;
 }
 
-unsigned int Recreativo::getCapacidade() const
-{
+unsigned int Recreativo::getCapacidade() const {
 	return capacidade;
 }
 
-bool Recreativo::getEstado() const
-{
+bool Recreativo::getEstado() const {
 	return alugado;
 }
 
-void Recreativo::setEstado(bool alugado)
-{
+void Recreativo::setEstado(bool alugado) {
 	this->alugado = alugado;
 }
 
-float Recreativo::calcGasto(float kms) const
-{
+float Recreativo::calcGasto(float kms) const {
 	return kms * consumo100km / 100.0;
 }
 
-string Recreativo::getInfo() const
-{
+string Recreativo::getInfo() const {
 	ostringstream out;
 
 	out << Veiculo::getInfo() << '\t' << capacidade << '\t';
 
-	if(alugado)
+	if (alugado)
 		out << "alugado";
 	else
 		out << "livre";
@@ -142,8 +124,7 @@ string Recreativo::getInfo() const
 	return out.str();
 }
 
-ostream& operator <<(ostream& out, const Recreativo& veic)
-{
+ostream& operator <<(ostream& out, const Recreativo& veic) {
 	out << veic.getInfo();
 
 	return out;

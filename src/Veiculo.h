@@ -6,7 +6,6 @@
 
 using namespace std;
 
-<<<<<<< HEAD
 class Veiculo {
 protected:
 	static unsigned int numVeiculos;
@@ -14,21 +13,6 @@ protected:
 	const string matricula;
 	float consumo100km;
 	float precoComb;
-=======
-class Veiculo
-{
-private:
-	    static unsigned int numVeiculos;
-	    const unsigned int idV;
-		const string matricula;
-		const int capacDeposito;
-		//const string tipoComb; -> � desnecessario, por isso vamos poupar uma variavel
-		float precoComb;
-		float consumoPerc;
-		//int numero; -> a ideia de numVeiculos � ser o idV de cada veiculo adicionado
-		vector <unsigned int> zonasAtravessadas;
-
->>>>>>> d11e361ba0b279aeb9e6cb7309fdc18226a3bbdc
 public:
 	Veiculo(const string &matricula, float consumo100km, float precoComb);
 	virtual ~Veiculo() {}
@@ -52,12 +36,7 @@ public:
 	friend ostream& operator <<(ostream& out, const Escolar& veic);
 };
 
-<<<<<<< HEAD
 class Recreativo: public Veiculo {
-=======
-class	TransporteActividadeRecreativa:public Veiculo
-{
->>>>>>> d11e361ba0b279aeb9e6cb7309fdc18226a3bbdc
 private:
 	const unsigned int capacidade;
 	bool alugado;

@@ -1,21 +1,21 @@
 #include <vector>
 #include <string>
+#include <sstream>
+#include <ostream>
 
 using namespace std;
 
-class Utente
-{
-private:
+class Utente {
+protected:
 	const string nome;
 	const string data_nascimento;
 	const string BI;
 	unsigned int numUtente;
 	unsigned int zonaHabitacao;
 	unsigned int zonaEscola;
-
 	static unsigned int ult_numUtente;
 public:
-	Utente(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc);
+	Utente(const string &nome, const string &data_nasc, const string &BI,const unsigned int &zonaHabit, const unsigned int &zonaEsc);
 	virtual ~Utente() {}
 	string getNome();
 	string getData_Nasc();
@@ -26,10 +26,11 @@ public:
 	void setZonaHabitacao(unsigned int zona);
 	void setZonaEscola(unsigned int zona);
 	virtual unsigned int getContacto() const = 0;
+	virtual string getInfo() const;
+	friend ostream& operator<<(ostream &out, const Utente &utente);
 };
 
-class Funcionario : public Utente
-{
+class Funcionario: public Utente {
 private:
 	const bool docente;
 	unsigned int contacto;
@@ -37,11 +38,11 @@ public:
 	Funcionario(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const bool &docente, const unsigned int &contacto);
 	bool getDocente();
 	unsigned int getContacto() const;
-	friend ostream& operator<< (ostream &out, const Funcionario &utente);
+	string getInfo() const;
+	friend ostream& operator<<(ostream &out, const Funcionario &utente);
 };
 
-class Crianca : public Utente
-{
+class Crianca: public Utente {
 private:
 	const string nomeEE;
 	unsigned int contactoEE;
@@ -49,5 +50,6 @@ public:
 	Crianca(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const string & nomeEE, const unsigned int &contactoEE);
 	string getNomeEE();
 	unsigned int getContacto() const;
-	friend ostream& operator<< (ostream &out, const Crianca &utente);
+	string getInfo() const;
+	friend ostream& operator<<(ostream &out, const Crianca &utente);
 };

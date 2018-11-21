@@ -49,6 +49,16 @@ void Utente::setZonaEscola(unsigned int zona)
 	zonaEscola = zona;
 }
 
+string Utente::getInfo() const
+{
+	ostringstream out;
+
+	out << nome << '\t' << data_nascimento << '\t' << BI << '\t'
+			<< numUtente << '\t' << zonaHabitacao << '\t' << zonaEscola;
+
+	return out.str();
+}
+
 ////////////////////////////////////////////////////////////////
 //////////////////////Funcionario///////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -63,6 +73,26 @@ bool Funcionario::getDocente()
 unsigned int Funcionario::getContacto() const
 {
 	return contacto;
+}
+
+string Funcionario::getInfo() const
+{
+	ostringstream out;
+
+	out << Utente::getInfo() << '\t';
+
+	if(docente)
+	{
+		out << "docente" << '\t';
+	}
+	else
+	{
+		out << "funcionario(a)" << '\t';
+	}
+
+	out << contacto;
+
+	return out.str();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -82,38 +112,36 @@ unsigned int Crianca::getContacto() const
 	return contactoEE;
 }
 
+string Crianca::getInfo() const
+{
+	ostringstream out;
+
+	out << Utente::getInfo() << '\t' << nomeEE << '\t' << contactoEE;
+
+	return out.str();
+}
+
 ////////////////////////////
 /////OPERADORES/////////////
 ////////////////////////////
 
+ostream& operator<< (ostream &out, const Utente &utente)
+{
+	out << utente.getInfo();
+
+	return out;
+}
+
 ostream& operator<< (ostream &out, const Funcionario &utente)
 {
-	char funcionario = 'F';
-
-	out << funcionario << '\t' << utente.nome << '\t' << utente.data_nascimento << '\t' << utente.BI << '\t'
-		<< utente.numUtente << '\t' << utente.zonaHabitacao << '\t' << utente.zonaEscola << '\t';
-
-	if(utente.docente)
-	{
-		out << "Docente" << '\t';
-	}
-	else
-	{
-		out << "Funcionario" << '\t';
-	}
-
-	out << utente.contacto;
+	out << utente.getInfo();
 
 	return out;
 }
 
 ostream& operator<< (ostream &out, const Crianca &utente)
 {
-	char funcionario = 'F';
-
-	out << funcionario << '\t' << utente.nome << '\t' << utente.data_nascimento << '\t' << utente.BI << '\t'
-		<< utente.numUtente << '\t' << utente.zonaHabitacao << '\t' << utente.zonaEscola << '\t'
-		<< utente.nomeEE << '\t' << utente.contactoEE;
+	out << utente.getInfo();
 
 	return out;
 }
