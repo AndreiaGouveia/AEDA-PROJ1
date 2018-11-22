@@ -55,8 +55,9 @@ void Escolar::adicionarZona(unsigned int zona) {
 void Escolar::removerZona(unsigned int zona) {
 	vector<unsigned int>::iterator it = find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona);
 
-	/*if (it == zonasAtravessadas.end())
-		throw ZonaInexistente(zona); //TODO ZONAINEXISTENTE*/
+	if (it == zonasAtravessadas.end())
+		return;
+		//throw ZonaNaoExistente(zona); //TODO ZonaNaoExistente*/
 
 	zonasAtravessadas.erase(it);
 }
