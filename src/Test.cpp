@@ -1,18 +1,162 @@
+#include "cute.h"
+#include "ide_listener.h"
+#include "xml_listener.h"
+#include "cute_runner.h"
 #include "EmpresaTransportes.h"
 #include <iomanip>
 
-/*VerificacaoDeResposta(string &resposta)
+using namespace std;
+/*void thisIsATest() {
+ ASSERTM("start writing tests", false);
+ }
+
+ bool runAllTests(int argc, char const *argv[]) {
+ cute::suite s { };
+ //TODO add your test here
+ s.push_back(CUTE(thisIsATest));
+ cute::xml_file_opener xmlfile(argc, argv);
+ cute::xml_listener<cute::ide_listener<>> lis(xmlfile.out);
+ auto runner = cute::makeRunner(lis, argc, argv);
+ bool success = runner(s, "AllTests");
+ return success;
+ }*/
+void data_De_Nascimento(string &data_nasc)
 {
-	if(resposta.size()!=10||resposta.size())
-}*/
+	bool invalidOp=true;
+	while(cin.fail()||invalidOp)
+	{
+		invalidOp=false;
+		if(data_nasc.size()==8)
+			{
+				for(int i=0;i<data_nasc.size();i++)
+				{
+					if((i+1)%3 && i<6)//verificar se e '-'
+						{
+							if(data_nasc[i]=='-')
+								{
+									invalidOp=true;
+									break;//sai do ciclo for
+								}
+
+						}
+					else if(!isdigit(data_nasc[i]))
+						{
+							invalidOp=true;
+							break;//sai do ciclo for
+						}
+				}
+			}
+		if(invalidOp)
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl<< " Inseriu uma data com o formato errado. Por favor insira uma data com este formato: DD-MM-AAAA"<< endl;
+			cin>>data_nasc;
+		}
+	}
+
+}
+void respostaYorN(char &resposta)
+{
+	while(cin.fail()||(resposta!='y' && resposta!='Y' && resposta!='n' && resposta!='N'))
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(Y/N)"<< endl;
+		cin>>resposta;
+	}
+}
+void display_First_Menu()
+{
+	cout<<endl<<"Que deseja fazer?"<<endl;
+	cout<<"1. Criar uma nova empresa"<<endl;
+	cout<<"2. Aceder a uma empresa ja existente"<<endl;
+}
 void adiciona_utente(Empresa &empresa) {
-/*cout<<endl<<"O utente que quer inserir uma crianca?"<<endl;
-string resposta;
-cin>>resposta;
-VerificacaoDeResposta(resposta);*/
+//const string &nome, const string &data_nasc, const string &BI,const unsigned int &zonaHabit, const unsigned int &zonaEsc
+	//TIRAR INFO COMUM A CRIANCA E AO FUNCIONARIO
+	string nome,data_nasc,BI,zonaHabit;
+	unsigned int zonaHabit_,zonaEsc;
+
+	//NOME
+	cout<<"Qual o nome do novo utente?"<<endl;
+	getline(cin,nome);
+
+	//DATA DE NASCIMENTO
+	cout<<endl<<"Qual a data de nascimento do utente?"<<endl;
+	cin>>data_nasc;
+	data_De_Nascimento(data_nasc);
+
+	//BI
+	cout<<endl<<"Qual o BI?"<<endl;
+	cin>>BI;
+
+	//ZONA DE HABITACAO
+	cout<<endl<<"Qual a zona onde a habitacao se encontra?"<<endl;
+	cin>>zonaHabit;
+
+	//ZONA DA ESCOLA
+	cout<<endl<<"Qual a zona onde a escola se encontra?"<<endl;
+	cin>>zonaEsc;
+
+	/////////////////////
+	//DADOS ESPECIFICOS//
+	/////////////////////
+	cout<<endl<<"Quer inserir uma crianca?"<<endl;
+
+	char resposta;
+	cin>>resposta;
+	respostaYorN(resposta);
+
+	if(resposta=='y'||resposta=='Y')
+	{
+		string nomeEE;
+		unsigned int contactoEE;
+		/////////////////////////////////
+		///Pedir informacao da crianca///
+		/////////////////////////////////
+
+		//NOME DO ENCARREGADO DE EDUCACAO
+		cout<<endl<<"Qual o nome do encarregado de educacao da crianca?"<<endl;
+		getline(cin,nomeEE);
+
+		//CONTACTO DO ENCARREGADO DE EDUCACAO
+		cout<<endl<<"Qual o contacto do encarregado de educacao da crianca?"<<endl;
+		cin>>contactoEE;
+
+		//ADICIONAR A CRIANCA AOS UTENTES
+		Crianca c1(nome,data_nasc,BI,zonaHabit_,zonaEsc,nomeEE,contactoEE);
+		empresa.adicionarUtente(&c1);
+	}
+	else
+	{
+		char resposta;
+		bool docente;
+		unsigned int contacto;
+		///////////////////////////////////
+		//Pedir informacao do funcionario//
+		///////////////////////////////////
+
+		//DOCENTE
+		cout<<"O funcionario que pretende adicionar e docente(Y/N)?"<<endl;
+		cin>>resposta;
+		respostaYorN(resposta);
+
+		//CONTACTO DO FUNIONARIO
+		cout<<"Qual o contacto do funcionario?"<<endl;
+		cin>>contacto;
+
+		//ADICIONAR O FUNCIONARIO AOS UTENTES
+		Funcionario f1(nome,data_nasc,BI,zonaHabit_,zonaEsc,docente,contacto);
+		empresa.adicionarUtente(&f1);
+	}
+	//adicionado!! FALTA VER AS EXECOES E ERROS DE INPUT PARA A MAIOR PARTE DAS CENAS
 }
 
 void remove_utente(Empresa &empresa) {
+
+	/*//Perguntar qual o numero de utente que pretende remover
+	cout<<endl<<"Qual o numero de utente que pretende remover?"<<endl;*/
 
 }
 
@@ -32,9 +176,20 @@ void modifica_veiculo(Empresa &empresa) {
 
 }
 
-void sair() {
+void sair(Empresa &empresa) {
+	char resposta;
 	cout <<endl<< "deseja sair sem guardar ou guardar e sair?" << endl;
 
+	if(resposta=='y'||resposta=='Y')//we save the changes
+	{
+	string nome=empresa.getNome()+".txt";
+	ofstream nf;
+	nf.open(nome);
+	empresa.guardarInfo(nf);
+	nf.close();
+	exit(0);
+	}
+	else exit(0);//leave the program
 }
 
 void display_Opcoes_Geral() {
@@ -107,20 +262,20 @@ void tratamento_opcoes(string opcao, Empresa &empresa) {
 			//Agora saber o que e que quer fazer
 			cin >> opcao;
 			valid_Option(opcao, false, true);
+			again=true;
 		} else if (opcao == "2") {
 			display_Opcoes_Utente();
 			//Agora saber o que e que quer fazer
 			cin >> opcao;
 			valid_Option(opcao, false, false);
-			break;
+			again=true;
 		} else if (opcao == "3") {
-			sair();
+			sair(empresa);
 			again = false;
-			break;
 		} else if (opcao == "2.1") {
 			adiciona_utente(empresa);
+			cout<<"lol";
 			again = false;
-			break;
 		} else if (opcao == "2.2") {
 			remove_utente(empresa);
 			again = false;
@@ -128,19 +283,15 @@ void tratamento_opcoes(string opcao, Empresa &empresa) {
 		} else if (opcao == "2.3") {
 			modifica_utente(empresa);
 			again = false;
-			break;
 		} else if (opcao == "1.1") {
 			adiciona_veiculo(empresa);
 			again = false;
-			break;
 		} else if (opcao == "1.2") {
 			remove_veiculo(empresa);
 			again = false;
-			break;
 		} else if (opcao == "1.3") {
 			modifica_veiculo(empresa);
 			again = false;
-			break;
 		} else if (opcao == "4") {
 			display_Opcoes_Geral();
 			//Agora saber o que e que quer fazer
@@ -150,177 +301,217 @@ void tratamento_opcoes(string opcao, Empresa &empresa) {
 		}
 	}
 }
+void default_Handler(Empresa &empresa)
+{
+	bool first = true, inside = false;
+	string opcao;
 
-/*bool interface()
- {
- string nome_empresa;
+	display_Opcoes_Geral();
 
- cout << "////////////////////////////" << endl
- << "///Empresa de Transportes///" << endl
- << "////////////////////////////" << endl;
+	cin >> opcao;
 
- cout << endl << "Crie a sua empresa!" << endl;
+	valid_Option(opcao, first, inside);
 
- cout << "Nome da Empresa: " << endl;
+	tratamento_opcoes(opcao, empresa);
+}
 
- cin >> nome_empresa;
-
- Empresa empresa = Empresa(nome_empresa);
-
- char opcao;
-
- while(true)
- {
- cout << endl << "O que gostaria de fazer na " << nome_empresa << "?" << endl;
-
- display_opcoes();
-
- cin >> opcao;
-
- if(cin.eof())
- {
- break;
- }
-
- while(cin.fail() || opcao < '1' || opcao > '7')
- {
- cin.clear();
- cin.ignore(1000, '\n');
-
- cout << endl << "A opçao que colocou nao e valida. Coloque um numero valido (ou  para rever as opçoes) ";
-
- cin >> opcao;
-
- if (opcao == 'H')
- {
- display_opcoes();
- }
- }
-
- tratamento_opcoes(opcao);
- }
-
- return 0;
- }*/
-
-int main(/*int argc, char const *argv[]*/) {
-	/*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
-
-	//interface();
-	/*ifstream f;
-	f.open("emp.txt");
-	Empresa emp(f);
-	f.close();
-
-	ofstream f1;
-	f1.open("emp(1).txt");
-	emp.guardarInfo(f1);
-	f1.close();
-
-	return 0;*/
-
-	bool again = true;
-	string nome_empresa;
-
-	cout << "////////////////////////////" << endl
-			<< "///Empresa de Transportes///" << endl
-			<< "////////////////////////////" << endl;
-
-	string answer;
-	while (again) {
-		cout << endl << "Crie a sua empresa!" << endl;
-
-		cout << "Nome da Empresa: " << endl;
-
-		cin >> nome_empresa;
-
-		cout << "Tem a certeza que esse e o nome pretendido?" << endl;
-
-		cin >> answer;
-
-		while ( (answer != "Y" && answer != "y") && (answer != "N"
-				&& answer != "n")) {
-			cin.clear();
-			cin.ignore(1000, '\n');
-
-			cout << endl
-					<< "A opçao que colocou nao e valida. Insira Y(sim) ou N(nao) para confirmar,ou nao o nome que inseriu ";
-
+void main_Handler(Empresa &empresa,string nome_empresa )
+{
+	char answer;
+	while (true) {
+			//perguntar se quer que isto aconteça
+			cout << endl << "Would you like to do more operations?(Y/N)" << endl;
 			cin >> answer;
 
+			respostaYorN(answer);
+			//se nao quiser continuar
+			if (answer == 'N' || answer == 'n')
+				break;
+
+			//Peguntar o que quer fazer
+			cout << endl << "O que gostaria de fazer na " << nome_empresa << "?" << endl;
+
+			default_Handler(empresa);
+
 		}
+}
+Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa )
+{
+	Empresa empresa("teste");
+	bool again=true;
+	char resposta1;
 
-		if (answer == "Y" || answer == "y")
-			break;
+	while (again)
+	{
+		    bool back=false;
+			display_First_Menu();
 
-	}
+			cin>>resposta1;
 
-	Empresa empresa(nome_empresa);
+			while(cin.fail()||(resposta1 !='1' && resposta1 != '2'))
+			{
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(1/2)"<< endl;
+				cin >> resposta1;
+			}
 
-	string opcao;
-	bool first = true, inside = false;//primeira vez e os outros 2 menus ainda nao foram apresntados
+			switch(resposta1)
+			{
 
-///////////////////////////
-//1 vez a fazer alteracoes/
-///////////////////////////
+			case '1': //caso se tenha de criar uma empresa nova
 
-	while (first) {
+			cout << endl << "Crie a sua empresa!" << endl;
 
-		cout << endl << "O que gostaria de fazer na " << nome_empresa << "?"
-				<< endl;
+			while (true)
+			{
+			cout<<endl<<"(Se quiser voltar atras insira 1)"<<endl;
+			cout<< "Nome da Empresa: " << endl;
 
-		display_Opcoes_Geral();
+			cin >> nome_empresa;
+			if(nome_empresa=="1")
+				{
+				back=true;
+				break;
+				}
 
-		cin >> opcao;
+			cout << "Tem a certeza que esse e o nome pretendido?" << endl;
 
-		valid_Option(opcao, first, inside);
+			cin >> resposta1;
 
-		tratamento_opcoes(opcao, empresa);
+			respostaYorN(resposta1);
+			if(resposta1=='Y'||resposta1=='y')
+				break;
+			}
+			if(!back)
+		    {empresa=Empresa(nome_empresa);//criar o nosso objecto
+			again=false;//por causa do case switch, senao era logo break
 
-		first = false;
-	}
+			char resp;
+			cout<<endl<<"Tem um ficheiro com os precos?"<<endl;
+			cin>>resp;
+			respostaYorN(resp);
+			if(resp=='y'||resp=='Y') //se os precos estiverem num ficheiro
+			{
+				ifstream f;
+				string nome_do_ficheiro;
+			while(true)
+				{
+				  cout<<"Qual o nome do ficheiro?(sem .txt no fim) "<<endl;
+				  cin>>nome_do_ficheiro;
 
+			      nome_do_ficheiro+=".txt";//adicionar a extensao .txt
+			      f.open(nome_do_ficheiro);
+
+		    	if(f.is_open())//se existe ou nao
+			      {
+					abertura_por_ficheiro=true;
+					empresa=Empresa(f); //creating our object
+					break;
+				  }
+			    else cout<<"O nome do ficheiro nao existe"<<endl;//se nao existir volta a perguntar o nome do ficheiro
+				}
+			}
+			else{//Como nao estao no ficheiro, o utilizador vai ter de criara sua tabela
+
+				vector<vector<double>> precos;
+				vector<double> temp;
+				double preco;
+				int zonas;
+
+				//Perguntar quantas zonas
+				cout<<"Quantas zonas?"<<endl;
+				cin>>zonas;
+				while(cin.fail())
+				{
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cout << endl<< "Introduza uma opcao valida"<< endl;
+					cin>>zonas;
+				}
+
+				//Criar o nosso multivetor com precos
+				for(int i=0;i<zonas;i++)
+				{
+					for(int j=0;j<zonas;j++)
+					{
+						cout<<"Qual o preco entre a zona "<<i<<" e "<<j<<" ?"<<endl;
+						cin>>preco;
+						while(cin.fail())
+						{
+						 cin.clear();
+						 cin.ignore(1000, '\n');
+						 cout << endl<< "Introduza uma opcao valida"<< endl;
+					     cin>>preco;
+						}
+						temp.push_back(preco);
+					}
+					precos.push_back(temp);
+					temp.clear();
+				}
+				empresa.setPrecos(precos);//Agora a empresa tem os precos
+
+		      }
+		    }
+				break;
+
+			case '2'://caso a empresa ja exista num ficheiro
+				string nome_do_ficheiro;
+				while(true)
+				{
+				cout<< endl<<"Qual o nome to ficheiro onde se situa a empresa(sem o .txt no fim)?"<<endl;
+				cout<<"Se quiser voltar para tras, insira 1"<<endl;
+				cin>>nome_do_ficheiro;
+
+				if(nome_do_ficheiro!="1")
+				{
+				    nome_do_ficheiro+=".txt";
+				    f.open(nome_do_ficheiro);
+					if(f.is_open())
+					{
+						abertura_por_ficheiro=true;
+						empresa=Empresa(f); //creating our object
+						again=false;
+						break;
+					}
+					else cout<<"O nome do ficheiro nao existe"<<endl;
+				}
+				else back=true;
+				if(back)
+					break;
+
+				}
+				break;
+			}
+
+		  }
+	return empresa;
+}
+int main(/*int argc, char const *argv[]*/) {
+	/*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
+	ifstream f;
+	bool abertura_por_ficheiro=false;// se foi aberto por ficheiro ou nao
+	string nome_empresa;
+
+	cout<< "////////////////////////////" << endl
+		<< "///Empresa de Transportes///" << endl
+		<< "////////////////////////////" << endl;
+
+	Empresa empresa=getEmpresa(abertura_por_ficheiro,f,nome_empresa);
+////////////////////////////
+//1 vez a fazer alteracoes//
+////////////////////////////
+	cout << endl << "O que gostaria de fazer na " << nome_empresa << " ?"<< endl;
+	default_Handler(empresa);//Handler de primeira utilizacao
 /////////////////////////////////
 //Voltar a fazer mais alteraçoes/
 /////////////////////////////////
+	main_Handler(empresa,nome_empresa);
 
-	again = true;
-	while (again) {
-		//perguntar se quer que isto aconteça
-		cout << endl << "Would you like to do more operations?(Y/N)" << endl;
-		cin >> answer;
-
-		while (cin.fail() || answer != "Y" || answer != "y" || answer == "N"
-				|| answer == "n") {
-			cin.clear();
-			cin.ignore(1000, '\n');
-
-			cout << endl
-					<< "A opçao que colocou nao e valida. Insira Y(sim) ou N(nao) para confirmar,ou nao se quer fazer mais alteracoes";
-
-			cin >> answer;
-
-		}
-		//se nao quiser continuar
-		if (answer == "N" || answer == "n")
-			break;
-
-		//Peguntar o que quer fazer
-		cout << endl << "O que gostaria de fazer na " << nome_empresa << "?"
-				<< endl;
-
-		display_Opcoes_Geral();
-
-		cin >> opcao;
-
-		valid_Option(opcao, first, inside);
-
-		tratamento_opcoes(opcao, empresa);
-
-	}
-	//f.close();
+	if(abertura_por_ficheiro)
+		f.close();
 //fim do programa
-	cout << endl << "Obrigada" << endl;
+	cout << endl << "FIM" << endl;
 	return 0;
 
 }
