@@ -2,18 +2,21 @@
 
 Empresa::Empresa(string nome) {
 	nome_empresa = nome;
+	precoPessoa = 0;
 }
 
 Empresa::Empresa(ifstream &f) {
 	carregarInfo(f);
 }
 
-Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic, ifstream &fprecos) {
+Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic,unsigned int precoPessoa, ifstream &fprecos) {
 	nome_empresa = nome;
 	utentes = vUt;
 	veiculos = vVeic;
+	this->precoPessoa = precoPessoa;
 	setPrecos(fprecos);
 	lucrosMensais = vector<double>(12, -1);
+	registoDiario = vector<double>(31, 0);
 }
 
 vector<Veiculo*> Empresa::getVeiculos() const {
@@ -22,6 +25,10 @@ vector<Veiculo*> Empresa::getVeiculos() const {
 
 vector<Utente*> Empresa::getUtentes() const {
 	return utentes;
+}
+
+unsigned int Empresa::getPrecoPessoa() const{
+	return precoPessoa;
 }
 
 vector<vector<double>> Empresa::getPrecos() const {
@@ -34,6 +41,10 @@ void Empresa::setUtentes(vector<Utente *> vUt) {
 
 void Empresa::setVeiculos(vector<Veiculo *> vVeic) {
 	veiculos = vVeic;
+}
+
+void Empresa::setPrecoPessoa(unsigned int precoP){
+	precoPessoa = precoP;
 }
 
 void Empresa::setPrecos(istream &fprecos) {
@@ -249,6 +260,7 @@ unsigned int Empresa::getContacto(string BI)
 		}
 	}
 
+	return 0;
 	//throw UtenteNaoExistente();
 }
 
@@ -277,7 +289,109 @@ void Empresa::atualizarPrecos(double delta) {
 	atualizarPasses();
 }
 
+double Empresa::calcularAluguer(unsigned int idV)
+{
+	return precoPessoa * veiculos[idV]->getCapacidade();
+}
 
+string Empresa::verificaDispRecreativo(unsigned int capacidade)
+{
+	stringstream strst;
+	vector<unsigned int> aux;
+
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getCapacidade() != 0) //é Recreativo
+		{
+			if(!veiculos[i]->getEstado())
+			{
+				aux.push_back(veiculos[i]->getId());
+				aux.push_back(veiculos[i]->getCapacidade());
+			}
+		}
+	}
+
+	if(aux.size() == 0)
+		strst << "Nao existe nenhum veiculo disponivel com essa capacidade.";
+	else
+	{
+		strst << "Veiculos que pode alugar:" << endl;
+		for(size_t i = 0; i < aux.size()/2; i+=2)
+		{
+			strst << "ID: " << aux[i] << "\tCapacidade: " << aux[i + 1] << "\tPreco: " << calcularAluguer(aux[i]) <<endl;
+		}
+	}
+
+	return strst.str();
+}
+
+bool Empresa::alugaRecreativo(unsigned int idV)
+{
+	if(idV >= veiculos.size())
+		//throw VeiculoNaoExistente();
+		return false;
+	else if(veiculos[idV]->getCapacidade() == 0)
+	{
+		//throw VeiculoNaoRecreativo();
+		return false;
+	}
+	else
+	{
+		veiculos[idV]->setEstado(true);
+		return true;
+	}
+}
+
+bool Empresa::finalDia(float kmsZona)
+{
+	double sum = 0;
+	string str = "";
+
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getCapacidade() == 0) //Nao é recreativo
+			sum += veiculos[i]->calcGasto(kmsZona);
+		else//É recreativo
+		{
+			if(veiculos[i]->getEstado())
+			{
+				float kms;
+				veiculos[i]->setEstado(false);
+
+				cout << "Quantos kms percorreu o veiculo (recreativo) nª"
+						<< veiculos[i]->getId() << " ?"; cin >> kms;
+
+				sum += veiculos[i]->calcGasto(kms);
+				sum += calcularAluguer(veiculos[i]->getId());
+			}
+		}
+	}
+
+	if(registoDiario.size() <= 31){
+		registoDiario.push_back(sum);
+		return true;
+	}
+	else
+		return false;
+}
+
+void Empresa::calculoMensal()
+{
+	double sumPasses = 0;
+	double sumDiarios = 0;
+
+	for(map<unsigned int, double>::iterator it = tabelaPasses.begin(); it != tabelaPasses.end(); it++)
+	{
+		sumPasses += it->second;
+	}
+
+	for(size_t i = 0; i < registoDiario.size(); i++)
+	{
+		sumDiarios = registoDiario[i];
+	}
+
+	lucrosMensais.push_back(sumPasses + sumDiarios);
+}
 
 void Empresa::guardarInfo(ostream &f) const {
 	size_t i;

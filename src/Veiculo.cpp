@@ -63,7 +63,7 @@ void Escolar::removerZona(unsigned int zona) {
 }
 
 float Escolar::calcGasto(float kms) const {
-	return zonasAtravessadas.size() * kms * consumo100km / 100.0;
+	return 2 * zonasAtravessadas.size() * kms * consumo100km / 100.0;
 }
 
 string Escolar::getInfo() const {
