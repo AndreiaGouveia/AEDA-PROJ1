@@ -168,7 +168,88 @@ void Empresa::removerUtente(string BI)
 
 void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 {
+	if(idV >= veiculos.size())
+		//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
+		return;
+	string info = veiculos[idV]->getInfo();
 
+	size_t index = info.find_last_of('\t');
+	info = info.substr(index);
+
+	if(info == "livre" || info == "alugado")
+	{
+		//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+	}
+	else
+		veiculos[idV]->adicionarZona(zona);
+}
+
+void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
+{
+	if(idV >= veiculos.size())
+		//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
+		return;
+
+	string info = veiculos[idV]->getInfo();
+
+	size_t index = info.find_last_of('\t');
+	info = info.substr(index);
+
+	if(info == "livre" || info == "alugado")
+	{
+		//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+	}
+	else
+		veiculos[idV]->removerZona(zona);
+}
+
+void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
+{
+	if(numUtente >= utentes.size())
+		//throw UtenteNaoExistente();
+		return;
+
+	utentes[numUtente]->setZonaHabitacao(zona);
+}
+
+void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
+{
+	if(numUtente >= utentes.size())
+		//throw UtenteNaoExistente();
+		return;
+
+	utentes[numUtente]->setZonaEscola(zona);
+}
+
+void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
+{
+	if(numUtente >= utentes.size())
+		//throw UtenteNaoExistente();
+		return;
+
+	utentes[numUtente]->setContacto(cont);
+}
+
+unsigned int Empresa::getContacto(unsigned int numUtente)
+{
+	if(numUtente >= utentes.size())
+		//throw UtenteNaoExistente();
+		return 0;
+
+	return utentes[numUtente]->getContacto();
+}
+
+unsigned int Empresa::getContacto(string BI)
+{
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getBI() == BI)
+		{
+			return utentes[i]->getContacto();
+		}
+	}
+
+	//throw UtenteNaoExistente();
 }
 
 double Empresa::calculoPasseMensal(unsigned int numUtente)
@@ -187,13 +268,13 @@ void Empresa::atualizarPasses()
 }
 
 void Empresa::atualizarPrecos(double delta) {
-
 	for (size_t i = 0; i < precos.size(); i++) {
 		for (size_t j = 0; j < precos[i].size(); j++) {
 			precos[i][j] += delta;
 		}
 	}
 
+	atualizarPasses();
 }
 
 
@@ -333,6 +414,8 @@ void Empresa::carregarInfo(ifstream &f) {
 			}
 		}
 	}
+
+	atualizarPasses();
 }
 
 ostream& operator <<(ostream& out, const Empresa &emp) {

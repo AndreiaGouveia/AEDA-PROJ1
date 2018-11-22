@@ -36,7 +36,12 @@ public:
 	void removerUtente(unsigned int numUt);	//TODO UtenteNaoExistente
 	void removerUtente(string BI);			//TODO UtenteNaoExistente
 	void adicionarZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaJaExistente
-	void removerZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaInexistente
+	void removerZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaNaoExistente
+	void alterarZonaHab(unsigned int numUtente, unsigned int zona); //TODO UtenteNaoExistente
+	void alterarZonaEsc(unsigned int numUtente, unsigned int zona);
+	void alterarContacto(unsigned int numUtente, unsigned int cont);
+	unsigned int getContacto(unsigned int numUtente);
+	unsigned int getContacto(string BI);
 	double calculoPasseMensal(unsigned int numUtente);
 	void atualizarPasses();
 	void atualizarPrecos(double delta);

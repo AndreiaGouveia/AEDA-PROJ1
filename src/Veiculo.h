@@ -20,6 +20,9 @@ public:
 	unsigned int getId() const;
 	string getMatricula() const;
 	virtual string getInfo() const;
+	virtual void adicionarZona(unsigned int zona) {}
+	virtual void removerZona(unsigned int zona) {}
+	virtual void setEstado(bool alugado) {}
 	friend ostream& operator <<(ostream& out, const Veiculo& veic);
 };
 
