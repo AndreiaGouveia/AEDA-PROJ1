@@ -22,7 +22,9 @@ public:
 	virtual string getInfo() const;
 	virtual void adicionarZona(unsigned int zona) {}
 	virtual void removerZona(unsigned int zona) {}
+	virtual bool getEstado() const {return false;} //retorno irrelevante
 	virtual void setEstado(bool alugado) {}
+	virtual unsigned int getCapacidade() {return 0;}
 	friend ostream& operator <<(ostream& out, const Veiculo& veic);
 };
 

@@ -11,6 +11,7 @@ private:
 	string nome_empresa;
 	vector <Utente *> utentes;
 	vector <Veiculo *> veiculos;
+	unsigned int precoPessoa; //preco por pessoa do aluguer de tranportes recreativos
 	vector<vector<double>> precos; //matriz de precos dos passes de acordo com as zonas
 	vector<double> lucrosMensais; //registo dos lucros
 	map<unsigned int,double> tabelaPasses;
@@ -45,13 +46,15 @@ public:
 	double calculoPasseMensal(unsigned int numUtente);
 	void atualizarPasses();
 	void atualizarPrecos(double delta);
+	unsigned int calcularAluguer(unsigned int idV);
+	string verificaDispRecreativo(unsigned int capacidade);
+	bool alugaRecreativo(unsigned int idV);
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
 	friend ostream& operator <<(const ostream& out,const Empresa &emp);
 	//undone
 	void alocaUtentes();
 	void calculoMensal();
-	bool alugarTransRecreativo();
 };
 
 class CmpId

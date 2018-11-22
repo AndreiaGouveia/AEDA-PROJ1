@@ -249,6 +249,7 @@ unsigned int Empresa::getContacto(string BI)
 		}
 	}
 
+	return 0;
 	//throw UtenteNaoExistente();
 }
 
@@ -277,7 +278,58 @@ void Empresa::atualizarPrecos(double delta) {
 	atualizarPasses();
 }
 
+unsigned int Empresa::calcularAluguer(unsigned int idV)
+{
+	return precoPessoa * veiculos[idV]->getCapacidade();
+}
 
+string Empresa::verificaDispRecreativo(unsigned int capacidade)
+{
+	stringstream strst;
+	vector<unsigned int> aux;
+
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getCapacidade() != 0) //é Recreativo
+		{
+			if(!veiculos[i]->getEstado())
+			{
+				aux.push_back(veiculos[i]->getId());
+				aux.push_back(veiculos[i]->getCapacidade());
+			}
+		}
+	}
+
+	if(aux.size() == 0)
+		strst << "Nao existe nenhum veiculo disponivel com essa capacidade.";
+	else
+	{
+		strst << "Veiculos que pode alugar:" << endl;
+		for(size_t i = 0; i < aux.size()/2; i+=2)
+		{
+			strst << "ID: " << aux[i] << "\tCapacidade: " << aux[i + 1] << "\tPreco: " << calcularAluguer(aux[i]) <<endl;
+		}
+	}
+
+	return strst.str();
+}
+
+bool Empresa::alugaRecreativo(unsigned int idV)
+{
+	if(idV >= veiculos.size())
+		//throw VeiculoNaoExistente();
+		return false;
+	else if(veiculos[idV]->getCapacidade() == 0)
+	{
+		//throw VeiculoNaoRecreativo();
+		return false;
+	}
+	else
+	{
+		veiculos[idV]->setEstado(true);
+		return true;
+	}
+}
 
 void Empresa::guardarInfo(ostream &f) const {
 	size_t i;
