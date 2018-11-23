@@ -1,8 +1,25 @@
+#include "cute.h"
+#include "ide_listener.h"
+#include "xml_listener.h"
+#include "cute_runner.h"
 #include "EmpresaTransportes.h"
 #include <iomanip>
 
 using namespace std;
+/*void thisIsATest() {
+ ASSERTM("start writing tests", false);
+ }
 
+ bool runAllTests(int argc, char const *argv[]) {
+ cute::suite s { };
+ //TODO add your test here
+ s.push_back(CUTE(thisIsATest));
+ cute::xml_file_opener xmlfile(argc, argv);
+ cute::xml_listener<cute::ide_listener<>> lis(xmlfile.out);
+ auto runner = cute::makeRunner(lis, argc, argv);
+ bool success = runner(s, "AllTests");
+ return success;
+ }*/
 void checkingOnlyCinFail(unsigned int &answer)
 {
 	while(cin.fail())
@@ -228,6 +245,9 @@ void remove_utente(Empresa &empresa) {
 
 void modifica_utente(Empresa &empresa) {
 
+	/*AlterarContacto altera o contacto do Utente.
+	AlterarZonaEsc altera a zonaEscola do Utente
+	AlterarZonaHab altera a xonaHabitacao do Utente*/
 
 
 }
@@ -319,7 +339,30 @@ void remove_veiculo(Empresa &empresa) {
 }
 
 void modifica_veiculo(Empresa &empresa) {
-
+/*removerZonaEscolar() e adicionarZonaEscolar() que removem e adicionam respetivamente uma zona ao vetor zonasAtravessadas do veículo Escolar
+ *
+ */
+	cout<<endl<< "Que pretende fazer?"<<endl;
+	cout<<"1.Adicionar uma zona escolar"<<setw(5)<<"2.Remover uma zona escolar"<<endl;
+	char answer;
+	cin>>answer;
+	while(cin.fail()||(answer!=1 && answer!=2))
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(Y/N)"<< endl;
+		cin>>answer;
+	}
+	unsigned int idV,zona;
+	cout<<""
+	switch(answer)
+	{
+	case '1':
+			empresa.adicionarZonaEscolar()
+		break;
+	case '2':
+		break;
+	}
 }
 
 void sair(Empresa &empresa) {
@@ -614,20 +657,8 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 		  }
 	return empresa;
 }
-int main() {
-	ifstream inf;
-	inf.open("emp.txt");
-	Empresa emp(inf);
-	inf.close();
-
-	cout << emp;
-
-	ofstream of;
-	of.open("emp2.txt");
-	of << emp;
-	of.close();
-	return 0;
-/*
+int main(/*int argc, char const *argv[]*/) {
+	/*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
 	ifstream f;
 	bool abertura_por_ficheiro=false;// se foi aberto por ficheiro ou nao
 	string nome_empresa;
@@ -652,5 +683,5 @@ int main() {
 //fim do programa
 	cout << endl << "FIM" << endl;
 	return 0;
-*/
+
 }
