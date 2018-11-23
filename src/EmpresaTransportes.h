@@ -12,7 +12,7 @@ private:
 	vector <Utente *> utentes;
 	vector <Veiculo *> veiculos;
 	float precoPessoa; //preco por pessoa do aluguer de tranportes recreativos
-	vector<vector<double>> precos; //matriz de precos dos passes de acordo com as zonas
+	vector<vector<double>> precos_zona; //matriz de precos dos passes de acordo com as zonas
 	vector<double> lucrosMensais; //registo dos lucros
 	vector<double> registoDiario; //registo do lucro/prejuizo diario
 	map<unsigned int,double> tabelaPasses;
@@ -59,12 +59,11 @@ public:
 	void calculoMensal();
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
+	void showUtentes() const;
+	void showVeiculos() const;
+	void showMensal() const;
+	void showDiario() const;
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
-	//undone
-	void showUtentes();
-	void showVeiculos();
-	void showMensal();
-	void showDiario();
 };
 
 class CmpId

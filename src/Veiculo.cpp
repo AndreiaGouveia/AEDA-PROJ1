@@ -16,6 +16,16 @@ string Veiculo::getMatricula() const {
 	return matricula;
 }
 
+float Veiculo::getConsumo() const
+{
+	return consumo100km;
+}
+
+float Veiculo::getPreco() const
+{
+	return precoComb;
+}
+
 string Veiculo::getInfo() const {
 	ostringstream out;
 
@@ -38,6 +48,16 @@ Escolar::Escolar(const string &matricula, float consumo100km, float precoComb, u
 		Veiculo(matricula, consumo100km, precoComb) , lugTotais(capacidade){
 	lugaresLivres = capacidade;
 	this->zonasAtravessadas = zonasAtravessadas;
+}
+
+unsigned int Escolar::getLugsLivres() const
+{
+	return lugaresLivres;
+}
+
+vector<unsigned int> Escolar::getZonas() const
+{
+	return zonasAtravessadas;
 }
 
 void Escolar::adicionarZona(unsigned int zona) {

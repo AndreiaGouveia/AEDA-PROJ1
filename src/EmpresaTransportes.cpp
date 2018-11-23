@@ -3,6 +3,7 @@
 Empresa::Empresa(string nome) {
 	nome_empresa = nome;
 	precoPessoa = -1;
+	lucrosMensais = vector<double>(12, -1);
 }
 
 Empresa::Empresa(ifstream &f) {
@@ -31,7 +32,7 @@ unsigned int Empresa::getPrecoPessoa() const{
 }
 
 vector<vector<double>> Empresa::getPrecos() const {
-	return precos;
+	return precos_zona;
 }
 
 void Empresa::setUtentes(vector<Utente *> vUt) {
@@ -53,7 +54,7 @@ void Empresa::setPrecos(istream &fprecos) {
 	size_t i;
 	int lineCount = -1;
 
-	precos.clear();
+	precos_zona.clear();
 
 	while (getline(fprecos, line)) {
 		if (lineCount != -1) {
@@ -76,7 +77,7 @@ void Empresa::setPrecos(istream &fprecos) {
 				}
 			}
 
-			precos.push_back(lineVals);
+			precos_zona.push_back(lineVals);
 			lineVals.clear();
 		}
 
@@ -85,9 +86,9 @@ void Empresa::setPrecos(istream &fprecos) {
 }
 
 void Empresa::setPrecos(const vector<vector<double>> &vet) {
-	precos.clear();
+	precos_zona.clear();
 
-	precos = vet;
+	precos_zona = vet;
 }
 
 void Empresa::adicionarVeiculo(Veiculo *vc) {
@@ -97,6 +98,7 @@ void Empresa::adicionarVeiculo(Veiculo *vc) {
 		{
 			//throw VeiculoJaExistente(veiculos[i]->getId(), veiculos[i]->getMatricula());
 			cout << "Ja Existe" << endl;
+			Veiculo::numVeiculos--;
 			return;
 		}
 	}
@@ -112,6 +114,7 @@ void Empresa::adicionarUtente(Utente *ut) {
 		{
 			//throw UtenteJaExistente(utentes[i]->getNumUtente(), utentes[i]->getBI());
 			cout << "Ja Existe" << endl;
+			Utente::ult_numUtente--;
 			return;
 		}
 	}
@@ -254,7 +257,7 @@ double Empresa::calculoPasseMensal(unsigned int numUtente)
 	unsigned int zona1 = utentes[numUtente-1]->getZonaEscola();
 	unsigned int zona2 = utentes[numUtente-1]->getZonaHabitacao();
 
-	return precos[zona1-1][zona2-1];
+	return precos_zona[zona1-1][zona2-1];
 }
 
 void Empresa::atualizarPasses()
@@ -272,9 +275,9 @@ void Empresa::atualizarPasses()
 }
 
 void Empresa::atualizarPrecos(double delta) {
-	for (size_t i = 0; i < precos.size(); i++) {
-		for (size_t j = 0; j < precos[i].size(); j++) {
-			precos[i][j] += delta;
+	for (size_t i = 0; i < precos_zona.size(); i++) {
+		for (size_t j = 0; j < precos_zona[i].size(); j++) {
+			precos_zona[i][j] += delta;
 		}
 	}
 
@@ -431,7 +434,24 @@ void Empresa::calculoMensal()
 		sumDiarios = registoDiario[i];
 	}
 
-	lucrosMensais.push_back(sumPasses + sumDiarios);
+	registoDiario.clear();
+
+	size_t j;
+
+	for(j = 0; j < lucrosMensais.size(); j++)
+	{
+		if(lucrosMensais[j] == -1)
+		{
+			lucrosMensais[j] = sumPasses + sumDiarios;
+			return;
+		}
+	}
+
+	if(j == lucrosMensais.size())
+	{
+		cout << "Chegou ao fim do ano! Eis os lucros do ano passado:" << endl;
+		showMensal();
+	}
 }
 
 void Empresa::guardarInfo(ostream &f) const {
@@ -451,19 +471,19 @@ void Empresa::guardarInfo(ostream &f) const {
 
 	f << "//precos" << endl << precoPessoa << endl << '\t';
 
-	for (i = 0; i < precos.size(); i++) {
+	for (i = 0; i < precos_zona.size(); i++) {
 		f << 'Z' << i + 1;
 
-		if (i != precos.size() - 1)
+		if (i != precos_zona.size() - 1)
 			f << '\t';
 		else
 			f << endl;
 	}
 
-	for (i = 0; i < precos.size(); i++) {
+	for (i = 0; i < precos_zona.size(); i++) {
 		f << 'Z' << i + 1;
-		for (size_t j = 0; j < precos[i].size(); j++) {
-			f << '\t' << precos[i][j];
+		for (size_t j = 0; j < precos_zona[i].size(); j++) {
+			f << '\t' << precos_zona[i][j];
 		}
 		f << endl;
 	}
@@ -598,6 +618,81 @@ void Empresa::carregarInfo(ifstream &f) {
 	}
 	alocaUtentes();
 	atualizarPasses();
+}
+
+void Empresa::showUtentes() const
+{
+	cout << endl << "///////////Utentes//////////" << endl;
+
+	for (size_t i = 0; i < utentes.size(); i++) {
+		cout << endl << "Utente nª" << utentes[i]->getNumUtente() << " :" << endl
+				<< "Nome: " << utentes[i]->getNome() << "; Data de Nascimento: " << utentes[i]->getData_Nasc()<< "; BI: " << utentes[i]->getBI() << endl
+				<< "Zona de habitacao: Z" << utentes[i]->getZonaHabitacao() << "; Zona de escola: Z" << utentes[i]->getZonaEscola() << endl;
+		if(utentes[i]->getNomeEE() == "") //E funcionario
+		{
+			if(utentes[i]->getDocente())
+				cout << "Ocupacao: Docente; Contacto: " << utentes[i]->getContacto() << endl;
+			else
+				cout << "Ocupacao: Funcionario; Contacto: " << utentes[i]->getContacto() << endl;
+		}
+		else //E crianca
+		{
+			cout << "Nome E.Educacao: " << utentes[i]->getNomeEE() << "; Contacto do E.Educacao: " << utentes[i]->getContacto() << endl;
+		}
+	}
+}
+
+void Empresa::showVeiculos() const{
+	cout << endl << "///////////Veiculos//////////" << endl;
+
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		cout << endl << "Veiculo nª" << veiculos[i]->getId() << " :" << endl
+				<< "Matricula: " << veiculos[i]->getMatricula() << "; Consumo p/ 100Km: " << veiculos[i]->getConsumo()
+				<< "; Preco p/L de combustivel: " << veiculos[i]->getPreco() << endl;
+
+		if(veiculos[i]->getCapacidade() == 0)
+		{
+			cout << "Lugares livres: " << veiculos[i]->getLugsLivres() << "; Zonas atravessadas:";
+			vector<unsigned int> zonas = veiculos[i]->getZonas();
+			for (size_t j = 0; j < zonas.size(); j++) {
+				cout << " Z" << zonas[i];
+			}
+			cout << endl;
+		}
+		else
+		{
+			cout << "Capacidade: " << veiculos[i]->getCapacidade() << "; Estado: ";
+			if(veiculos[i]->getEstado())
+				cout << "Alugado" << endl;
+			else
+				cout << "Livre" << endl;
+		}
+	}
+}
+
+void Empresa::showMensal() const
+{
+	string aux[] = {"Janeiro","Fevereiro","Marco","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
+
+	cout << endl << "///////Lucros Mensais///////" << endl;
+	for(size_t i = 0; i < lucrosMensais.size(); i++)
+	{
+		cout << aux[i] << ": ";
+		if(lucrosMensais[i] == -1)
+			cout << "Nao Registado" << endl;
+		else
+			cout << lucrosMensais[i] << "€" << endl;
+	}
+}
+
+void Empresa::showDiario() const
+{
+	cout << endl << "///////Registos Diarios///////" << endl;
+
+	for(size_t i = 0; i < registoDiario.size(); i++)
+	{
+		cout << "Dia " << i + 1 << ": " << registoDiario[i] << "€" << endl;
+	}
 }
 
 ostream& operator <<(ostream& out,const Empresa &emp) {
