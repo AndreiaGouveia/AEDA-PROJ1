@@ -13,8 +13,8 @@ protected:
 	unsigned int numUtente;
 	unsigned int zonaHabitacao;
 	unsigned int zonaEscola;
-	static unsigned int ult_numUtente;
 public:
+	static unsigned int ult_numUtente;
 	Utente(const string &nome, const string &data_nasc, const string &BI,const unsigned int &zonaHabit, const unsigned int &zonaEsc);
 	virtual ~Utente() {}
 	string getNome();
@@ -27,6 +27,8 @@ public:
 	void setZonaEscola(unsigned int zona);
 	virtual unsigned int getContacto() const = 0;
 	virtual void setContacto(unsigned int cont) = 0;
+	virtual string getNomeEE() const {return "";}
+	virtual bool getDocente(){return false;}
 	virtual string getInfo() const;
 	friend ostream& operator<<(ostream &out, const Utente &utente);
 };
@@ -50,7 +52,7 @@ private:
 	unsigned int contactoEE;
 public:
 	Crianca(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const string & nomeEE, const unsigned int &contactoEE);
-	string getNomeEE();
+	string getNomeEE() const;
 	unsigned int getContacto() const;
 	void setContacto(unsigned int cont);
 	string getInfo() const;

@@ -6,20 +6,7 @@
 #include <iomanip>
 
 using namespace std;
-/*void thisIsATest() {
- ASSERTM("start writing tests", false);
- }
 
- bool runAllTests(int argc, char const *argv[]) {
- cute::suite s { };
- //TODO add your test here
- s.push_back(CUTE(thisIsATest));
- cute::xml_file_opener xmlfile(argc, argv);
- cute::xml_listener<cute::ide_listener<>> lis(xmlfile.out);
- auto runner = cute::makeRunner(lis, argc, argv);
- bool success = runner(s, "AllTests");
- return success;
- }*/
 void checkingOnlyCinFail(unsigned int &answer)
 {
 	while(cin.fail())
@@ -245,6 +232,9 @@ void remove_utente(Empresa &empresa) {
 
 void modifica_utente(Empresa &empresa) {
 
+	/*AlterarContacto altera o contacto do Utente.
+	AlterarZonaEsc altera a zonaEscola do Utente
+	AlterarZonaHab altera a xonaHabitacao do Utente*/
 
 
 }
@@ -336,12 +326,35 @@ void remove_veiculo(Empresa &empresa) {
 }
 
 void modifica_veiculo(Empresa &empresa) {
-
+/*removerZonaEscolar() e adicionarZonaEscolar() que removem e adicionam respetivamente uma zona ao vetor zonasAtravessadas do veículo Escolar
+ *
+ */
+	cout<<endl<< "Que pretende fazer?"<<endl;
+	cout<<"1.Adicionar uma zona escolar"<<setw(5)<<"2.Remover uma zona escolar"<<endl;
+	char answer;
+	cin>>answer;
+	while(cin.fail()||(answer!=1 && answer!=2))
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(Y/N)"<< endl;
+		cin>>answer;
+	}
+	unsigned int idV = 1,zona = 1;
+	cout<<"";
+	switch(answer)
+	{
+	case '1':
+			empresa.adicionarZonaEscolar(idV,zona);
+		break;
+	case '2':
+		break;
+	}
 }
 
 void sair(Empresa &empresa) {
 	char resposta;
-	cout <<endl<< "deseja sair sem guardar ou guardar e sair?" << endl;
+	cout <<endl<< "Deseja guardar?" << endl;
 
 	if(resposta=='y'||resposta=='Y')//guardar as alteracoes
 	{
@@ -350,6 +363,8 @@ void sair(Empresa &empresa) {
 	nf.open(nome);//criar um ficheiro com o nome da empresa
 	empresa.guardarInfo(nf);//guardar a informacao
 	nf.close();
+	cout << "Gravado em " << nome << " com sucesso!" << endl << endl
+			<< "Ate a proxima :)";
 	exit(0);//sair do programa
 	}
 	else exit(0);//sair do programa
@@ -478,7 +493,7 @@ void main_Handler(Empresa &empresa,string nome_empresa )
 			respostaYorN(answer);
 			//se nao quiser continuar
 			if (answer == 'N' || answer == 'n')
-				break;
+				sair(empresa);
 
 			//Peguntar o que quer fazer
 			cout << endl << "O que gostaria de fazer na " << nome_empresa << "?" << endl;
@@ -615,6 +630,7 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 					{
 						abertura_por_ficheiro=true;
 						empresa=Empresa(f); //creating our object
+						nome_empresa = empresa.getNome();
 						again=false;
 						break;
 					}
@@ -631,8 +647,24 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 		  }
 	return empresa;
 }
-int main(/*int argc, char const *argv[]*/) {
-	/*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
+int main() {
+	ifstream inf;
+	inf.open("emp.txt");
+	Empresa emp(inf);
+	inf.close();
+
+	emp.showUtentes();
+	emp.adicionarUtente(new Crianca("Leonardo DaVinte","29/12/1821","12345678",3,1,"Papa DaVinte",999362150));
+	emp.adicionarUtente(new Crianca("Leonardo DaVinte","29/12/1821","12349687",3,1,"Papa DaVinte",999362150));
+	emp.showUtentes();
+	emp.showMensal();
+
+	ofstream of;
+	of.open("emp(1).txt");
+	of << emp;
+	of.close();
+	return 0;
+
 	ifstream f;
 	bool abertura_por_ficheiro=false;// se foi aberto por ficheiro ou nao
 	string nome_empresa;

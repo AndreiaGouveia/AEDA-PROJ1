@@ -107,7 +107,7 @@ string Funcionario::getInfo() const
 Crianca::Crianca(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc, const string & nomeEE, const unsigned int &contactoEE)
 : Utente(nome, data_nasc, BI, zonaHabit, zonaEsc), nomeEE(nomeEE), contactoEE(contactoEE) {}
 
-string Crianca::getNomeEE()
+string Crianca::getNomeEE() const
 {
 	return nomeEE;
 }
