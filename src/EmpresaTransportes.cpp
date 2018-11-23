@@ -2,7 +2,7 @@
 
 Empresa::Empresa(string nome) {
 	nome_empresa = nome;
-	precoPessoa = 0;
+	precoPessoa = -1;
 }
 
 Empresa::Empresa(ifstream &f) {
@@ -16,7 +16,6 @@ Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic,unsi
 	this->precoPessoa = precoPessoa;
 	setPrecos(fprecos);
 	lucrosMensais = vector<double>(12, -1);
-	registoDiario = vector<double>(31, 0);
 }
 
 vector<Veiculo*> Empresa::getVeiculos() const {
@@ -123,14 +122,7 @@ void Empresa::adicionarUtente(Utente *ut) {
 
 void Empresa::removerVeiculo(unsigned int id)
 {
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getId() == id)
-		{
-			veiculos.erase(veiculos.begin() + i);
-			return;
-		}
-	}
+	veiculos.erase(veiculos.begin() + id - 1);
 
 	//throw VeiculoNaoExistente(id);
 }
@@ -151,14 +143,7 @@ void Empresa::removerVeiculo(string matricula)
 
 void Empresa::removerUtente(unsigned int numUt)
 {
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUt)
-		{
-			utentes.erase(utentes.begin() + i);
-			return;
-		}
-	}
+	utentes.erase(utentes.begin() + numUt - 1);
 
 	//throw UtenteNaoExistente(id);
 }
@@ -179,10 +164,10 @@ void Empresa::removerUtente(string BI)
 
 void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 {
-	if(idV >= veiculos.size())
+	if(idV > veiculos.size())
 		//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
 		return;
-	string info = veiculos[idV]->getInfo();
+	string info = veiculos[idV-1]->getInfo();
 
 	size_t index = info.find_last_of('\t');
 	info = info.substr(index);
@@ -192,16 +177,16 @@ void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 		//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
 	}
 	else
-		veiculos[idV]->adicionarZona(zona);
+		veiculos[idV-1]->adicionarZona(zona);
 }
 
 void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 {
-	if(idV >= veiculos.size())
+	if(idV > veiculos.size())
 		//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
 		return;
 
-	string info = veiculos[idV]->getInfo();
+	string info = veiculos[idV-1]->getInfo();
 
 	size_t index = info.find_last_of('\t');
 	info = info.substr(index);
@@ -211,43 +196,43 @@ void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 		//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
 	}
 	else
-		veiculos[idV]->removerZona(zona);
+		veiculos[idV-1]->removerZona(zona);
 }
 
 void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
 {
-	if(numUtente >= utentes.size())
+	if(numUtente > utentes.size())
 		//throw UtenteNaoExistente();
 		return;
 
-	utentes[numUtente]->setZonaHabitacao(zona);
+	utentes[numUtente-1]->setZonaHabitacao(zona);
 }
 
 void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
 {
-	if(numUtente >= utentes.size())
+	if(numUtente > utentes.size())
 		//throw UtenteNaoExistente();
 		return;
 
-	utentes[numUtente]->setZonaEscola(zona);
+	utentes[numUtente-1]->setZonaEscola(zona);
 }
 
 void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
 {
-	if(numUtente >= utentes.size())
+	if(numUtente > utentes.size())
 		//throw UtenteNaoExistente();
 		return;
 
-	utentes[numUtente]->setContacto(cont);
+	utentes[numUtente-1]->setContacto(cont);
 }
 
 unsigned int Empresa::getContacto(unsigned int numUtente)
 {
-	if(numUtente >= utentes.size())
+	if(numUtente > utentes.size())
 		//throw UtenteNaoExistente();
 		return 0;
 
-	return utentes[numUtente]->getContacto();
+	return utentes[numUtente-1]->getContacto();
 }
 
 unsigned int Empresa::getContacto(string BI)
@@ -266,17 +251,24 @@ unsigned int Empresa::getContacto(string BI)
 
 double Empresa::calculoPasseMensal(unsigned int numUtente)
 {
-	unsigned int zona1 = utentes[numUtente]->getZonaEscola(), zona2 = utentes[numUtente]->getZonaHabitacao();
+	unsigned int zona1 = utentes[numUtente-1]->getZonaEscola();
+	unsigned int zona2 = utentes[numUtente-1]->getZonaHabitacao();
 
-	return precos[zona1][zona2];
+	return precos[zona1-1][zona2-1];
 }
 
 void Empresa::atualizarPasses()
 {
-	for(size_t i = 0; i < utentes.size(); i++)
+	for(unsigned int i = 0; i < utentes.size(); i++)
 	{
-		tabelaPasses.insert(pair<unsigned int, double>(i,calculoPasseMensal(i)));
+		tabelaPasses.insert(pair<unsigned int, double>(i+1,calculoPasseMensal(i+1)));
 	}
+
+	/*testes
+	for(map<unsigned int,double>::iterator it = tabelaPasses.begin(); it != tabelaPasses.end(); it++)
+	{
+		cout << "NumUt= " << it->first << " Passe= " << it->second << "€" << endl;
+	}*/
 }
 
 void Empresa::atualizarPrecos(double delta) {
@@ -291,7 +283,11 @@ void Empresa::atualizarPrecos(double delta) {
 
 double Empresa::calcularAluguer(unsigned int idV)
 {
-	return precoPessoa * veiculos[idV]->getCapacidade();
+	if(precoPessoa == -1)
+	{
+		//throw PrecoNaoDefinido(); //TODO PrecoNaoDefinido
+	}
+	return precoPessoa * veiculos[idV - 1]->getCapacidade();
 }
 
 string Empresa::verificaDispRecreativo(unsigned int capacidade)
@@ -327,19 +323,64 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 
 bool Empresa::alugaRecreativo(unsigned int idV)
 {
-	if(idV >= veiculos.size())
+	if(idV > veiculos.size())
 		//throw VeiculoNaoExistente();
 		return false;
-	else if(veiculos[idV]->getCapacidade() == 0)
+	else if(veiculos[idV-1]->getCapacidade() == 0)
 	{
 		//throw VeiculoNaoRecreativo();
 		return false;
 	}
 	else
 	{
-		veiculos[idV]->setEstado(true);
+		veiculos[idV-1]->setEstado(true);
 		return true;
 	}
+}
+
+void Empresa::alocaUtentes()
+{
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		for(size_t j = 0; j < veiculos.size(); j++)
+		{
+			if(veiculos[j]->existeZona(utentes[i]->getZonaEscola()) &&
+				veiculos[j]->existeZona(utentes[i]->getZonaHabitacao()) && !veiculos[j]->cheio())
+			{
+				tabelaPassageiros.insert(pair<unsigned int, unsigned int>(utentes[i]->getNumUtente(),veiculos[j]->getId()));
+				veiculos[j]->reduzLug();
+				break;
+			}
+			else
+				//throw VeiculosInsuficientes(); //TODO VeiculosInsuficientes
+				return;
+		}
+	}
+}
+
+void Empresa::alocaUt(unsigned int numUt)
+{
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUt)
+		{
+			for(size_t j = 0; j < veiculos.size(); j++)
+			{
+				if(veiculos[j]->existeZona(utentes[i]->getZonaEscola()) &&
+						veiculos[j]->existeZona(utentes[i]->getZonaHabitacao()) && !veiculos[j]->cheio())
+				{
+					tabelaPassageiros.insert(pair<unsigned int, unsigned int>(numUt,veiculos[j]->getId()));
+					veiculos[j]->reduzLug();
+					return;
+				}
+				else
+					//throw VeiculosInsuficientes(); //TODO VeiculosInsuficientes
+					return;
+			}
+		}
+	}
+
+	//throw UtenteNaoExistente();
 }
 
 bool Empresa::finalDia(float kmsZona)
@@ -408,7 +449,7 @@ void Empresa::guardarInfo(ostream &f) const {
 		f << *veiculos[i] << endl;
 	}
 
-	f << "//precos" << endl << '\t';
+	f << "//precos" << endl << precoPessoa << endl << '\t';
 
 	for (i = 0; i < precos.size(); i++) {
 		f << 'Z' << i + 1;
@@ -435,10 +476,20 @@ void Empresa::guardarInfo(ostream &f) const {
 		else
 			f << lucrosMensais[i] << ',';
 	}
+
+	f << "//diarios" << endl << '{';
+
+	for (i = 0; i < registoDiario.size(); i++) {
+		if (i == registoDiario.size() - 1)
+			f << registoDiario[i] << '}';
+		else
+			f << registoDiario[i] << ',';
+	}
 }
 
 void Empresa::carregarInfo(ifstream &f) {
 	char seletor;
+	bool precoP = true;
 	string line, aux;
 	vector<string> atributos;
 	stringstream str;
@@ -454,6 +505,8 @@ void Empresa::carregarInfo(ifstream &f) {
 			seletor = 'p';
 		else if (line == "//lucros")
 			seletor = 'l';
+		else if (line == "//diarios")
+			seletor = 'd';
 		else {
 			switch (seletor) {
 			case 'e':
@@ -508,13 +561,18 @@ void Empresa::carregarInfo(ifstream &f) {
 				break;
 
 			case 'p':
-				str << line << endl;
+				if(precoP){
+					precoPessoa = stof(line);
+					precoP = false;
+				}
+				else
+					str << line << endl;
 				break;
 
 			case 'l':
 				this->setPrecos(str);
 				for (size_t i = 1; i <= line.length() - 1; i++) {
-					if (isdigit(line[i]) || line[i] == '-') {
+					if (isdigit(line[i]) || line[i] == '-' || line[i] == '.') {
 						aux += line[i];
 					} else {
 						lucrosMensais.push_back(stod(aux));
@@ -523,16 +581,26 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 				break;
 
+			case 'd':
+				for (size_t i = 1; i <= line.length() - 1; i++) {
+					if (isdigit(line[i]) || line[i] == '-' || line[i] == '.') {
+						aux += line[i];
+					} else {
+						registoDiario.push_back(stod(aux));
+						aux.clear();
+					}
+				}
+				break;
 			default:
 				return;
 			}
 		}
 	}
-
+	alocaUtentes();
 	atualizarPasses();
 }
 
-ostream& operator <<(ostream& out, const Empresa &emp) {
+ostream& operator <<(ostream& out,const Empresa &emp) {
 	emp.guardarInfo(out);
 
 	return out;

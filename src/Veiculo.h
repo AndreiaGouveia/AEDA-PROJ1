@@ -25,18 +25,27 @@ public:
 	virtual bool getEstado() const {return false;} //retorno irrelevante
 	virtual void setEstado(bool alugado) {}
 	virtual unsigned int getCapacidade() {return 0;}
+	virtual bool existeZona(unsigned int zona) {return false;}
+	virtual bool cheio() const {return false;}
+	virtual void aumentaLug() {}
+	virtual void reduzLug() {}
 	friend ostream& operator <<(ostream& out, const Veiculo& veic);
 };
 
 class Escolar: public Veiculo {
 private:
+	const unsigned int lugTotais;
 	unsigned int lugaresLivres;
 	vector<unsigned int> zonasAtravessadas;
 public:
 	Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas);
 	void adicionarZona(unsigned int zona);
 	void removerZona(unsigned int zona);
+	bool existeZona(unsigned int zona);
 	float calcGasto(float kms) const;
+	bool cheio() const;
+	void aumentaLug();
+	void reduzLug();
 	string getInfo() const;
 	friend ostream& operator <<(ostream& out, const Escolar& veic);
 };

@@ -1,25 +1,8 @@
-#include "cute.h"
-#include "ide_listener.h"
-#include "xml_listener.h"
-#include "cute_runner.h"
 #include "EmpresaTransportes.h"
 #include <iomanip>
 
 using namespace std;
-/*void thisIsATest() {
- ASSERTM("start writing tests", false);
- }
 
- bool runAllTests(int argc, char const *argv[]) {
- cute::suite s { };
- //TODO add your test here
- s.push_back(CUTE(thisIsATest));
- cute::xml_file_opener xmlfile(argc, argv);
- cute::xml_listener<cute::ide_listener<>> lis(xmlfile.out);
- auto runner = cute::makeRunner(lis, argc, argv);
- bool success = runner(s, "AllTests");
- return success;
- }*/
 void checkingOnlyCinFail(unsigned int &answer)
 {
 	while(cin.fail())
@@ -631,8 +614,20 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 		  }
 	return empresa;
 }
-int main(/*int argc, char const *argv[]*/) {
-	/*return runAllTests(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE;*/
+int main() {
+	ifstream inf;
+	inf.open("emp.txt");
+	Empresa emp(inf);
+	inf.close();
+
+	cout << emp;
+
+	ofstream of;
+	of.open("emp2.txt");
+	of << emp;
+	of.close();
+	return 0;
+/*
 	ifstream f;
 	bool abertura_por_ficheiro=false;// se foi aberto por ficheiro ou nao
 	string nome_empresa;
@@ -657,5 +652,5 @@ int main(/*int argc, char const *argv[]*/) {
 //fim do programa
 	cout << endl << "FIM" << endl;
 	return 0;
-
+*/
 }

@@ -11,11 +11,12 @@ private:
 	string nome_empresa;
 	vector <Utente *> utentes;
 	vector <Veiculo *> veiculos;
-	unsigned int precoPessoa; //preco por pessoa do aluguer de tranportes recreativos
+	float precoPessoa; //preco por pessoa do aluguer de tranportes recreativos
 	vector<vector<double>> precos; //matriz de precos dos passes de acordo com as zonas
 	vector<double> lucrosMensais; //registo dos lucros
 	vector<double> registoDiario; //registo do lucro/prejuizo diario
 	map<unsigned int,double> tabelaPasses;
+	map<unsigned int,unsigned int> tabelaPassageiros;
 public:
 	//cria empresa apenas com nome
 	Empresa(string nome);
@@ -52,13 +53,18 @@ public:
 	double calcularAluguer(unsigned int idV);
 	string verificaDispRecreativo(unsigned int capacidade);
 	bool alugaRecreativo(unsigned int idV);
+	void alocaUtentes();
+	void alocaUt(unsigned int numUt);
 	bool finalDia(float kmsZona);
 	void calculoMensal();
-	void guardarInfo(ostream &f) const; //TODO adicionar precoPessoa e registoDiario e kmsPercorridos
-	void carregarInfo(ifstream &f);		//TODO adicionar precoPessoa e registoDiario e kmsPercorridos
-	friend ostream& operator <<(const ostream& out,const Empresa &emp);
+	void guardarInfo(ostream &f) const;
+	void carregarInfo(ifstream &f);
+	friend ostream& operator <<(ostream& out,const Empresa &emp);
 	//undone
-	void alocaUtentes();
+	void showUtentes();
+	void showVeiculos();
+	void showMensal();
+	void showDiario();
 };
 
 class CmpId

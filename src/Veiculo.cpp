@@ -35,7 +35,7 @@ ostream& operator <<(ostream& out, const Veiculo& veic) {
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
 Escolar::Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas = vector<unsigned int>()) :
-		Veiculo(matricula, consumo100km, precoComb) {
+		Veiculo(matricula, consumo100km, precoComb) , lugTotais(capacidade){
 	lugaresLivres = capacidade;
 	this->zonasAtravessadas = zonasAtravessadas;
 }
@@ -62,14 +62,34 @@ void Escolar::removerZona(unsigned int zona) {
 	zonasAtravessadas.erase(it);
 }
 
+bool Escolar::existeZona(unsigned int zona)
+{
+	return binary_search(zonasAtravessadas.begin(),zonasAtravessadas.end(),zona);
+}
+
 float Escolar::calcGasto(float kms) const {
 	return 2 * zonasAtravessadas.size() * kms * consumo100km / 100.0;
+}
+
+bool Escolar::cheio() const
+{
+	return lugaresLivres == 0;
+}
+
+void Escolar::aumentaLug()
+{
+	lugaresLivres++;
+}
+
+void Escolar::reduzLug()
+{
+	lugaresLivres--;
 }
 
 string Escolar::getInfo() const {
 	ostringstream out;
 
-	out << Veiculo::getInfo() << '\t' << lugaresLivres << '\t' << '{';
+	out << Veiculo::getInfo() << '\t' << lugTotais << '\t' << '{';
 
 	for (size_t i = 0; i < zonasAtravessadas.size(); i++) {
 		if (i == zonasAtravessadas.size() - 1)
