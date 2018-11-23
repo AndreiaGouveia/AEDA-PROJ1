@@ -125,7 +125,14 @@ void Empresa::adicionarUtente(Utente *ut) {
 
 void Empresa::removerVeiculo(unsigned int id)
 {
-	veiculos.erase(veiculos.begin() + id - 1);
+	for(size_t i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getId() == id)
+		{
+			veiculos.erase(veiculos.begin() + i);
+			return;
+		}
+	}
 
 	//throw VeiculoNaoExistente(id);
 }
@@ -146,8 +153,14 @@ void Empresa::removerVeiculo(string matricula)
 
 void Empresa::removerUtente(unsigned int numUt)
 {
-	utentes.erase(utentes.begin() + numUt - 1);
-
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUt)
+		{
+			utentes.erase(utentes.begin() + i);
+			return;
+		}
+	}
 	//throw UtenteNaoExistente(id);
 }
 
@@ -167,75 +180,98 @@ void Empresa::removerUtente(string BI)
 
 void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 {
-	if(idV > veiculos.size())
-		//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
-		return;
-	string info = veiculos[idV-1]->getInfo();
-
-	size_t index = info.find_last_of('\t');
-	info = info.substr(index);
-
-	if(info == "livre" || info == "alugado")
+	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+		if(veiculos[i]->getId() == idV)
+		{
+			if(veiculos[i]->getCapacidade() != 0)
+			{
+				//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+			}
+			else
+			{
+				veiculos[i]->adicionarZona(zona);
+				return;
+			}
+		}
 	}
-	else
-		veiculos[idV-1]->adicionarZona(zona);
+
+	//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
 }
 
 void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 {
-	if(idV > veiculos.size())
-		//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
-		return;
-
-	string info = veiculos[idV-1]->getInfo();
-
-	size_t index = info.find_last_of('\t');
-	info = info.substr(index);
-
-	if(info == "livre" || info == "alugado")
+	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+		if(veiculos[i]->getId() == idV)
+		{
+			if(veiculos[i]->getCapacidade() != 0)
+			{
+				//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+			}
+			else
+			{
+				veiculos[i]->removerZona(zona);
+				return;
+			}
+		}
 	}
-	else
-		veiculos[idV-1]->removerZona(zona);
+
+	//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
 }
 
 void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
 {
-	if(numUtente > utentes.size())
-		//throw UtenteNaoExistente();
-		return;
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUtente)
+		{
+			utentes[i]->setZonaHabitacao(zona);
+			return;
+		}
+	}
 
-	utentes[numUtente-1]->setZonaHabitacao(zona);
+	//throw UtenteNaoExistente();
 }
 
 void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
 {
-	if(numUtente > utentes.size())
-		//throw UtenteNaoExistente();
-		return;
-
-	utentes[numUtente-1]->setZonaEscola(zona);
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUtente)
+		{
+			utentes[i]->setZonaEscola(zona);
+			return;
+		}
+	}
+	//throw UtenteNaoExistente();
 }
 
 void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
 {
-	if(numUtente > utentes.size())
-		//throw UtenteNaoExistente();
-		return;
-
-	utentes[numUtente-1]->setContacto(cont);
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUtente)
+		{
+			utentes[i]->setContacto(cont);
+			return;
+		}
+	}
+	//throw UtenteNaoExistente();
 }
 
 unsigned int Empresa::getContacto(unsigned int numUtente)
 {
-	if(numUtente > utentes.size())
-		//throw UtenteNaoExistente();
-		return 0;
+	for(size_t i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUtente)
+		{
+			return utentes[i]->getContacto();
+		}
+	}
 
-	return utentes[numUtente-1]->getContacto();
+	return 0;
+	//throw UtenteNaoExistente();
 }
 
 unsigned int Empresa::getContacto(string BI)
@@ -254,8 +290,26 @@ unsigned int Empresa::getContacto(string BI)
 
 double Empresa::calculoPasseMensal(unsigned int numUtente)
 {
-	unsigned int zona1 = utentes[numUtente-1]->getZonaEscola();
-	unsigned int zona2 = utentes[numUtente-1]->getZonaHabitacao();
+	unsigned int zona1;
+	unsigned int zona2;
+
+	size_t i;
+
+	for(i = 0; i < utentes.size(); i++)
+	{
+		if(utentes[i]->getNumUtente() == numUtente)
+		{
+			zona1 = utentes[i]->getZonaHabitacao();
+			zona2 = utentes[i]->getZonaEscola();
+			break;
+		}
+	}
+
+	if(i == utentes.size())
+	{
+		return 0;
+		//throw UtenteNaoExistente();
+	}
 
 	return precos_zona[zona1-1][zona2-1];
 }
@@ -264,14 +318,9 @@ void Empresa::atualizarPasses()
 {
 	for(unsigned int i = 0; i < utentes.size(); i++)
 	{
-		tabelaPasses.insert(pair<unsigned int, double>(i+1,calculoPasseMensal(i+1)));
+		unsigned int num = utentes[i]->getNumUtente();
+		tabelaPasses.insert(pair<unsigned int, double>(num,calculoPasseMensal(num)));
 	}
-
-	/*testes
-	for(map<unsigned int,double>::iterator it = tabelaPasses.begin(); it != tabelaPasses.end(); it++)
-	{
-		cout << "NumUt= " << it->first << " Passe= " << it->second << "€" << endl;
-	}*/
 }
 
 void Empresa::atualizarPrecos(double delta) {
@@ -286,11 +335,31 @@ void Empresa::atualizarPrecos(double delta) {
 
 double Empresa::calcularAluguer(unsigned int idV)
 {
-	if(precoPessoa == -1)
+	size_t i;
+	for(i = 0; i < veiculos.size(); i++)
+	{
+		if(veiculos[i]->getId() == idV)
+		{
+			if(veiculos[i]->getCapacidade() == 0)
+			{
+				//throw VeiculoNaoRecreativo();
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	if(i == veiculos.size())
+	{
+		//throw VeiculoNaoExistente();
+	}
+	else if(precoPessoa == -1)
 	{
 		//throw PrecoNaoDefinido(); //TODO PrecoNaoDefinido
 	}
-	return precoPessoa * veiculos[idV - 1]->getCapacidade();
+	return precoPessoa * veiculos[i]->getCapacidade();
 }
 
 string Empresa::verificaDispRecreativo(unsigned int capacidade)
@@ -326,17 +395,31 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 
 bool Empresa::alugaRecreativo(unsigned int idV)
 {
-	if(idV > veiculos.size())
-		//throw VeiculoNaoExistente();
-		return false;
-	else if(veiculos[idV-1]->getCapacidade() == 0)
+	size_t i;
+
+	for(i = 0; i < veiculos.size(); i++)
 	{
-		//throw VeiculoNaoRecreativo();
+		if(veiculos[i]->getId() == idV)
+		{
+			if(veiculos[i]->getCapacidade() == 0)
+			{
+				//throw VeiculoNaoRecreativo();
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	if(i == veiculos.size())
+	{
+		//throw VeiculoNaoExistente();
 		return false;
 	}
 	else
 	{
-		veiculos[idV-1]->setEstado(true);
+		veiculos[i]->setEstado(true);
 		return true;
 	}
 }
