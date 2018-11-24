@@ -135,7 +135,40 @@ void alterar_precoZonas(Empresa &empresa)
 
 void alugar_recreativo(Empresa &empresa)
 {
+	unsigned int cap_id;
+	string info;
 
+	cout << "Quer alugar o veiculo para quantas pessoas? ";
+	cin >> cap_id;
+
+	info = empresa.verificaDispRecreativo(cap_id);
+	cout << info;
+
+	if(info == "Nao existe nenhum veiculo disponivel com essa capacidade.\n")
+	{
+		return;
+	}
+	else
+	{
+		cout << endl << "Qual o ID do veiculo que pretende alugar? ";
+		cin >> cap_id;
+
+		try{
+			empresa.alugaRecreativo(cap_id);
+		}
+		catch(VeiculoNaoRecreativo &e)
+		{
+			cout << e.getMsg() << endl;
+			return;
+		}
+		catch(VeiculoNaoExistente &e)
+		{
+			cout << e.getMsg() << endl;
+			return;
+		}
+
+		cout << "Veiculo alugado com sucesso para o resto do dia." << endl;
+	}
 }
 
 void mostrar_utentes(const Empresa &empresa)

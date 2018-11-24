@@ -74,7 +74,7 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 		}
 		else
 		{
-			cout << "O ficheiro nao existe, insira um ficheiro de texto, sem extensão. (Ctrl + Z para sair)  "<<endl;
+			cout << "O ficheiro nao existe, insira o nome do ficheiro de texto, sem extensao. (Ctrl + Z para sair)  "<<endl;
 		}
 
 	}while(true);

@@ -283,6 +283,8 @@ public:
 	 *
 	 * @return String contendo a informacao de quais os
 	 * transportes recreativos disponiveis bem como o custo do seu aluguer,
+	 *
+	 * Lancas as mesmas excecoes que o metodo calcularAluguer()
 	*/
 	string verificaDispRecreativo(unsigned int capacidade);
 	/**

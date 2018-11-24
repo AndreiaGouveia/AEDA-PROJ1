@@ -362,9 +362,9 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getCapacidade() != 0) //ï¿½ Recreativo
+		if(veiculos[i]->getCapacidade() != 0) //E Recreativo
 		{
-			if(!veiculos[i]->getEstado())
+			if(!veiculos[i]->getEstado() && veiculos[i]->getCapacidade() >= capacidade)
 			{
 				aux.push_back(veiculos[i]->getId());
 				aux.push_back(veiculos[i]->getCapacidade());
@@ -373,7 +373,7 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 	}
 
 	if(aux.size() == 0)
-		strst << "Nao existe nenhum veiculo disponivel com essa capacidade.";
+		strst << "Nao existe nenhum veiculo disponivel com essa capacidade." << endl;
 	else
 	{
 		strst << "Veiculos que pode alugar:" << endl;
@@ -474,7 +474,7 @@ bool Empresa::finalDia(float kmsZona)
 				float kms;
 				veiculos[i]->setEstado(false);
 
-				cout << "Quantos kms percorreu o veiculo (recreativo) nï¿½"
+				cout << "Quantos kms percorreu o veiculo (recreativo) n"
 						<< veiculos[i]->getId() << " ?"; cin >> kms;
 
 				sum += veiculos[i]->calcGasto(kms);
@@ -708,7 +708,7 @@ string Empresa::showUtentes() const
 	out << endl << "///////////Utentes//////////" << endl;
 
 	for (size_t i = 0; i < utentes.size(); i++) {
-		out << endl << "Utente nï¿½" << utentes[i]->getNumUtente() << " :" << endl
+		out << endl << "Utente n" << utentes[i]->getNumUtente() << " :" << endl
 				<< "Nome: " << utentes[i]->getNome() << "; Data de Nascimento: " << utentes[i]->getData_Nasc()<< "; BI: " << utentes[i]->getBI() << endl
 				<< "Zona de habitacao: Z" << utentes[i]->getZonaHabitacao() << "; Zona de escola: Z" << utentes[i]->getZonaEscola() << endl;
 		if(utentes[i]->getNomeEE() == "") //E funcionario
@@ -734,7 +734,7 @@ string Empresa::showVeiculos() const
 	out << endl << "///////////Veiculos//////////" << endl;
 
 	for (size_t i = 0; i < veiculos.size(); i++) {
-		out << endl << "Veiculo nï¿½" << veiculos[i]->getId() << " :" << endl
+		out << endl << "Veiculo n" << veiculos[i]->getId() << " :" << endl
 				<< "Matricula: " << veiculos[i]->getMatricula() << "; Consumo p/ 100Km: " << veiculos[i]->getConsumo()
 				<< "; Preco p/L de combustivel: " << veiculos[i]->getPreco() << endl;
 
@@ -743,7 +743,7 @@ string Empresa::showVeiculos() const
 			out << "Lugares livres: " << veiculos[i]->getLugsLivres() << "; Zonas atravessadas:";
 			vector<unsigned int> zonas = veiculos[i]->getZonas();
 			for (size_t j = 0; j < zonas.size(); j++) {
-				out << " Z" << zonas[i];
+				out << " Z" << zonas[j];
 			}
 			out << endl;
 		}
@@ -773,7 +773,7 @@ string Empresa::showMensal() const
 		if(lucrosMensais[i] == -1)
 			out << "Nao Registado" << endl;
 		else
-			out << lucrosMensais[i] << "ï¿½" << endl;
+			out << lucrosMensais[i] << " euros" << endl;
 	}
 
 	return out.str();
@@ -787,7 +787,7 @@ string Empresa::showDiario() const
 
 	for(size_t i = 0; i < registoDiario.size(); i++)
 	{
-		out << "Dia " << i + 1 << ": " << registoDiario[i] << "€" << endl;
+		out << "Dia " << i + 1 << ": " << registoDiario[i] << " euros" << endl;
 	}
 
 	return out.str();
