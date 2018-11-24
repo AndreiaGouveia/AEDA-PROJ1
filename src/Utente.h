@@ -46,25 +46,25 @@ public:
 	 *
 	 * @return nome do utente
 	*/
-	string getNome();
+	string getNome() const;
 	/**
 	 * @brief Permite acesso a data de nascimento do utente
 	 *
 	 * @return data de nascimento do utente
 	*/
-	string getData_Nasc();
+	string getData_Nasc() const;
 	/**
 	 * @brief Permite acesso ao BI do utente
 	 *
 	 * @return BI do utente
 	*/
-	string getBI();
+	string getBI() const;
 	/**
 	 * @brief Devolve o numero de identificacao interna do utente
 	 *
 	 * @return Numero do utente
 	*/
-	unsigned int getNumUtente();
+	unsigned int getNumUtente() const;
 	/**
 	 * @brief Devolve a zona onde o utente habita
 	 *

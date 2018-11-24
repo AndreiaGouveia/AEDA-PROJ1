@@ -229,7 +229,7 @@ void calcula_um_passe(Empresa &empresa)
 
 void calcula_todos_passes(Empresa &empresa)
 {
-	cout << empresa.atualizarPasses();
+	empresa.atualizarPasses();
 }
 
 void alocar_um_utente(Empresa &empresa)
