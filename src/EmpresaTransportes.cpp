@@ -528,15 +528,8 @@ bool Empresa::calculoMensal()
 	return false;
 }
 
-void Empresa::guardarInfo()
+void Empresa::guardarInfo(ostream &ficheiro) const
 {
-	ofstream ficheiro;
-	string nome_ficheiro;
-
-	nome_ficheiro = nome_ficheiro + ".txt";
-
-	ficheiro.open(nome_ficheiro);
-
 	size_t i;
 
 	ficheiro << "//empresa" << endl << nome_empresa << endl << "//utentes" << endl;
@@ -593,8 +586,6 @@ void Empresa::guardarInfo()
 		else
 			ficheiro << registoDiario[i] << ',';
 	}
-
-	ficheiro.close();
 }
 
 void Empresa::carregarInfo(ifstream &f) {
@@ -801,10 +792,10 @@ string Empresa::showDiario() const
 
 	return out.str();
 }
-/*
+
 ostream& operator <<(ostream& out,const Empresa &emp)
 {
-	emp.guardarInfo();
+	emp.guardarInfo(out);
 
 	return out;
-}*/
+}

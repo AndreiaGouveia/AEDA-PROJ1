@@ -1,49 +1,75 @@
 #include "EmpresaTransportes.h"
 #include "Input_handler.h"
 #include <iomanip>
+#include <istream>
 
 
-void adicicionar_utente()
+void adicicionar_utente(Empresa &empresa)
+{
+	//TIRAR INFO COMUM A TODOS OS UTENTES
+	string nome, data_nasc, BI;
+	unsigned int zonaHabit;
+	unsigned int zonaEsc;
+
+	//NOME
+	cout << "Qual o nome do novo utente?" << endl;
+	cin.getline(&nome, 10000, '\n');
+
+	//DATA DE NASCIMENTO
+	cout << endl << "Qual a data de nascimento do utente?" << endl;
+	cin >> data_nasc;
+	validar_data(data_nasc);
+
+	//BI
+	cout << endl << "Qual o BI?" << endl;
+	cin >> BI;
+	allNumbers(BI);
+
+	//ZONA DE HABITACAO
+	cout << endl << "Qual a zona onde a habitacao se encontra?" << endl;
+	cin >> zonaHabit;
+
+	//ZONA DA ESCOLA
+	cout << endl << "Qual a zona onde a escola se encontra?" << endl;
+	cin >> zonaEsc;
+}
+
+void alterar_utente(Empresa &empresa)
 {
 
 }
 
-void alterar_utente()
+void remover_utente(Empresa &empresa)
 {
 
 }
 
-void remover_utente()
+void adicicionar_veiculo(Empresa &empresa)
 {
 
 }
 
-void adicicionar_veiculo()
+void alterar_veiculo(Empresa &empresa)
 {
 
 }
 
-void alterar_veiculo()
+void remover_veiculo(Empresa &empresa)
 {
 
 }
 
-void remover_veiculo()
+void alterar_precoZonas(Empresa &empresa)
 {
 
 }
 
-void alterar_precoZonas()
+void alugar_recreativo(Empresa &empresa)
 {
 
 }
 
-void alugar_recreativo()
-{
-
-}
-
-void trabalhar_empresa(const Empresa &empresa)
+void trabalhar_empresa(Empresa &empresa)
 {
 	bool end = false;
 
@@ -64,28 +90,28 @@ void trabalhar_empresa(const Empresa &empresa)
 		switch(respostaNumeros(1, 9))
 		{
 		case 1:
-			adicicionar_utente();
+			adicicionar_utente(empresa);
 			break;
 		case 2:
-			alterar_utente();
+			alterar_utente(empresa);
 			break;
 		case 3:
-			remover_utente();
+			remover_utente(empresa);
 			break;
 		case 4:
-			adicicionar_veiculo();
+			adicicionar_veiculo(empresa);
 			break;
 		case 5:
-			alterar_veiculo();
+			alterar_veiculo(empresa);
 			break;
 		case 6:
-			remover_veiculo();
+			remover_veiculo(empresa);
 			break;
 		case 7:
-			alterar_precoZonas();
+			alterar_precoZonas(empresa);
 			break;
 		case 8:
-			alugar_recreativo();
+			alugar_recreativo(empresa);
 			break;
 		case 9:
 			end = true;
@@ -176,7 +202,21 @@ void sair(Empresa *empresa)
 
 	if(respostaS_N() == 'S')
 	{
-		empresa->guardarInfo();
+		ofstream ficheiro;
+		string nome_ficheiro;
+
+		nome_ficheiro = nome_ficheiro + ".txt";
+
+		ficheiro.open(nome_ficheiro);
+
+		ficheiro << *empresa;
+
+		ficheiro.close();
+
+		cout << "==================================================" << endl << endl
+		     << "Os dados da empresa foram guardados com sucesso em:" << endl
+			 << nome_ficheiro << endl << endl
+			 << "===================================================" << endl << endl;
 	}
 }
 

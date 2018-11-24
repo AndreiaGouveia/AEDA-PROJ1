@@ -80,4 +80,40 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 	}while(true);
 }
 
+void validar_data(string &data_nasc)
+{
+	bool invalidOp = true;
 
+	while(cin.fail() || invalidOp)
+	{
+		invalidOp = false;
+
+		if(data_nasc.size() == 8)
+			{
+				for(size_t i = 0; i < data_nasc.size(); i++)
+				{
+					if((i + 1) % 3 && i < 6) //verificar se é '-'
+						{
+							if(data_nasc[i] != '-')
+								{
+									invalidOp = true;
+									break;//sai do ciclo for
+								}
+
+						}
+					else if(!isdigit(data_nasc[i]))
+						{
+							invalidOp = true;
+							break;//sai do ciclo for
+						}
+				}
+			}
+		if(invalidOp)
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl << " Inseriu uma data com o formato errado. Por favor insira uma data com este formato: DD-MM-AAAA" << endl;
+			cin >> data_nasc;
+		}
+	}
+}
