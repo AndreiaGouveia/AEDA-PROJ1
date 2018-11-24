@@ -6,18 +6,16 @@
 #include <fstream>
 
 /**
- * @class Veiculo
+ * @class Empresa
  *
- * @ingroup Veiculo
+ * @brief Classe que representa uma empresa de transportes
  *
- * @brief Classe para instanciar veiculos
- *
- * Esta classe agrupa todas as caracteristicas de um veiculo.
- * Permite definir os tracos gerais de um veiculo usado pela Empresa,
- * i.e. matricula, identificacao, consumo e preco de combustivel.
- * Com base nesta classe e nas suas derivadas (Escolar e Recreativo)
- * e possivel executar operacoes como alugar um transporte recreativo,
- * calcular o gasto no percurso efetuado, definir as zonas por onde o transporte escolar passa, etc.
+ * A classe reune algumas informacoes importantes sobre a empresa, tais como
+ * o seu nome, a frota de veiculos, a lista de utentes e os lucros obtidos.
+ * Permite gerir o que acontece na empresa atraves de variadissimos metodos que fornecem
+ * as abstracoes necessarias para proporcionar uma gestao intuitiva e simples.
+ * Todas as informacoes da empresa podem ser guardadas em ficeiro de texo para mais tarde
+ * serem carregadas e alteradas como necessario.
  */
 class Empresa
 {
@@ -334,9 +332,9 @@ public:
 	 * Os lucros sao guardados no vetor lucrosMensais e quando se insere o 12o valor
 	 * a funcao da inicio a um novo ano civil.
 	 *
-	 * @param kmsZona Media de kms percorridos em cada zona pelos transportes escolares
+	 * @return true se o vetor lucrosMensais estiver cheio (o que representa o fim do ano), false caso contrario
 	*/
-	void calculoMensal();
+	bool calculoMensal();
 	/**
 	 * @brief Envia toda a informacao da empresa para a ostream especificada.
 	 * Usando um ficheiro, a funcao guarda a informacao nesse ficheiro
@@ -351,21 +349,29 @@ public:
 	*/
 	void carregarInfo(ifstream &f);
 	/**
-	 * @brief Mostra no ecra a informacao dos utentes da empresa
+	 * @brief Devolve a informacao dos utentes da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
 	*/
-	void showUtentes() const;
+	string showUtentes() const;
 	/**
-	 * @brief Mostra no ecra a informacao dos veiculos da empresa
+	 * @brief Devolve informacao dos veiculos da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
 	*/
-	void showVeiculos() const;
+	string showVeiculos() const;
 	/**
-	 * @brief Mostra no ecra a informacao dos lucros mensais da empresa
+	 * @brief Devolve a informacao dos lucros mensais da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
 	*/
-	void showMensal() const;
+	string showMensal() const;
 	/**
-	 * @brief Mostra no ecra a informacao dos balancos diarios da empresa
+	 * @brief Devolve a informacao dos balancos diarios da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
 	*/
-	void showDiario() const;
+	string showDiario() const;
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
 };
 

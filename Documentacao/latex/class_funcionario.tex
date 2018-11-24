@@ -1,0 +1,151 @@
+\hypertarget{class_funcionario}{}\section{Funcionario Class Reference}
+\label{class_funcionario}\index{Funcionario@{Funcionario}}
+
+
+Classe para instanciar funcionarios.  
+
+
+
+
+{\ttfamily \#include $<$Utente.\+h$>$}
+
+Inheritance diagram for Funcionario\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_funcionario}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_funcionario_ac6e6169c18146e5fd2c67e6ccd0ebe75}{Funcionario}} (const string \&\mbox{\hyperlink{class_utente_a328c722d27759eaa88596ccb4cf2549f}{nome}}, const string \&data\+\_\+nasc, const string \&\mbox{\hyperlink{class_utente_ac5acf8e42ccd10808d077fc0db2e05f9}{BI}}, const unsigned int \&zona\+Habit, const unsigned int \&zona\+Esc, const bool \&docente, const unsigned int \&contacto)
+\begin{DoxyCompactList}\small\item\em Construtor da classe \mbox{\hyperlink{class_funcionario}{Funcionario}}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_funcionario_a298a2b333cae15e6f426890c2a352dc2}{get\+Docente}} ()
+\begin{DoxyCompactList}\small\item\em Permite acesso ao estatuto do funcionario na escola. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_funcionario_a408d2f4ac6ebdebbc18072832fce9ef7}{get\+Contacto}} () const
+\begin{DoxyCompactList}\small\item\em Permite acesso ao contacto do funcionario. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_funcionario_a2288d370e92da8b533c09db5b90d888c}{set\+Contacto}} (unsigned int cont)
+\begin{DoxyCompactList}\small\item\em Altera o contacto do funcionario. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_funcionario_a3cafb55c689dcb260975d3083cef1a98}{get\+Info}} () const
+\begin{DoxyCompactList}\small\item\em Organiza a informacao do funcionario para ser guardada em ficheiro. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_funcionario_adea2bb01573fbd53fea2ebaa08f82e92}\label{class_funcionario_adea2bb01573fbd53fea2ebaa08f82e92}} 
+ostream \& {\bfseries operator$<$$<$} (ostream \&out, const \mbox{\hyperlink{class_funcionario}{Funcionario}} \&utente)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Classe para instanciar funcionarios. 
+
+Para alem das caracteristicas de um utente normal, o funcionario pode ou nao ser docente e tem um numero de telemovel associado. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_funcionario_ac6e6169c18146e5fd2c67e6ccd0ebe75}\label{class_funcionario_ac6e6169c18146e5fd2c67e6ccd0ebe75}} 
+\index{Funcionario@{Funcionario}!Funcionario@{Funcionario}}
+\index{Funcionario@{Funcionario}!Funcionario@{Funcionario}}
+\subsubsection{\texorpdfstring{Funcionario()}{Funcionario()}}
+{\footnotesize\ttfamily Funcionario\+::\+Funcionario (\begin{DoxyParamCaption}\item[{const string \&}]{nome,  }\item[{const string \&}]{data\+\_\+nasc,  }\item[{const string \&}]{BI,  }\item[{const unsigned int \&}]{zona\+Habit,  }\item[{const unsigned int \&}]{zona\+Esc,  }\item[{const bool \&}]{docente,  }\item[{const unsigned int \&}]{contacto }\end{DoxyParamCaption})}
+
+
+
+Construtor da classe \mbox{\hyperlink{class_funcionario}{Funcionario}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nome} & Nome do funcionario \\
+\hline
+{\em data\+\_\+nasc} & Data de nascimento \\
+\hline
+{\em BI} & BI do funcionario \\
+\hline
+{\em zona\+Habit} & Zona de habitacao do funcionario \\
+\hline
+{\em zona\+Esc} & Zona da escola do funcionario \\
+\hline
+{\em docente} & True se o funcionario � docente, False caso contrario \\
+\hline
+{\em contacto} & Contacto do funcionario \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_funcionario_a408d2f4ac6ebdebbc18072832fce9ef7}\label{class_funcionario_a408d2f4ac6ebdebbc18072832fce9ef7}} 
+\index{Funcionario@{Funcionario}!get\+Contacto@{get\+Contacto}}
+\index{get\+Contacto@{get\+Contacto}!Funcionario@{Funcionario}}
+\subsubsection{\texorpdfstring{get\+Contacto()}{getContacto()}}
+{\footnotesize\ttfamily unsigned int Funcionario\+::get\+Contacto (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Permite acesso ao contacto do funcionario. 
+
+\begin{DoxyReturn}{Returns}
+contacto do funcionario (unsigned int) 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_utente}{Utente}}.
+
+\mbox{\Hypertarget{class_funcionario_a298a2b333cae15e6f426890c2a352dc2}\label{class_funcionario_a298a2b333cae15e6f426890c2a352dc2}} 
+\index{Funcionario@{Funcionario}!get\+Docente@{get\+Docente}}
+\index{get\+Docente@{get\+Docente}!Funcionario@{Funcionario}}
+\subsubsection{\texorpdfstring{get\+Docente()}{getDocente()}}
+{\footnotesize\ttfamily bool Funcionario\+::get\+Docente (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Permite acesso ao estatuto do funcionario na escola. 
+
+\begin{DoxyReturn}{Returns}
+true se o funcionario for docente, falso caso contrario 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_utente}{Utente}}.
+
+\mbox{\Hypertarget{class_funcionario_a3cafb55c689dcb260975d3083cef1a98}\label{class_funcionario_a3cafb55c689dcb260975d3083cef1a98}} 
+\index{Funcionario@{Funcionario}!get\+Info@{get\+Info}}
+\index{get\+Info@{get\+Info}!Funcionario@{Funcionario}}
+\subsubsection{\texorpdfstring{get\+Info()}{getInfo()}}
+{\footnotesize\ttfamily string Funcionario\+::get\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Organiza a informacao do funcionario para ser guardada em ficheiro. 
+
+\begin{DoxyReturn}{Returns}
+string com toda a informacao do funcionario (atributos separados por tabs) 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_utente_aee03eae2a7154e7b4713b2be195d548f}{Utente}}.
+
+\mbox{\Hypertarget{class_funcionario_a2288d370e92da8b533c09db5b90d888c}\label{class_funcionario_a2288d370e92da8b533c09db5b90d888c}} 
+\index{Funcionario@{Funcionario}!set\+Contacto@{set\+Contacto}}
+\index{set\+Contacto@{set\+Contacto}!Funcionario@{Funcionario}}
+\subsubsection{\texorpdfstring{set\+Contacto()}{setContacto()}}
+{\footnotesize\ttfamily void Funcionario\+::set\+Contacto (\begin{DoxyParamCaption}\item[{unsigned int}]{cont }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Altera o contacto do funcionario. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cont} & Novo contacto do funcionario \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_utente}{Utente}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Cajo/\+Desktop/\+Repos/\+A\+E\+D\+A-\/\+P\+R\+O\+J1/src/Utente.\+h\item 
+C\+:/\+Users/\+Cajo/\+Desktop/\+Repos/\+A\+E\+D\+A-\/\+P\+R\+O\+J1/src/Utente.\+cpp\end{DoxyCompactItemize}
