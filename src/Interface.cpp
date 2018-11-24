@@ -13,7 +13,7 @@ void adicicionar_utente(Empresa &empresa)
 
 	//NOME
 	cout << "Qual o nome do novo utente?" << endl;
-	cin.getline(&nome, 10000, '\n');
+//	cin.getline(&nome, 10000, '\n');
 
 	//DATA DE NASCIMENTO
 	cout << endl << "Qual a data de nascimento do utente?" << endl;
@@ -23,7 +23,7 @@ void adicicionar_utente(Empresa &empresa)
 	//BI
 	cout << endl << "Qual o BI?" << endl;
 	cin >> BI;
-	allNumbers(BI);
+//	allNumbers(BI);
 
 	//ZONA DE HABITACAO
 	cout << endl << "Qual a zona onde a habitacao se encontra?" << endl;
@@ -120,7 +120,7 @@ void trabalhar_empresa(Empresa &empresa)
 	}while(!end);
 }
 
-Empresa* criar_empresa()
+Empresa criar_empresa()
 {
 	string nome_empresa;
 
@@ -131,9 +131,7 @@ Empresa* criar_empresa()
 	{
 		Empresa empresa("Nao criada");
 
-		Empresa *emp = &empresa;
-
-		return emp;
+		return empresa;
 	}
 
 	Empresa empresa(nome_empresa);
@@ -164,12 +162,10 @@ Empresa* criar_empresa()
 
 	trabalhar_empresa(empresa);
 
-	Empresa *emp = &empresa;
-
-	return emp;
+	return empresa;
 }
 
-Empresa* continuar_empresa()
+Empresa continuar_empresa()
 {
 	ifstream ficheiro;
 	string nome_ficheiro;
@@ -182,21 +178,17 @@ Empresa* continuar_empresa()
 
 		trabalhar_empresa(empresa);
 
-		Empresa *emp = &empresa;
-
-		return emp;
+		return empresa;
 	}
 	else
 	{
 		Empresa empresa("Nao criada");
 
-		Empresa *emp = &empresa;
-
-		return emp;
+		return empresa;
 	}
 }
 
-void sair(Empresa *empresa)
+void sair(Empresa &empresa)
 {
 	cout << "Deseja salvar o progresso?  ";
 
@@ -209,7 +201,7 @@ void sair(Empresa *empresa)
 
 		ficheiro.open(nome_ficheiro);
 
-		ficheiro << *empresa;
+		ficheiro << empresa;
 
 		ficheiro.close();
 
@@ -239,9 +231,9 @@ void iniciar()
 		{
 		case 1:
 		{
-			Empresa *emp = criar_empresa();
+			Empresa emp = criar_empresa();
 
-			if(emp->getNome() == "Nao criada")
+			if(emp.getNome() == "Nao criada")
 			{
 				break;
 			}
@@ -252,9 +244,9 @@ void iniciar()
 		}
 		case 2:
 		{
-			Empresa *emp = continuar_empresa();
+			Empresa emp = continuar_empresa();
 
-			if(emp->getNome() == "Nao criada")
+			if(emp.getNome() == "Nao criada")
 			{
 				break;
 			}

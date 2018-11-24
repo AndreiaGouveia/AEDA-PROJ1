@@ -373,6 +373,8 @@ public:
 	*/
 	string showDiario() const;
 	//friend ostream& operator <<(ostream& out,const Empresa &emp);
+
+	ostream& operator <<(ostream& out,const Empresa &emp);
 };
 
 class CmpId
