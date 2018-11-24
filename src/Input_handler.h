@@ -15,7 +15,7 @@ void readLine(string &str);
 void allNumbers(string &answer, const int &n);
 
 template <class T>
-void checkingOnlyCinFail(T &answer)
+void checkCinFail(T &answer)
 {
 	cin >> answer;
 

@@ -27,7 +27,6 @@ void adicicionar_utente(Empresa &empresa)
 	cout << endl << "Qual o BI?" << endl;
 	allNumbers(BI, 8);
 
-	//o numero de zonas e dado pela raiz quadrada do numero total de casos possiveis no vetor precos_zona, uma vez que o tamanha deste é dado por nº zonas*nº zonas
 	int num_zonas = empresa.getPrecos().size();
 
 	//ZONA DE HABITACAO
@@ -55,7 +54,7 @@ void adicicionar_utente(Empresa &empresa)
 
 		//CONTACTO DO ENCARREGADO DE EDUCACAO
 		cout << endl << "Qual o contacto do encarregado de educacao?" << endl;
-		checkingOnlyCinFail(contactoEE);
+		checkCinFail(contactoEE);
 
 		//ADICIONAR A CRIANCA AOS UTENTES
 		Crianca c1(nome, data_nasc, BI, zonaHabit, zonaEsc, nomeEE, contactoEE);
@@ -89,7 +88,7 @@ void adicicionar_utente(Empresa &empresa)
 
 		//CONTACTO DO FUNCIONARIO
 		cout << "Qual o contacto do funcionario?" << endl;
-		checkingOnlyCinFail(contacto);
+		checkCinFail(contacto);
 
 		//ADICIONAR O FUNCIONARIO AOS UTENTES
 		Funcionario f1(nome, data_nasc, BI, zonaHabit, zonaEsc, docente, contacto);
@@ -105,12 +104,97 @@ void adicicionar_utente(Empresa &empresa)
 
 void alterar_utente(Empresa &empresa)
 {
+	while(true)
+	{
+		cout << "O que pretende alterar no utente?  " << endl
+			 << "1. Contacto" << endl
+			 << "2. Zona de habitacao" << endl
+			 << "3. Zona escolar" << endl
+			 << "4. Voltar" << endl;
 
+		switch(respostaNumeros(1, 4))
+		{
+		case 1:
+		{
+			unsigned int numUtente, contacto;
+
+			cout << "Qual o numero de utente?  ";
+			checkCinFail(numUtente);
+
+			cout << "Qual o novo contacto?  ";
+			checkCinFail(contacto);
+
+
+			try
+			{
+				empresa.alterarContacto(numUtente, contacto);
+			}
+			catch (exception &UtenteNaoExistente) {}
+
+			break;
+		}
+		case 2:
+		{
+			unsigned int numUtente, zonaHabit;
+
+			cout << "Qual o numero de utente?  ";
+			checkCinFail(numUtente);
+
+			int num_zonas = empresa.getPrecos().size();
+
+			cout << "Qual a nova zona de habitacao?  ";
+
+			zonaHabit = respostaNumeros(1, num_zonas);
+
+			try
+			{
+				empresa.alterarZonaHab(numUtente, zonaHabit);
+			}
+			catch (exception &UtenteNaoExistente) {}
+
+			break;
+		}
+		case 3:
+		{
+			unsigned int numUtente, zonaEsc;
+
+			cout << "Qual o numero de utente?  ";
+			checkCinFail(numUtente);
+
+			int num_zonas = empresa.getPrecos().size();
+
+			cout << "Qual a nova zona escolar?  ";
+
+			zonaEsc = respostaNumeros(1, num_zonas);
+
+			try
+			{
+				empresa.alterarZonaEsc(numUtente, zonaEsc);
+			}
+			catch (exception &UtenteNaoExistente) {}
+
+
+			break;
+		}
+		case 4:
+			return;
+		}
+	}
 }
 
 void remover_utente(Empresa &empresa)
 {
+	unsigned int numUtente;
 
+	//Perguntar qual o numero de utente que pretende remover
+	cout << endl << "Insira o numero do utente a remover.  " << endl;
+	checkCinFail(numUtente);
+
+	try
+	{
+		empresa.removerUtente(numUtente);
+	}
+	catch (exception &UtenteNaoExistente) {}
 }
 
 void adicicionar_veiculo(Empresa &empresa)
@@ -140,7 +224,7 @@ void calcula_um_passe(Empresa &empresa)
 	cout << "Qual o numero do utente? ";
 	cin >> id;
 
-	cout << "O valor do passe mensal � " << empresa.calculoPasseMensal(id) << " euros";
+	cout << "O valor do passe mensal � " << empresa.calculoPasseMensal(id) << " euros";
 }
 
 void calcula_todos_passes(Empresa &empresa)
@@ -243,9 +327,7 @@ void mostrar_precos(const Empresa &empresa)
 
 void trabalhar_empresa(Empresa &empresa)
 {
-	bool end = false;
-
-	do
+	while(true)
 	{
 		cout << "-------------" << empresa.getNome() << "------------" << endl
 			 << "Qual o proximo passo?   " << endl
@@ -338,10 +420,9 @@ void trabalhar_empresa(Empresa &empresa)
 			mostrar_precos(empresa);
 			break;
 		case 22:
-			end = true;
-			break;
+			return;
 		}
-	}while(!end);
+	}
 }
 
 Empresa criar_empresa()
@@ -367,7 +448,7 @@ Empresa criar_empresa()
 	cout << "Quantas zonas?  ";
 	cin >> zonas;
 
-	checkingOnlyCinFail(zonas);
+	checkCinFail(zonas);
 
 	for(int i = 0; i < zonas; i++)
 	{
@@ -377,7 +458,7 @@ Empresa criar_empresa()
 			cout<<"Qual o preco entre a zona "<< i + 1<<" e "<< j + 1 <<"?  ";
 			cin >> preco;
 
-			checkingOnlyCinFail(preco);
+			checkCinFail(preco);
 
 			precos_zona[i][j] = preco;
 

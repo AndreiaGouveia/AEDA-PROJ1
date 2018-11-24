@@ -25,7 +25,7 @@ protected:
 	const string nome; ///< Nome do utente
 	const string data_nascimento; ///< Data de nascimento do utente (Nota: nao e controlado o input)
 	const string BI; ///< BI do utente (Nota: nao ha BI's repetidos)
-	unsigned int numUtente; ///< Numero de identificacao interna do utente
+	const unsigned int numUtente; ///< Numero de identificacao interna do utente
 	unsigned int zonaHabitacao; ///< Zona onde o utente habita
 	unsigned int zonaEscola; ///< Zona da escola do utente
 public:
