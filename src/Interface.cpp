@@ -625,7 +625,7 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "2. Alterar informacoes de um utente" << endl
 			 << "3. Remover utente" << endl
 			 << "4. Adicionar veiculo" << endl
-			 << "5. Alterar zona atravessada por um veiculo"
+			 << "5. Alterar zona atravessada por um veiculo" << endl
 			 << "6. Remover veiculo" << endl
 			 << "7. Alterar preco das zonas" << endl
 			 << "8. Calcular o valor do passe mensal de um utente" << endl

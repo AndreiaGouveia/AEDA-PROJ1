@@ -492,7 +492,7 @@ bool Empresa::finalDia(float kmsZona)
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
 		if(veiculos[i]->getCapacidade() == 0) //Nao e recreativo
-			sum += veiculos[i]->calcGasto(kmsZona);
+			sum -= veiculos[i]->calcGasto(kmsZona);
 		else//E recreativo
 		{
 			if(veiculos[i]->getEstado())
@@ -503,7 +503,7 @@ bool Empresa::finalDia(float kmsZona)
 				cout << "Quantos kms percorreu o veiculo (recreativo) n "
 						<< veiculos[i]->getId() << "? "; cin >> kms;
 
-				sum += veiculos[i]->calcGasto(kms);
+				sum -= veiculos[i]->calcGasto(kms);
 				sum += calcularAluguer(veiculos[i]->getId());
 			}
 		}
@@ -724,6 +724,7 @@ void Empresa::carregarInfo(ifstream &f) {
 			}
 		}
 	}
+
 	alocaUtentes();
 	atualizarPasses();
 }
