@@ -63,8 +63,7 @@ vector<unsigned int> Escolar::getZonas() const
 void Escolar::adicionarZona(unsigned int zona) {
 	for (size_t i = 0; i < zonasAtravessadas.size(); i++) {
 		if (zonasAtravessadas[i] == zona)
-			return;
-			//throw ZonaJaExistente(zona); TODO ZonaJaExistente
+			throw ZonaJaExistente(zona);
 	}
 
 	zonasAtravessadas.push_back(zona);
@@ -77,7 +76,7 @@ void Escolar::removerZona(unsigned int zona) {
 
 	if (it == zonasAtravessadas.end())
 		return;
-		//throw ZonaNaoExistente(zona); //TODO ZonaNaoExistente*/
+		throw ZonaNaoExistente(zona);
 
 	zonasAtravessadas.erase(it);
 }
@@ -132,7 +131,7 @@ ostream& operator <<(ostream& out, const Escolar& veic) {
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Recreativo////////////////////////
 ////////////////////////////////////////////////////////////////
-Recreativo::Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado) :
+Recreativo::Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado = false) :
 		Veiculo(matricula, consumo100km, precoComb), capacidade(cap) {
 	this->alugado = alugado;
 }

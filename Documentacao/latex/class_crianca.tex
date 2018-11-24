@@ -1,0 +1,151 @@
+\hypertarget{class_crianca}{}\section{Crianca Class Reference}
+\label{class_crianca}\index{Crianca@{Crianca}}
+
+
+Classe para instanciar criancas.  
+
+
+
+
+{\ttfamily \#include $<$Utente.\+h$>$}
+
+Inheritance diagram for Crianca\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_crianca}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_crianca_a3b66bc9f3d1302400f5fec96f380f669}{Crianca}} (const string \&\mbox{\hyperlink{class_utente_a328c722d27759eaa88596ccb4cf2549f}{nome}}, const string \&data\+\_\+nasc, const string \&\mbox{\hyperlink{class_utente_ac5acf8e42ccd10808d077fc0db2e05f9}{BI}}, const unsigned int \&zona\+Habit, const unsigned int \&zona\+Esc, const string \&nome\+EE, const unsigned int \&contacto\+EE)
+\begin{DoxyCompactList}\small\item\em Construtor da classe \mbox{\hyperlink{class_crianca}{Crianca}}. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_crianca_ab93207d112d82437a86b230e1e0a5835}{get\+Nome\+EE}} () const
+\begin{DoxyCompactList}\small\item\em Permite acesso ao nome do Encarregado de Educacao da crianca. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_crianca_a528589e1353aa4eb4348e9e1d67b6a47}{get\+Contacto}} () const
+\begin{DoxyCompactList}\small\item\em Permite acesso ao contacto do Encarregado de Educacao da crianca. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_crianca_ac5a08589414697db0269fbcf44bb96f0}{set\+Contacto}} (unsigned int cont)
+\begin{DoxyCompactList}\small\item\em Altera o contacto do Encarregado de Educacao da crianca. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_crianca_a7cd065415f6f0a2802ca2d37a3a7cc25}{get\+Info}} () const
+\begin{DoxyCompactList}\small\item\em Organiza a informacao da crianca para ser guardada em ficheiro. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_crianca_a2a82fda6331ef8d7e44a861ec86a5a6e}\label{class_crianca_a2a82fda6331ef8d7e44a861ec86a5a6e}} 
+ostream \& {\bfseries operator$<$$<$} (ostream \&out, const \mbox{\hyperlink{class_crianca}{Crianca}} \&utente)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Classe para instanciar criancas. 
+
+Para alem das caracteristicas de um utente normal, a crianca tem associados o nome do Encarregado de Educacao e o contacto deste. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_crianca_a3b66bc9f3d1302400f5fec96f380f669}\label{class_crianca_a3b66bc9f3d1302400f5fec96f380f669}} 
+\index{Crianca@{Crianca}!Crianca@{Crianca}}
+\index{Crianca@{Crianca}!Crianca@{Crianca}}
+\subsubsection{\texorpdfstring{Crianca()}{Crianca()}}
+{\footnotesize\ttfamily Crianca\+::\+Crianca (\begin{DoxyParamCaption}\item[{const string \&}]{nome,  }\item[{const string \&}]{data\+\_\+nasc,  }\item[{const string \&}]{BI,  }\item[{const unsigned int \&}]{zona\+Habit,  }\item[{const unsigned int \&}]{zona\+Esc,  }\item[{const string \&}]{nome\+EE,  }\item[{const unsigned int \&}]{contacto\+EE }\end{DoxyParamCaption})}
+
+
+
+Construtor da classe \mbox{\hyperlink{class_crianca}{Crianca}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nome} & Nome da crianca \\
+\hline
+{\em data\+\_\+nasc} & Data de nascimento \\
+\hline
+{\em BI} & BI da crianca \\
+\hline
+{\em zona\+Habit} & Zona de habitacao da crianca \\
+\hline
+{\em zona\+Esc} & Zona da escola da crianca \\
+\hline
+{\em nome\+EE} & Nome do Encarregado de Educacao \\
+\hline
+{\em contacto\+EE} & Contacto do Encarregado de Educacao \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_crianca_a528589e1353aa4eb4348e9e1d67b6a47}\label{class_crianca_a528589e1353aa4eb4348e9e1d67b6a47}} 
+\index{Crianca@{Crianca}!get\+Contacto@{get\+Contacto}}
+\index{get\+Contacto@{get\+Contacto}!Crianca@{Crianca}}
+\subsubsection{\texorpdfstring{get\+Contacto()}{getContacto()}}
+{\footnotesize\ttfamily unsigned int Crianca\+::get\+Contacto (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Permite acesso ao contacto do Encarregado de Educacao da crianca. 
+
+\begin{DoxyReturn}{Returns}
+contacto do encarregado de educacao (unsigned int) 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_utente}{Utente}}.
+
+\mbox{\Hypertarget{class_crianca_a7cd065415f6f0a2802ca2d37a3a7cc25}\label{class_crianca_a7cd065415f6f0a2802ca2d37a3a7cc25}} 
+\index{Crianca@{Crianca}!get\+Info@{get\+Info}}
+\index{get\+Info@{get\+Info}!Crianca@{Crianca}}
+\subsubsection{\texorpdfstring{get\+Info()}{getInfo()}}
+{\footnotesize\ttfamily string Crianca\+::get\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Organiza a informacao da crianca para ser guardada em ficheiro. 
+
+\begin{DoxyReturn}{Returns}
+string com toda a informacao da crianca (atributos separados por tabs) 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_utente_aee03eae2a7154e7b4713b2be195d548f}{Utente}}.
+
+\mbox{\Hypertarget{class_crianca_ab93207d112d82437a86b230e1e0a5835}\label{class_crianca_ab93207d112d82437a86b230e1e0a5835}} 
+\index{Crianca@{Crianca}!get\+Nome\+EE@{get\+Nome\+EE}}
+\index{get\+Nome\+EE@{get\+Nome\+EE}!Crianca@{Crianca}}
+\subsubsection{\texorpdfstring{get\+Nome\+E\+E()}{getNomeEE()}}
+{\footnotesize\ttfamily string Crianca\+::get\+Nome\+EE (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Permite acesso ao nome do Encarregado de Educacao da crianca. 
+
+\begin{DoxyReturn}{Returns}
+string com o nome do encarregado de educacao 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_utente}{Utente}}.
+
+\mbox{\Hypertarget{class_crianca_ac5a08589414697db0269fbcf44bb96f0}\label{class_crianca_ac5a08589414697db0269fbcf44bb96f0}} 
+\index{Crianca@{Crianca}!set\+Contacto@{set\+Contacto}}
+\index{set\+Contacto@{set\+Contacto}!Crianca@{Crianca}}
+\subsubsection{\texorpdfstring{set\+Contacto()}{setContacto()}}
+{\footnotesize\ttfamily void Crianca\+::set\+Contacto (\begin{DoxyParamCaption}\item[{unsigned int}]{cont }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Altera o contacto do Encarregado de Educacao da crianca. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cont} & Novo contacto do Encarregado de Educacao \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_utente}{Utente}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Cajo/\+Desktop/\+Repos/\+A\+E\+D\+A-\/\+P\+R\+O\+J1/src/Utente.\+h\item 
+C\+:/\+Users/\+Cajo/\+Desktop/\+Repos/\+A\+E\+D\+A-\/\+P\+R\+O\+J1/src/Utente.\+cpp\end{DoxyCompactItemize}
