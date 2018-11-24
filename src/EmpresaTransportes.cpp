@@ -787,7 +787,39 @@ string Empresa::showDiario() const
 
 	for(size_t i = 0; i < registoDiario.size(); i++)
 	{
-		out << "Dia " << i + 1 << ": " << registoDiario[i] << "ï¿½" << endl;
+		out << "Dia " << i + 1 << ": " << registoDiario[i] << "€" << endl;
+	}
+
+	return out.str();
+}
+
+string Empresa::showPrecos() const
+{
+	ostringstream out;
+	size_t i;
+
+	out << endl << "///////Matrix de Precos///////" << endl
+			<< '\t';
+
+	for (i = 0; i < precos_zona.size(); i++)
+	{
+		out << 'Z' << i + 1;
+
+		if (i != precos_zona.size() - 1)
+			out << '\t';
+		else
+			out << endl;
+	}
+
+	for (i = 0; i < precos_zona.size(); i++)
+	{
+		out << 'Z' << i + 1;
+
+		for (size_t j = 0; j < precos_zona[i].size(); j++)
+		{
+			out << '\t' << precos_zona[i][j];
+		}
+		out << endl;
 	}
 
 	return out.str();

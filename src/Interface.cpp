@@ -138,13 +138,38 @@ void alugar_recreativo(Empresa &empresa)
 
 }
 
+void mostrar_utentes(const Empresa &empresa)
+{
+	cout << empresa.showUtentes();
+}
+
+void mostrar_veiculos(const Empresa &empresa)
+{
+	cout << empresa.showVeiculos();
+}
+
+void mostrar_lucros_mensais(const Empresa &empresa)
+{
+	cout << empresa.showMensal();
+}
+
+void mostrar_registo_diario(const Empresa &empresa)
+{
+	cout << empresa.showDiario();
+}
+
+void mostrar_precos(const Empresa &empresa)
+{
+	cout << empresa.showPrecos();
+}
+
 void trabalhar_empresa(Empresa &empresa)
 {
 	bool end = false;
 
 	do
 	{
-		cout << "--------------------------------"
+		cout << "-------------" << empresa.getNome() << "------------" << endl
 			 << "Qual o proximo passo?   " << endl
 			 << "1. Adicicionar utente" << endl
 			 << "2. Alterar informacoes de um utente" << endl
@@ -154,7 +179,12 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "6. Remover veiculo" << endl
 			 << "7. Alterar preco das zonas" << endl
 			 << "8. Alugar recreativo" << endl
-			 << "9. Voltar" << endl;
+			 << "9. Mostrar a lista de utentes" << endl
+			 << "10. Mostrar a lista de veiculos" << endl
+			 << "11. Mostrar os lucros mensais deste ano" << endl
+			 << "12. Mostrar os balancos diarios deste mes" << endl
+			 << "13. Mostrar a matriz de precos por zona" << endl
+			 << "14. Sair" << endl;
 
 		switch(respostaNumeros(1, 9))
 		{
@@ -183,6 +213,21 @@ void trabalhar_empresa(Empresa &empresa)
 			alugar_recreativo(empresa);
 			break;
 		case 9:
+			mostrar_utentes(empresa);
+			break;
+		case 10:
+			mostrar_veiculos(empresa);
+			break;
+		case 11:
+			mostrar_lucros_mensais(empresa);
+			break;
+		case 12:
+			mostrar_registo_diario(empresa);
+			break;
+		case 13:
+			mostrar_precos(empresa);
+			break;
+		case 14:
 			end = true;
 			break;
 		}
@@ -216,6 +261,7 @@ Empresa criar_empresa()
 
 	for(int i = 0; i < zonas; i++)
 	{
+		precos_zona.push_back(vector<double>(zonas));
 		for(int j = 0; j <= i; j++)
 		{
 			cout<<"Qual o preco entre a zona "<< i + 1<<" e "<< j + 1 <<"?  ";
@@ -224,6 +270,9 @@ Empresa criar_empresa()
 			checkingOnlyCinFail(preco);
 
 			precos_zona[i][j] = preco;
+
+			if(i != j)
+				precos_zona[j][i] = preco;
 		}
 	}
 
@@ -239,7 +288,7 @@ Empresa continuar_empresa()
 	ifstream ficheiro;
 	string nome_ficheiro;
 
-	cout << endl << "Qual o nome do ficheiro que quer abrir (não coloque extensao .txt)? (Ctrl + Z para sair)  " << endl;
+	cout << endl << "Qual o nome do ficheiro que quer abrir (nao coloque extensao .txt)? (Ctrl + Z para sair)  " << endl;
 
 	if(file_handler(nome_ficheiro, ficheiro))
 	{
