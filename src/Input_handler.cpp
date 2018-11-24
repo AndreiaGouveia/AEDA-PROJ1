@@ -80,6 +80,43 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 	}while(true);
 }
 
+void readLine(string &str)
+{
+	char * c_str = new char [str.length()+1];
+
+	cin.getline(c_str, 10000, '\n');
+
+	str(c_str);
+}
+
+void allNumbers(string &answer, const int &n)//checks if in a string there are only numbers
+{
+	bool invalidAnswer;
+
+	do
+	{
+		invalidAnswer = false;
+
+		for (size_t i = 0; i < answer.size(); i++)
+		{
+			if(isalpha(answer[i]))
+			{
+				invalidAnswer = true;
+				break;
+			}
+		}
+
+		if(invalidAnswer)
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl << " Inseriu uma resposta invalida.Tem de ser composto por " << n << "digitos." << endl;
+			cin >> answer;
+		}
+		else break;
+	}while(true);
+}
+
 void validar_data(string &data_nasc)
 {
 	bool invalidOp = true;

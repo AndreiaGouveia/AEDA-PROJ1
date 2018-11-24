@@ -11,10 +11,14 @@ char respostaS_N();
 int respostaNumeros(const int &min, const int &max);
 bool file_handler(string &nome_ficheiro, ifstream &ficheiro);
 void validar_data(string &data_nasc);
+void readLine(string &str);
+void allNumbers(string &answer, const int &n);
 
 template <class T>
 void checkingOnlyCinFail(T &answer)
 {
+	cin >> answer;
+
 	while(cin.fail())
 	{
 		cin.clear();

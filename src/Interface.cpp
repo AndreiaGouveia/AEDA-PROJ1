@@ -1,7 +1,10 @@
+#include "cute.h"
+#include "ide_listener.h"
+#include "xml_listener.h"
+#include "cute_runner.h"
 #include "EmpresaTransportes.h"
 #include "Input_handler.h"
 #include <iomanip>
-#include <istream>
 
 
 void adicicionar_utente(Empresa &empresa)
@@ -13,7 +16,7 @@ void adicicionar_utente(Empresa &empresa)
 
 	//NOME
 	cout << "Qual o nome do novo utente?" << endl;
-//	cin.getline(&nome, 10000, '\n');
+	readLine(nome);
 
 	//DATA DE NASCIMENTO
 	cout << endl << "Qual a data de nascimento do utente?" << endl;
@@ -22,16 +25,82 @@ void adicicionar_utente(Empresa &empresa)
 
 	//BI
 	cout << endl << "Qual o BI?" << endl;
-	cin >> BI;
-//	allNumbers(BI);
+	allNumbers(BI, 8);
+
+	//o numero de zonas é dado pela raiz quadrada do numero total de casos possiveis no vetor precos_zona, uma vez que o tamanha deste é dado por nº zonas*nº zonas
+	int num_zonas = sqrt(empresa.precos_zona.size());
 
 	//ZONA DE HABITACAO
 	cout << endl << "Qual a zona onde a habitacao se encontra?" << endl;
-	cin >> zonaHabit;
+	zonaHabit = respostaNumeros(1, num_zonas);
 
 	//ZONA DA ESCOLA
 	cout << endl << "Qual a zona onde a escola se encontra?" << endl;
-	cin >> zonaEsc;
+	zonaEsc = respostaNumeros(1, num_zonas);
+
+
+	///DADOS ESPECIFICOS
+	cout << "O utente é uma criança? (S/N)" << endl;
+
+	char resposta = respostaS_N();
+
+	if(resposta == 'S')
+	{
+		string nomeEE;
+		unsigned int contactoEE;
+
+		//NOME DO ENCARREGADO DE EDUCACAO
+		cout << endl << "Qual o nome do encarregado de educacao?" << endl;
+		readLine(nomeEE);
+
+		//CONTACTO DO ENCARREGADO DE EDUCACAO
+		cout << endl << "Qual o contacto do encarregado de educacao?" << endl;
+		checkingOnlyCinFail(contactoEE);
+
+		//ADICIONAR A CRIANCA AOS UTENTES
+		Crianca c1(nome, data_nasc, BI, zonaHabit, zonaEsc, nomeEE, contactoEE);
+
+		try
+		{
+			empresa.adicionarUtente(&c1);
+		}
+		catch (exception &UtenteJaExiste) {}
+	}
+	else if(resposta == 'N')
+	{
+		char resposta;
+		bool docente;
+		unsigned int contacto;
+
+		//DOCENTE
+		cout << "O funcionario que pretende adicionar e docente(S/N)?" << endl;
+
+		resposta = respostaS_N();
+
+		if(resposta == 'S')
+		{
+			docente = true;
+		}
+		else if(resposta == 'N')
+		{
+			docente = false;
+		}
+		else return;
+
+		//CONTACTO DO FUNCIONARIO
+		cout << "Qual o contacto do funcionario?" << endl;
+		checkingOnlyCinFail(contacto);
+
+		//ADICIONAR O FUNCIONARIO AOS UTENTES
+		Funcionario f1(nome, data_nasc, BI, zonaHabit, zonaEsc, docente, contacto);
+
+		try
+		{
+			empresa.adicionarUtente(&f1);
+		}
+		catch (exception &UtenteJaExiste) {}
+	}
+	else return;
 }
 
 void alterar_utente(Empresa &empresa)
