@@ -38,7 +38,7 @@ void adicicionar_utente(Empresa &empresa)
 
 
 	///DADOS ESPECIFICOS
-	cout << "O utente é uma criança? (S/N)" << endl;
+	cout << "O utente e uma crianca? (S/N)" << endl;
 
 	char resposta = respostaS_N();
 
@@ -738,7 +738,7 @@ Empresa criar_empresa()
 	cout << "Quantas zonas?  ";
 	cin >> zonas;
 
-	checkCinFail(zonas);
+	//checkCinFail(zonas);
 
 	for(int i = 0; i < zonas; i++)
 	{
@@ -748,7 +748,7 @@ Empresa criar_empresa()
 			cout<<"Qual o preco entre a zona "<< i + 1<<" e "<< j + 1 <<"?  ";
 			cin >> preco;
 
-			checkCinFail(preco);
+			//checkCinFail(preco);
 
 			precos_zona[i][j] = preco;
 

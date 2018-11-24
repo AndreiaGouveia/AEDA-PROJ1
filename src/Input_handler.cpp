@@ -99,6 +99,8 @@ void allNumbers(string &answer, const int &n)//checks if in a string there are o
 
 	do
 	{
+		cin >>answer;
+
 		invalidAnswer = false;
 
 		for (size_t i = 0; i < answer.size(); i++)
@@ -127,6 +129,8 @@ void validar_data(string &data_nasc)
 
 	while(cin.fail() || invalidOp)
 	{
+		cin >> data_nasc;
+
 		invalidOp = false;
 
 		if(data_nasc.size() == 8)
