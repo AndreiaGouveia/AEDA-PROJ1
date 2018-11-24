@@ -372,6 +372,12 @@ public:
 	 * @return String contendo a informacao organizada e legivel
 	*/
 	string showDiario() const;
+	/**
+	 * @brief Devolve a informacao dos precos por zona da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
+	*/
+	string showPrecos() const; //TODO criar nova documentacao
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
 };
 
