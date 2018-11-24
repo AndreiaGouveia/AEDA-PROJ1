@@ -387,12 +387,28 @@ void alterar_veiculo(Empresa &empresa)
 
 void remover_veiculo(Empresa &empresa)
 {
+	unsigned int id;
 
+	cout << endl << "Insira o id do veiculo que pretende remover" << endl;
+	checkCinFail(id);
+
+	try
+	{
+		empresa.removerVeiculo(id);
+	}
+	catch (exception &VeiculoNaoExistente)
+	{
+		return;
+	}
 }
 
 void alterar_precoZonas(Empresa &empresa)
 {
+	cout << "Qual a variacao do preco?   ";
+	float fator;
+	checkCinFail(fator);
 
+	empresa.atualizarPrecos(fator);
 }
 
 void calcula_um_passe(Empresa &empresa)
