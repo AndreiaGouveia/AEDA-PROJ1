@@ -126,6 +126,7 @@ void Empresa::removerVeiculo(unsigned int id)
 		if(veiculos[i]->getId() == id)
 		{
 			veiculos.erase(veiculos.begin() + i);
+			alocaUtentes();
 			return;
 		}
 	}
@@ -140,6 +141,7 @@ void Empresa::removerVeiculo(string matricula)
 		if(veiculos[i]->getMatricula() == matricula)
 		{
 			veiculos.erase(veiculos.begin() + i);
+			alocaUtentes();
 			return;
 		}
 	}
@@ -153,6 +155,11 @@ void Empresa::removerUtente(unsigned int numUt)
 	{
 		if(utentes[i]->getNumUtente() == numUt)
 		{
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				tabelaPasses.erase(utentes[i]->getNumUtente());
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				tabelaPassageiros.erase(utentes[i]->getNumUtente());
+
 			utentes.erase(utentes.begin() + i);
 			return;
 		}
@@ -166,6 +173,11 @@ void Empresa::removerUtente(string BI)
 	{
 		if(utentes[i]->getBI() == BI)
 		{
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				tabelaPasses.erase(utentes[i]->getNumUtente());
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				tabelaPassageiros.erase(utentes[i]->getNumUtente());
+
 			utentes.erase(utentes.begin() + i);
 			return;
 		}
@@ -187,6 +199,7 @@ void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 			else
 			{
 				veiculos[i]->adicionarZona(zona);
+				alocaUtentes();
 				return;
 			}
 		}
@@ -208,6 +221,7 @@ void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 			else
 			{
 				veiculos[i]->removerZona(zona);
+				alocaUtentes();
 				return;
 			}
 		}
@@ -223,6 +237,10 @@ void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
 		if(utentes[i]->getNumUtente() == numUtente)
 		{
 			utentes[i]->setZonaHabitacao(zona);
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				atualizarPasses();
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				alocaUtentes();
 			return;
 		}
 	}
@@ -237,6 +255,10 @@ void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
 		if(utentes[i]->getNumUtente() == numUtente)
 		{
 			utentes[i]->setZonaEscola(zona);
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				atualizarPasses();
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				alocaUtentes();
 			return;
 		}
 	}
@@ -309,6 +331,8 @@ double Empresa::calculoPasseMensal(unsigned int numUtente)
 
 void Empresa::atualizarPasses()
 {
+	tabelaPassageiros.clear();
+
 	for(unsigned int i = 0; i < utentes.size(); i++)
 	{
 		unsigned int num = utentes[i]->getNumUtente();
@@ -417,6 +441,8 @@ void Empresa::alugaRecreativo(unsigned int idV)
 
 void Empresa::alocaUtentes()
 {
+	tabelaPassageiros.clear();
+
 	for(size_t i = 0; i < utentes.size(); i++)
 	{
 		for(size_t j = 0; j < veiculos.size(); j++)
