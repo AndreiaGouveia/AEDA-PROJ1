@@ -47,7 +47,7 @@ int respostaNumeros(const int &min, const int &max)
 		{
 			cin.clear();
 			cin.ignore(1000, '\n');
-			cout << endl << " Opcao invalida, por favor, insira um número entre " << min << " e " << max << ". (" << max << " -> sair)   ";
+			cout << endl << " Opcao invalida, por favor, insira um numero entre " << min << " e " << max << ". (" << max << " -> sair)   ";
 		}
 	}while(true);
 }
@@ -74,7 +74,7 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 		}
 		else
 		{
-			cout << "O nome do ficheiro nao existe, insira um ficheiro de texto, sem extensão. (Ctrl + Z para sair)  "<<endl;
+			cout << "O ficheiro nao existe, insira um ficheiro de texto, sem extensão. (Ctrl + Z para sair)  "<<endl;
 		}
 
 	}while(true);

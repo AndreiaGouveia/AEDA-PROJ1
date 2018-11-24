@@ -147,6 +147,7 @@ Empresa criar_empresa()
 
 	for(int i = 0; i < zonas; i++)
 	{
+		precos_zona.push_back(vector<double>(zonas));
 		for(int j = 0; j <= i; j++)
 		{
 			cout<<"Qual o preco entre a zona "<< i + 1<<" e "<< j + 1 <<"?  ";
@@ -170,7 +171,7 @@ Empresa continuar_empresa()
 	ifstream ficheiro;
 	string nome_ficheiro;
 
-	cout << endl << "Qual o nome do ficheiro que quer abrir (não coloque extensao .txt)? (Ctrl + Z para sair)  " << endl;
+	cout << endl << "Qual o nome do ficheiro que quer abrir (nao coloque extensao .txt)? (Ctrl + Z para sair)  " << endl;
 
 	if(file_handler(nome_ficheiro, ficheiro))
 	{
