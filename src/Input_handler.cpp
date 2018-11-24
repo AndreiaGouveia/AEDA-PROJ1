@@ -49,7 +49,7 @@ int respostaNumeros(const int &min, const int &max)
 		{
 			cin.clear();
 			cin.ignore(1000, '\n');
-			cout << endl << " Opcao invalida, por favor, insira um numero entre " << min << " e " << max << ". (" << max << " -> sair)   ";
+			cout << endl << " Opcao invalida, por favor, insira um numero entre " << min << " e " << max << ".  ";
 		}
 	}while(true);
 }
@@ -89,6 +89,8 @@ void readLine(string &str)
 	cin.getline(c_str, 10000, '\n');
 
 	str = string(c_str);
+
+	delete [] c_str;
 }
 
 void allNumbers(string &answer, const int &n)//checks if in a string there are only numbers

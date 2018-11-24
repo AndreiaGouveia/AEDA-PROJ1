@@ -251,7 +251,7 @@ void adicicionar_veiculo(Empresa &empresa)
 			{
 				break;
 			}
-			else if(zona >= 1 && zona <= n)
+			else if(zona >= 1 && zona <= n && find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona) == zonasAtravessadas.end())
 			{
 				zonasAtravessadas.push_back(zona);
 				valido = true;
@@ -273,7 +273,12 @@ void adicicionar_veiculo(Empresa &empresa)
 		else
 		{
 			Escolar e1(matricula, consumo100km, precoComb, capacidade, zonasAtravessadas);
-			empresa.adicionarVeiculo(&e1);
+
+			try
+			{
+				empresa.adicionarVeiculo(&e1);
+			}
+			catch(exception &VeiculoJaExistente) {}
 		}
 	}
 	else if(resposta == 'N')
@@ -306,14 +311,78 @@ void adicicionar_veiculo(Empresa &empresa)
 		}
 
 		Recreativo r1(matricula,consumo100km,precoComb, capacidade,alugado);
-		empresa.adicionarVeiculo(&r1);
+
+		try
+		{
+			empresa.adicionarVeiculo(&r1);
+		}
+		catch(exception &VeiculoJaExistente) {}
 	}
 	else return;
 }
 
 void alterar_veiculo(Empresa &empresa)
 {
+	while(true)
+	{
+		cout << "O que pretende alterar no veiculo?  " << endl
+			 << "1. Adicionar uma zona" << endl
+			 << "2. Remover uma zona" << endl
+			 << "3. Voltar" << endl;
 
+		switch(respostaNumeros(1, 3))
+		{
+		case 1:
+		{
+			unsigned int idV, zona;
+
+			cout << "Qual o id do veiculo?  ";
+			checkCinFail(idV);
+
+			int num_zonas = empresa.getPrecos().size();
+
+			cout << "Qual a nova zona?  ";
+
+			zona = respostaNumeros(1, num_zonas);
+
+			try
+			{
+				empresa.adicionarZonaEscolar(idV, zona);
+			}
+			catch (exception &VeiculoNaoExistente) {}
+			catch (exception &ZonaJaExiste) {}
+
+			break;
+		}
+		case 2:
+		{
+			unsigned int idV, zona;
+
+			cout << "Qual o id do veiculo?  ";
+			checkCinFail(idV);
+
+			int num_zonas = empresa.getPrecos().size();
+
+			cout << "Qual a zona que pretende remover?  ";
+
+			zona = respostaNumeros(1, num_zonas);
+
+			try
+			{
+				empresa.removerZonaEscolar(idV, zona);
+			}
+			catch (exception &VeiculoNaoExistente) {}
+			catch (exception &ZonaJaExiste) {}
+
+			break;
+		}
+		case 3:
+		{
+			return;
+			break;
+		}
+		}
+	}
 }
 
 void remover_veiculo(Empresa &empresa)
