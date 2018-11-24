@@ -62,7 +62,11 @@ void adicicionar_utente(Empresa &empresa)
 		{
 			empresa.adicionarUtente(&c1);
 		}
-		catch (exception &UtenteJaExiste) {}
+		catch (UtenteJaExiste &e)
+		{
+			cout << e.getMsg() << endl;
+			return;
+		}
 	}
 	else if(resposta == 'N')
 	{
@@ -96,7 +100,11 @@ void adicicionar_utente(Empresa &empresa)
 		{
 			empresa.adicionarUtente(&f1);
 		}
-		catch (exception &UtenteJaExiste) {}
+		catch (UtenteJaExiste &e)
+		{
+			cout << e.getMsg() << endl;
+			return;
+		}
 	}
 	else return;
 }
@@ -128,7 +136,11 @@ void alterar_utente(Empresa &empresa)
 			{
 				empresa.alterarContacto(numUtente, contacto);
 			}
-			catch (exception &UtenteNaoExistente) {}
+			catch (UtenteNaoExistente &e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
 
 			break;
 		}
@@ -149,7 +161,11 @@ void alterar_utente(Empresa &empresa)
 			{
 				empresa.alterarZonaHab(numUtente, zonaHabit);
 			}
-			catch (exception &UtenteNaoExistente) {}
+			catch (UtenteNaoExistente &e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
 
 			break;
 		}
@@ -170,8 +186,11 @@ void alterar_utente(Empresa &empresa)
 			{
 				empresa.alterarZonaEsc(numUtente, zonaEsc);
 			}
-			catch (exception &UtenteNaoExistente) {}
-
+			catch (UtenteNaoExistente&e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
 
 			break;
 		}
@@ -193,7 +212,11 @@ void remover_utente(Empresa &empresa)
 	{
 		empresa.removerUtente(numUtente);
 	}
-	catch (exception &UtenteNaoExistente) {}
+	catch (UtenteNaoExistente &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
 }
 
 void adicicionar_veiculo(Empresa &empresa)
@@ -278,7 +301,11 @@ void adicicionar_veiculo(Empresa &empresa)
 			{
 				empresa.adicionarVeiculo(&e1);
 			}
-			catch(exception &VeiculoJaExistente) {}
+			catch(VeiculoJaExiste &e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
 		}
 	}
 	else if(resposta == 'N')
@@ -316,7 +343,11 @@ void adicicionar_veiculo(Empresa &empresa)
 		{
 			empresa.adicionarVeiculo(&r1);
 		}
-		catch(exception &VeiculoJaExistente) {}
+		catch(VeiculoJaExiste &e)
+		{
+			cout << e.getMsg() << endl;
+			return;
+		}
 	}
 	else return;
 }
@@ -349,8 +380,16 @@ void alterar_veiculo(Empresa &empresa)
 			{
 				empresa.adicionarZonaEscolar(idV, zona);
 			}
-			catch (exception &VeiculoNaoExistente) {}
-			catch (exception &ZonaJaExiste) {}
+			catch (VeiculoNaoExistente &e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
+			catch (ZonaJaExistente &e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
 
 			break;
 		}
@@ -371,7 +410,11 @@ void alterar_veiculo(Empresa &empresa)
 			{
 				empresa.removerZonaEscolar(idV, zona);
 			}
-			catch (exception &VeiculoNaoExistente) {}
+			catch (VeiculoNaoExistente &e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
 			catch (exception &ZonaJaExiste) {}
 
 			break;
@@ -396,8 +439,9 @@ void remover_veiculo(Empresa &empresa)
 	{
 		empresa.removerVeiculo(id);
 	}
-	catch (exception &VeiculoNaoExistente)
+	catch (VeiculoNaoExistente &e)
 	{
+		cout << e.getMsg() << endl;
 		return;
 	}
 }
