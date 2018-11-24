@@ -6,19 +6,19 @@
 
 using namespace std;
 
-class ZonaInexistente
+class ZonaNaoExistente
 {
 	ostringstream msg;
 public:
-	ZonaInexistente(const unsigned int &z) { msg << "A zona " << z << " nao existe."; }
+	ZonaNaoExistente(const unsigned int &z) { msg << "A zona " << z << " nao existe."; }
 	string getMsg() { return msg.str(); }
 };
 
-class ZonaJaExiste
+class ZonaJaExistente
 {
 	ostringstream msg;
 public:
-	ZonaJaExiste(const unsigned int &z) { msg << "A zona " << z << " ja existe."; }
+	ZonaJaExistente(const unsigned int &z) { msg << "A zona " << z << " ja existe."; }
 	string getMsg() { return msg.str(); }
 };
 
@@ -72,7 +72,7 @@ class UtenteNaoExistente
 private:
 	string msg;
 public:
-	UtenteNaoExistente() { msg = "Veiculo nao existente."; }
+	UtenteNaoExistente() { msg = "Utente nao existente."; }
 	string getMsg() { return msg; }
 };
 
@@ -90,7 +90,7 @@ class PrecoNaoDefinido
 private:
 	string msg;
 public:
-	PrecoNaoDefinido() { msg = "O preço por pessoa nao esta definido ainda."; }
+	PrecoNaoDefinido() { msg = "O preco por pessoa nao esta definido ainda."; }
 	string getMsg() { return msg; }
 };
 

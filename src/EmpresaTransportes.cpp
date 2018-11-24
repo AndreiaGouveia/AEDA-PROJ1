@@ -96,10 +96,8 @@ void Empresa::adicionarVeiculo(Veiculo *vc) {
 	{
 		if(veiculos[i]->getMatricula() == vc->getMatricula())
 		{
-			//throw VeiculoJaExistente(veiculos[i]->getId(), veiculos[i]->getMatricula());
-			cout << "Ja Existe" << endl;
 			Veiculo::numVeiculos--;
-			return;
+			throw VeiculoJaExiste(veiculos[i]->getMatricula());
 		}
 	}
 
@@ -112,10 +110,8 @@ void Empresa::adicionarUtente(Utente *ut) {
 	{
 		if(utentes[i]->getBI() == ut->getBI())
 		{
-			//throw UtenteJaExistente(utentes[i]->getNumUtente(), utentes[i]->getBI());
-			cout << "Ja Existe" << endl;
 			Utente::ult_numUtente--;
-			return;
+			throw UtenteJaExiste(utentes[i]->getNumUtente());
 		}
 	}
 
@@ -134,7 +130,7 @@ void Empresa::removerVeiculo(unsigned int id)
 		}
 	}
 
-	//throw VeiculoNaoExistente(id);
+	throw VeiculoNaoExistente();
 }
 
 void Empresa::removerVeiculo(string matricula)
@@ -148,7 +144,7 @@ void Empresa::removerVeiculo(string matricula)
 		}
 	}
 
-	//throw VeiculoNaoExistente(matricula);
+	throw VeiculoNaoExistente();
 }
 
 void Empresa::removerUtente(unsigned int numUt)
@@ -161,7 +157,7 @@ void Empresa::removerUtente(unsigned int numUt)
 			return;
 		}
 	}
-	//throw UtenteNaoExistente(id);
+	throw UtenteNaoExistente();
 }
 
 void Empresa::removerUtente(string BI)
@@ -175,7 +171,7 @@ void Empresa::removerUtente(string BI)
 		}
 	}
 
-	//throw UtenteNaoExistente(BI);
+	throw UtenteNaoExistente();
 }
 
 void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
@@ -186,7 +182,7 @@ void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 		{
 			if(veiculos[i]->getCapacidade() != 0)
 			{
-				//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+				throw VeiculoNaoEscolar();
 			}
 			else
 			{
@@ -196,7 +192,7 @@ void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 		}
 	}
 
-	//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
+	throw VeiculoNaoExistente();
 }
 
 void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
@@ -207,7 +203,7 @@ void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 		{
 			if(veiculos[i]->getCapacidade() != 0)
 			{
-				//throw VeiculoNaoEscolar(); //TODO VeiculoNaoEscolar
+				throw VeiculoNaoEscolar();
 			}
 			else
 			{
@@ -217,7 +213,7 @@ void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 		}
 	}
 
-	//throw VeiculoNaoExistente(); //TODO VeiculoNaoExistente
+	throw VeiculoNaoExistente();
 }
 
 void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
@@ -231,7 +227,7 @@ void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
 		}
 	}
 
-	//throw UtenteNaoExistente();
+	throw UtenteNaoExistente();
 }
 
 void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
@@ -244,7 +240,7 @@ void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
 			return;
 		}
 	}
-	//throw UtenteNaoExistente();
+	throw UtenteNaoExistente();
 }
 
 void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
@@ -257,7 +253,7 @@ void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
 			return;
 		}
 	}
-	//throw UtenteNaoExistente();
+	throw UtenteNaoExistente();
 }
 
 unsigned int Empresa::getContacto(unsigned int numUtente)
@@ -270,8 +266,7 @@ unsigned int Empresa::getContacto(unsigned int numUtente)
 		}
 	}
 
-	return 0;
-	//throw UtenteNaoExistente();
+	throw UtenteNaoExistente();
 }
 
 unsigned int Empresa::getContacto(string BI)
@@ -284,8 +279,7 @@ unsigned int Empresa::getContacto(string BI)
 		}
 	}
 
-	return 0;
-	//throw UtenteNaoExistente();
+	throw UtenteNaoExistente();
 }
 
 double Empresa::calculoPasseMensal(unsigned int numUtente)
@@ -307,8 +301,7 @@ double Empresa::calculoPasseMensal(unsigned int numUtente)
 
 	if(i == utentes.size())
 	{
-		return 0;
-		//throw UtenteNaoExistente();
+		throw UtenteNaoExistente();
 	}
 
 	return precos_zona[zona1-1][zona2-1];
@@ -342,7 +335,7 @@ double Empresa::calcularAluguer(unsigned int idV)
 		{
 			if(veiculos[i]->getCapacidade() == 0)
 			{
-				//throw VeiculoNaoRecreativo();
+				throw VeiculoNaoRecreativo();
 			}
 			else
 			{
@@ -353,11 +346,11 @@ double Empresa::calcularAluguer(unsigned int idV)
 
 	if(i == veiculos.size())
 	{
-		//throw VeiculoNaoExistente();
+		throw VeiculoNaoExistente();
 	}
 	else if(precoPessoa == -1)
 	{
-		//throw PrecoNaoDefinido(); //TODO PrecoNaoDefinido
+		throw PrecoNaoDefinido();
 	}
 	return precoPessoa * veiculos[i]->getCapacidade();
 }
@@ -393,7 +386,7 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 	return strst.str();
 }
 
-bool Empresa::alugaRecreativo(unsigned int idV)
+void Empresa::alugaRecreativo(unsigned int idV)
 {
 	size_t i;
 
@@ -403,7 +396,7 @@ bool Empresa::alugaRecreativo(unsigned int idV)
 		{
 			if(veiculos[i]->getCapacidade() == 0)
 			{
-				//throw VeiculoNaoRecreativo();
+				throw VeiculoNaoRecreativo();
 			}
 			else
 			{
@@ -414,13 +407,11 @@ bool Empresa::alugaRecreativo(unsigned int idV)
 
 	if(i == veiculos.size())
 	{
-		//throw VeiculoNaoExistente();
-		return false;
+		throw VeiculoNaoExistente();
 	}
 	else
 	{
 		veiculos[i]->setEstado(true);
-		return true;
 	}
 }
 
@@ -438,8 +429,7 @@ void Empresa::alocaUtentes()
 				break;
 			}
 			else
-				//throw VeiculosInsuficientes(); //TODO VeiculosInsuficientes
-				return;
+				throw VeiculosInsuficientes();
 		}
 	}
 }
@@ -460,13 +450,12 @@ void Empresa::alocaUt(unsigned int numUt)
 					return;
 				}
 				else
-					//throw VeiculosInsuficientes(); //TODO VeiculosInsuficientes
-					return;
+					throw VeiculosInsuficientes();
 			}
 		}
 	}
 
-	//throw UtenteNaoExistente();
+	throw UtenteNaoExistente();
 }
 
 bool Empresa::finalDia(float kmsZona)
