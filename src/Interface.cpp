@@ -117,7 +117,7 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "13. Mostrar a matriz de precos por zona" << endl
 			 << "14. Sair" << endl;
 
-		switch(respostaNumeros(1, 9))
+		switch(respostaNumeros(1, 14))
 		{
 		case 1:
 			adicicionar_utente(empresa);
