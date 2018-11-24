@@ -362,9 +362,9 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getCapacidade() != 0) //� Recreativo
+		if(veiculos[i]->getCapacidade() != 0) //E Recreativo
 		{
-			if(!veiculos[i]->getEstado())
+			if(!veiculos[i]->getEstado() && veiculos[i]->getCapacidade() >= capacidade)
 			{
 				aux.push_back(veiculos[i]->getId());
 				aux.push_back(veiculos[i]->getCapacidade());
@@ -373,7 +373,7 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 	}
 
 	if(aux.size() == 0)
-		strst << "Nao existe nenhum veiculo disponivel com essa capacidade.";
+		strst << "Nao existe nenhum veiculo disponivel com essa capacidade." << endl;
 	else
 	{
 		strst << "Veiculos que pode alugar:" << endl;
@@ -474,7 +474,7 @@ bool Empresa::finalDia(float kmsZona)
 				float kms;
 				veiculos[i]->setEstado(false);
 
-				cout << "Quantos kms percorreu o veiculo (recreativo) n�"
+				cout << "Quantos kms percorreu o veiculo (recreativo) n"
 						<< veiculos[i]->getId() << " ?"; cin >> kms;
 
 				sum += veiculos[i]->calcGasto(kms);
