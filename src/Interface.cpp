@@ -220,11 +220,23 @@ void alterar_precoZonas(Empresa &empresa)
 void calcula_um_passe(Empresa &empresa)
 {
 	unsigned int id;
+	double valor;
 
 	cout << "Qual o numero do utente? ";
 	cin >> id;
 
-	cout << "O valor do passe mensal � " << empresa.calculoPasseMensal(id) << " euros";
+	try
+	{
+		valor = empresa.calculoPasseMensal(id);
+	}
+	catch(UtenteNaoExistente &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
+
+	cout << "O valor do passe mensal do utente n " << id
+			<< " e " << valor << " euros" << endl;
 }
 
 void calcula_todos_passes(Empresa &empresa)
@@ -499,14 +511,14 @@ Empresa continuar_empresa()
 
 void sair(Empresa &empresa)
 {
-	cout << "Deseja salvar o progresso?  ";
+	cout << "Deseja salvar o progresso?(S ou N)  ";
 
 	if(respostaS_N() == 'S')
 	{
 		ofstream ficheiro;
 		string nome_ficheiro;
 
-		nome_ficheiro = nome_ficheiro + ".txt";
+		nome_ficheiro = empresa.getNome() + ".txt";
 
 		ficheiro.open(nome_ficheiro);
 

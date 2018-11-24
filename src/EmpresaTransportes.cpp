@@ -769,7 +769,7 @@ string Empresa::showTabPasses() const
 
 	for(map<unsigned int, double>::const_iterator it = tabelaPasses.begin(); it != tabelaPasses.end(); it++)
 	{
-		out << " " << it->first << "\t\t->\t " << it->second << endl;
+		out << " " << it->first << "\t->\t " << it->second << endl;
 	}
 
 	return out.str();
@@ -784,7 +784,7 @@ string Empresa::showTabPassag() const
 
 	for(map<unsigned int, unsigned int>::const_iterator it = tabelaPassageiros.begin(); it != tabelaPassageiros.end(); it++)
 	{
-		out << " " << it->first << "\t\t->\t " << it->second << endl;
+		out << " " << it->first << "\t->\t " << it->second << endl;
 	}
 
 	return out.str();

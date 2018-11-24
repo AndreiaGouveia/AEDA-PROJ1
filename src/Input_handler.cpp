@@ -5,6 +5,8 @@ char respostaS_N()
 {
 	char resposta;
 
+	cin >> resposta;
+
 	do
 	{
 		if(resposta == 's' || resposta == 'S')
