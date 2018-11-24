@@ -68,15 +68,16 @@ void Escolar::adicionarZona(unsigned int zona) {
 
 	zonasAtravessadas.push_back(zona);
 
-	sort(zonasAtravessadas.begin(), zonasAtravessadas.end()); //o vector zonasAtravessadas está sempre ordenado
+	sort(zonasAtravessadas.begin(), zonasAtravessadas.end()); //o vector zonasAtravessadas estï¿½ sempre ordenado
 }
 
 void Escolar::removerZona(unsigned int zona) {
 	vector<unsigned int>::iterator it = find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona);
 
 	if (it == zonasAtravessadas.end())
-		return;
+	{
 		throw ZonaNaoExistente(zona);
+	}
 
 	zonasAtravessadas.erase(it);
 }

@@ -80,10 +80,10 @@ public:
 class UtenteJaExiste
 {
 private:
-	string msg;
+	ostringstream msg;
 public:
-	UtenteJaExiste(const string &numUtente) { msg = "O utente de numero " + numUtente + " ja se encontra registado"; }
-	string getMsg() { return msg; }
+	UtenteJaExiste(const unsigned int &numUtente) { msg << "O utente de numero " << numUtente << " ja se encontra registado"; }
+	string getMsg() { return msg.str(); }
 };
 
 class PrecoNaoDefinido

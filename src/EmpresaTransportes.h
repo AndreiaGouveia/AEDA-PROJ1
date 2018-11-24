@@ -341,7 +341,7 @@ public:
 	 *
 	 * @param f Ostream para onde sera escrita a informacao
 	*/
-	void guardarInfo(ostream &f) const;
+	void guardarInfo();
 	/**
 	 * @brief Carrega toda a informacao da empresa a partir de um ficheiro de texto.
 	 *
