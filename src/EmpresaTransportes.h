@@ -40,7 +40,7 @@ public:
 	void removerVeiculo(string matricula);	//TODO VeiculoNaoExistente
 	void removerUtente(unsigned int numUt);	//TODO UtenteNaoExistente
 	void removerUtente(string BI);			//TODO UtenteNaoExistente
-	void adicionarZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaJaExistente
+	void adicionarZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaJaExiste
 	void removerZonaEscolar(unsigned int idV, unsigned int zona);	//TODO ZonaNaoExistente
 	void alterarZonaHab(unsigned int numUtente, unsigned int zona); //TODO UtenteNaoExistente
 	void alterarZonaEsc(unsigned int numUtente, unsigned int zona);

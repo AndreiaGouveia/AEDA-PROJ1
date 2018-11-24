@@ -16,12 +16,10 @@ public:
 	static unsigned int numVeiculos;
 	Veiculo(const string &matricula, float consumo100km, float precoComb);
 	virtual ~Veiculo() {}
-	virtual float calcGasto(float kms) const = 0;
 	unsigned int getId() const;
 	string getMatricula() const;
 	float getConsumo() const;
 	float getPreco() const;
-	virtual string getInfo() const;
 	virtual unsigned int getLugsLivres() const {return 0;}
 	virtual vector<unsigned int> getZonas() const {return vector<unsigned int>();}
 	virtual void adicionarZona(unsigned int zona) {}
@@ -30,9 +28,11 @@ public:
 	virtual void setEstado(bool alugado) {}
 	virtual unsigned int getCapacidade() const {return 0;}
 	virtual bool existeZona(unsigned int zona) {return false;}
+	virtual float calcGasto(float kms) const = 0;
 	virtual bool cheio() const {return false;}
 	virtual void aumentaLug() {}
 	virtual void reduzLug() {}
+	virtual string getInfo() const;
 	friend ostream& operator <<(ostream& out, const Veiculo& veic);
 };
 

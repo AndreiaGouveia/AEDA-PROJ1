@@ -10,7 +10,7 @@ protected:
 	const string nome;
 	const string data_nascimento;
 	const string BI;
-	unsigned int numUtente;
+	const unsigned int numUtente;
 	unsigned int zonaHabitacao;
 	unsigned int zonaEscola;
 public:
