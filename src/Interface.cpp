@@ -20,7 +20,6 @@ void adicicionar_utente(Empresa &empresa)
 
 	//DATA DE NASCIMENTO
 	cout << endl << "Qual a data de nascimento do utente?" << endl;
-	cin >> data_nasc;
 	validar_data(data_nasc);
 
 	//BI
@@ -199,7 +198,117 @@ void remover_utente(Empresa &empresa)
 
 void adicicionar_veiculo(Empresa &empresa)
 {
+	string matricula;
+	float consumo100km;
+	float precoComb;
 
+	//RETIRAR DADOS COMUNS A TODOS OS VEICULOS
+
+	//MATRICULA
+	cout << endl << "Qual a matricula do veiculo que pretende adicionar?" << endl;
+	validar_matricula(matricula);
+
+	//CONSUMO 100 KM
+	cout << endl << "Qual o consumo por 100km?" << endl;
+	cin >> consumo100km;
+
+	checkCinFail(consumo100km);
+
+	//PRECO COMBUSTIVEL
+	cout << endl << "Qual o consumo por 100km?" << endl;
+	cin >> precoComb;
+
+	checkCinFail(precoComb);
+
+
+	//ESPECIFICACAO DO VEICULO//
+
+	char resposta;
+
+	cout << "O veiculo que pretende adicionar e escolar?  " << endl;
+	resposta = respostaS_N();
+
+	if(resposta == 'S')
+	{
+		unsigned int capacidade;
+		vector<unsigned int> zonasAtravessadas;
+		unsigned int zona;
+		unsigned int n = empresa.getPrecos().size();
+		bool valido = false;
+
+		//LUGARES LIVRES
+		cout << endl << "Quantos lugares tem o veículo?  " << endl;
+		cin >> capacidade;
+
+		//ZONAS ATRAVESSADAS
+		cout << endl << "Quais sao as zonas que atravessa? (insira uma de cada vez e carregue Ctrl + Z quando tiver terminado)" << endl;
+
+		while(true)
+		{
+			cin >> zona;
+
+			if(cin.eof())
+			{
+				break;
+			}
+			else if(zona >= 1 && zona <= n)
+			{
+				zonasAtravessadas.push_back(zona);
+				valido = true;
+				break;
+			}
+			else if(cin.fail())
+			{
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cout << endl << " Opcao invalida, por favor, insira uma zona entre 1 e " << n << ".  ";
+			}
+		}
+
+		if(!valido)
+		{
+			cout << "Nao foi possivel construir o veiculo" << endl;
+			return;
+		}
+		else
+		{
+			Escolar e1(matricula, consumo100km, precoComb, capacidade, zonasAtravessadas);
+			empresa.adicionarVeiculo(&e1);
+		}
+	}
+	else if(resposta == 'N')
+	{
+		int capacidade;
+		bool alugado;
+		char resp;
+
+		//CAPACIDADE
+		cout << endl << "Qual a capacidade do veiculo Recreativo?" << endl;
+		checkCinFail(capacidade);
+
+		//ALUGADOS
+		cout << endl << "Esta alugado? (S/N)" << endl;
+
+		resp = respostaS_N();
+
+		if(resp == 'S')
+		{
+			alugado=true;
+		}
+		else if (resp == 'N')
+		{
+			alugado=false;
+		}
+		else
+		{
+			cout << "Nao foi possivel construir o veiculo" << endl;
+			return;
+		}
+
+		Recreativo r1(matricula,consumo100km,precoComb, capacidade,alugado);
+		empresa.adicionarVeiculo(&r1);
+	}
+	else return;
 }
 
 void alterar_veiculo(Empresa &empresa)

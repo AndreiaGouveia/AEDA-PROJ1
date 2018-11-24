@@ -156,3 +156,42 @@ void validar_data(string &data_nasc)
 		}
 	}
 }
+
+void validar_matricula(string &matricula)
+{
+	bool invalida;
+
+	while(true)
+	{
+		cin >> matricula;
+
+		if(matricula.size() == 8 || matricula[2] == '-' || matricula[5] == '-')
+		{
+			int cnt_letras = 0;
+
+			for(size_t i = 0; i < 8; i++)
+			{
+				if(isalpha(matricula[i]))
+				{
+					cnt_letras++;
+				}
+			}
+
+			if(cnt_letras == 2)
+			{
+				return;
+			}
+
+			invalida = true;
+		}
+		else invalida = true;
+
+		if(invalida)
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl << " Inseriu uma matricula errada. Tem de ter duas letras maiusculas e estar sobre o formato: AB-CD-FG" << endl;
+		}
+	}
+}
+
