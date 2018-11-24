@@ -84,13 +84,7 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 
 void readLine(string &str)
 {
-	char * c_str = new char [str.length()+1];
-
-	cin.getline(c_str, 10000, '\n');
-
-	str = string(c_str);
-
-	delete [] c_str;
+	getline(cin, str, '\n');
 }
 
 void allNumbers(string &answer, const int &n)//checks if in a string there are only numbers
