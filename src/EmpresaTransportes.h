@@ -59,13 +59,13 @@ public:
 	void alocaUt(unsigned int numUt);
 	bool finalDia(float kmsZona);
 	bool calculoMensal();
-	void guardarInfo(ostream &f) const;
+	void guardarInfo();
 	void carregarInfo(ifstream &f);
 	string showUtentes() const;
 	string showVeiculos() const;
 	string showMensal() const;
 	string showDiario() const;
-	friend ostream& operator <<(ostream& out,const Empresa &emp);
+	//friend ostream& operator <<(ostream& out,const Empresa &emp);
 };
 
 class CmpId

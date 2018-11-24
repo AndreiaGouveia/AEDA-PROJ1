@@ -1,8 +1,10 @@
 #include "Input_handler.h"
 
 
-char respostaS_N(char &resposta)
+char respostaS_N()
 {
+	char resposta;
+
 	do
 	{
 		if(resposta == 's' || resposta == 'S')
@@ -45,7 +47,7 @@ int respostaNumeros(const int &min, const int &max)
 		{
 			cin.clear();
 			cin.ignore(1000, '\n');
-			cout << endl << " Opcao invalida, por favor, insira um número entre " << min << " e " << max << ". (" << max < " -> sair)   ";
+			cout << endl << " Opcao invalida, por favor, insira um número entre " << min << " e " << max << ". (" << max << " -> sair)   ";
 		}
 	}while(true);
 }
@@ -78,14 +80,4 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 	}while(true);
 }
 
-template <class T>
-void checkingOnlyCinFail(T &answer)
-{
-	while(cin.fail())
-	{
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout << endl << " Inseriu uma resposta invalida." << endl;
-		cin >> answer;
-	}
-}
+

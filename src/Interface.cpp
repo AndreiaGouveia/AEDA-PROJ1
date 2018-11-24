@@ -3,14 +3,98 @@
 #include <iomanip>
 
 
+void adicicionar_utente()
+{
+
+}
+
+void alterar_utente()
+{
+
+}
+
+void remover_utente()
+{
+
+}
+
+void adicicionar_veiculo()
+{
+
+}
+
+void alterar_veiculo()
+{
+
+}
+
+void remover_veiculo()
+{
+
+}
+
+void alterar_precoZonas()
+{
+
+}
+
+void alugar_recreativo()
+{
+
+}
 
 void trabalhar_empresa(const Empresa &empresa)
 {
-	cout << "--------------------------------"
-		 << "Que area pretende alterar?   ";
+	bool end = false;
+
+	do
+	{
+		cout << "--------------------------------"
+			 << "Qual o proximo passo?   " << endl
+			 << "1. Adicicionar utente" << endl
+			 << "2. Alterar informacoes de um utente" << endl
+			 << "3. Remover utente" << endl
+			 << "4. Adicionar veiculo" << endl
+			 << "5. Alterar zona atravessada por um veiculo"
+			 << "6. Remover veiculo" << endl
+			 << "7. Alterar preco das zonas" << endl
+			 << "8. Alugar recreativo" << endl
+			 << "9. Sair" << endl;
+
+		switch(respostaNumeros(1, 9))
+		{
+		case 1:
+			adicicionar_utente();
+			break;
+		case 2:
+			alterar_utente();
+			break;
+		case 3:
+			remover_utente();
+			break;
+		case 4:
+			adicicionar_veiculo();
+			break;
+		case 5:
+			alterar_veiculo();
+			break;
+		case 6:
+			remover_veiculo();
+			break;
+		case 7:
+			alterar_precoZonas();
+			break;
+		case 8:
+			alugar_recreativo();
+			break;
+		case 9:
+			end = true;
+			break;
+		}
+	}while(!end);
 }
 
-void criar_empresa()
+Empresa* criar_empresa()
 {
 	string nome_empresa;
 
@@ -19,7 +103,11 @@ void criar_empresa()
 
 	if(cin.eof())
 	{
-		return;
+		Empresa empresa("Nao criada");
+
+		Empresa *emp = &empresa;
+
+		return emp;
 	}
 
 	Empresa empresa(nome_empresa);
@@ -49,9 +137,13 @@ void criar_empresa()
 	empresa.setPrecos(precos_zona);//Agora a empresa tem os precos
 
 	trabalhar_empresa(empresa);
+
+	Empresa *emp = &empresa;
+
+	return emp;
 }
 
-void continuar_empresa()
+Empresa* continuar_empresa()
 {
 	ifstream ficheiro;
 	string nome_ficheiro;
@@ -63,46 +155,88 @@ void continuar_empresa()
 		Empresa empresa(ficheiro);
 
 		trabalhar_empresa(empresa);
+
+		Empresa *emp = &empresa;
+
+		return emp;
 	}
-	else return;
+	else
+	{
+		Empresa empresa("Nao criada");
+
+		Empresa *emp = &empresa;
+
+		return emp;
+	}
 }
 
-void primeiras_opcoes()
+void sair(Empresa *empresa)
+{
+	cout << "Deseja salvar o progresso?  ";
+
+	if(respostaS_N() == 'S')
+	{
+		empresa->guardarInfo();
+	}
+}
+
+void iniciar()
 {
 	cout << "==============================" << endl
 		 << "=== Empresa de Transportes ===" << endl
 		 << "==============================" << endl << endl;
 
-	cout << "Que deseja fazer?" << endl
-		 << "1. Criar uma nova empresa" << endl
-		 << "2. Aceder a uma empresa ja existente" << endl
-		 << "3. Sair" << endl;
-
-	int resposta;
 	bool end = false;
 
-	while(!end)
+	do
 	{
-		resposta = respostaNumeros(1, 3);
+		cout << "Que deseja fazer?" << endl
+			 << "1. Criar uma nova empresa" << endl
+			 << "2. Aceder a uma empresa ja existente" << endl
+			 << "3. Sair" << endl;
 
-		switch(resposta)
+		switch(respostaNumeros(1, 3))
 		{
 		case 1:
-			criar_empresa();
+		{
+			Empresa *emp = criar_empresa();
+
+			if(emp->getNome() == "Nao criada")
+			{
+				break;
+			}
+
+			sair(emp);
+
 			break;
+		}
 		case 2:
-			continuar_empresa();
+		{
+			Empresa *emp = continuar_empresa();
+
+			if(emp->getNome() == "Nao criada")
+			{
+				break;
+			}
+
+			sair(emp);
+
 			break;
+		}
 		case 3:
 			end = true;
 			break;
 		}
-	}
+	}while(!end);
 }
 
 int main()
 {
-	primeiras_opcoes();
+	iniciar();
+
+	cout << "Ate a proxima :)" << endl;
+
+	system("pause");
 
 	return 0;
 }

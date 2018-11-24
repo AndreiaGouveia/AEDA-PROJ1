@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <exception>
 
 using namespace std;
 
@@ -93,5 +94,6 @@ public:
 	PrecoNaoDefinido() { msg = "O preço por pessoa nao esta definido ainda."; }
 	string getMsg() { return msg; }
 };
+
 
 #endif /* SRC_EXCEPTIONS_H_ */

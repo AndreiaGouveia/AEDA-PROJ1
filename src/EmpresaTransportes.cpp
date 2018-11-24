@@ -539,57 +539,73 @@ bool Empresa::calculoMensal()
 	return false;
 }
 
-void Empresa::guardarInfo(ostream &f) const {
+void Empresa::guardarInfo()
+{
+	ofstream ficheiro;
+	string nome_ficheiro;
+
+	nome_ficheiro = nome_ficheiro + ".txt";
+
+	ficheiro.open(nome_ficheiro);
+
 	size_t i;
 
-	f << "//empresa" << endl << nome_empresa << endl << "//utentes" << endl;
+	ficheiro << "//empresa" << endl << nome_empresa << endl << "//utentes" << endl;
 
-	for (i = 0; i < utentes.size(); i++) {
-		f << *utentes[i] << endl;
+	for (i = 0; i < utentes.size(); i++)
+	{
+		ficheiro << *utentes[i] << endl;
 	}
 
-	f << "//veiculos" << endl;
+	ficheiro << "//veiculos" << endl;
 
-	for (i = 0; i < veiculos.size(); i++) {
-		f << *veiculos[i] << endl;
+	for (i = 0; i < veiculos.size(); i++)
+	{
+		ficheiro << *veiculos[i] << endl;
 	}
 
-	f << "//precos" << endl << precoPessoa << endl << '\t';
+	ficheiro << "//precos" << endl << precoPessoa << endl << '\t';
 
-	for (i = 0; i < precos_zona.size(); i++) {
-		f << 'Z' << i + 1;
+	for (i = 0; i < precos_zona.size(); i++)
+	{
+		ficheiro << 'Z' << i + 1;
 
 		if (i != precos_zona.size() - 1)
-			f << '\t';
+			ficheiro << '\t';
 		else
-			f << endl;
+			ficheiro << endl;
 	}
 
-	for (i = 0; i < precos_zona.size(); i++) {
-		f << 'Z' << i + 1;
-		for (size_t j = 0; j < precos_zona[i].size(); j++) {
-			f << '\t' << precos_zona[i][j];
+	for (i = 0; i < precos_zona.size(); i++)
+	{
+		ficheiro << 'Z' << i + 1;
+
+		for (size_t j = 0; j < precos_zona[i].size(); j++)
+		{
+			ficheiro << '\t' << precos_zona[i][j];
 		}
-		f << endl;
+		ficheiro << endl;
 	}
 
-	f << "//lucros" << endl << '{';
+	ficheiro << "//lucros" << endl << '{';
 
 	for (i = 0; i < lucrosMensais.size(); i++) {
-		if (i == lucrosMensais.size() - 1)
-			f << lucrosMensais[i] << '}' << endl;
+		if(i == lucrosMensais.size() - 1)
+			ficheiro << lucrosMensais[i] << '}' << endl;
 		else
-			f << lucrosMensais[i] << ',';
+			ficheiro << lucrosMensais[i] << ',';
 	}
 
-	f << "//diarios" << endl << '{';
+	ficheiro << "//diarios" << endl << '{';
 
 	for (i = 0; i < registoDiario.size(); i++) {
-		if (i == registoDiario.size() - 1)
-			f << registoDiario[i] << '}';
+		if(i == registoDiario.size() - 1)
+			ficheiro << registoDiario[i] << '}';
 		else
-			f << registoDiario[i] << ',';
+			ficheiro << registoDiario[i] << ',';
 	}
+
+	ficheiro.close();
 }
 
 void Empresa::carregarInfo(ifstream &f) {
@@ -796,10 +812,10 @@ string Empresa::showDiario() const
 
 	return out.str();
 }
-
+/*
 ostream& operator <<(ostream& out,const Empresa &emp)
 {
-	emp.guardarInfo(out);
+	emp.guardarInfo();
 
 	return out;
-}
+}*/
