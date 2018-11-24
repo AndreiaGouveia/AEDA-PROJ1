@@ -86,7 +86,7 @@ void readLine(string &str)
 
 	cin.getline(c_str, 10000, '\n');
 
-	str(c_str);
+	str = string(c_str);
 }
 
 void allNumbers(string &answer, const int &n)//checks if in a string there are only numbers
