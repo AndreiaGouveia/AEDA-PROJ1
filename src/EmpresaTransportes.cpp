@@ -369,7 +369,7 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getCapacidade() != 0) //é Recreativo
+		if(veiculos[i]->getCapacidade() != 0) //ï¿½ Recreativo
 		{
 			if(!veiculos[i]->getEstado())
 			{
@@ -476,16 +476,16 @@ bool Empresa::finalDia(float kmsZona)
 
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getCapacidade() == 0) //Nao é recreativo
+		if(veiculos[i]->getCapacidade() == 0) //Nao ï¿½ recreativo
 			sum += veiculos[i]->calcGasto(kmsZona);
-		else//É recreativo
+		else//ï¿½ recreativo
 		{
 			if(veiculos[i]->getEstado())
 			{
 				float kms;
 				veiculos[i]->setEstado(false);
 
-				cout << "Quantos kms percorreu o veiculo (recreativo) nª"
+				cout << "Quantos kms percorreu o veiculo (recreativo) nï¿½"
 						<< veiculos[i]->getId() << " ?"; cin >> kms;
 
 				sum += veiculos[i]->calcGasto(kms);
@@ -502,7 +502,7 @@ bool Empresa::finalDia(float kmsZona)
 		return false;
 }
 
-void Empresa::calculoMensal()
+bool Empresa::calculoMensal()
 {
 	double sumPasses = 0;
 	double sumDiarios = 0;
@@ -526,15 +526,17 @@ void Empresa::calculoMensal()
 		if(lucrosMensais[j] == -1)
 		{
 			lucrosMensais[j] = sumPasses + sumDiarios;
-			return;
+			return false;
 		}
 	}
 
 	if(j == lucrosMensais.size())
 	{
-		cout << "Chegou ao fim do ano! Eis os lucros do ano passado:" << endl;
-		showMensal();
+		cout << "Chegou ao fim do ano! Eis os lucros do ano passado:" << showMensal() << endl;
+		return true;
 	}
+
+	return false;
 }
 
 void Empresa::guardarInfo(ostream &f) const {
@@ -703,82 +705,100 @@ void Empresa::carregarInfo(ifstream &f) {
 	atualizarPasses();
 }
 
-void Empresa::showUtentes() const
+string Empresa::showUtentes() const
 {
-	cout << endl << "///////////Utentes//////////" << endl;
+	ostringstream out;
+
+	out << endl << "///////////Utentes//////////" << endl;
 
 	for (size_t i = 0; i < utentes.size(); i++) {
-		cout << endl << "Utente nª" << utentes[i]->getNumUtente() << " :" << endl
+		out << endl << "Utente nï¿½" << utentes[i]->getNumUtente() << " :" << endl
 				<< "Nome: " << utentes[i]->getNome() << "; Data de Nascimento: " << utentes[i]->getData_Nasc()<< "; BI: " << utentes[i]->getBI() << endl
 				<< "Zona de habitacao: Z" << utentes[i]->getZonaHabitacao() << "; Zona de escola: Z" << utentes[i]->getZonaEscola() << endl;
 		if(utentes[i]->getNomeEE() == "") //E funcionario
 		{
 			if(utentes[i]->getDocente())
-				cout << "Ocupacao: Docente; Contacto: " << utentes[i]->getContacto() << endl;
+				out << "Ocupacao: Docente; Contacto: " << utentes[i]->getContacto() << endl;
 			else
-				cout << "Ocupacao: Funcionario; Contacto: " << utentes[i]->getContacto() << endl;
+				out << "Ocupacao: Funcionario; Contacto: " << utentes[i]->getContacto() << endl;
 		}
 		else //E crianca
 		{
-			cout << "Nome E.Educacao: " << utentes[i]->getNomeEE() << "; Contacto do E.Educacao: " << utentes[i]->getContacto() << endl;
+			out << "Nome E.Educacao: " << utentes[i]->getNomeEE() << "; Contacto do E.Educacao: " << utentes[i]->getContacto() << endl;
 		}
 	}
+
+	return out.str();
 }
 
-void Empresa::showVeiculos() const{
-	cout << endl << "///////////Veiculos//////////" << endl;
+string Empresa::showVeiculos() const
+{
+	ostringstream out;
+
+	out << endl << "///////////Veiculos//////////" << endl;
 
 	for (size_t i = 0; i < veiculos.size(); i++) {
-		cout << endl << "Veiculo nª" << veiculos[i]->getId() << " :" << endl
+		out << endl << "Veiculo nï¿½" << veiculos[i]->getId() << " :" << endl
 				<< "Matricula: " << veiculos[i]->getMatricula() << "; Consumo p/ 100Km: " << veiculos[i]->getConsumo()
 				<< "; Preco p/L de combustivel: " << veiculos[i]->getPreco() << endl;
 
 		if(veiculos[i]->getCapacidade() == 0)
 		{
-			cout << "Lugares livres: " << veiculos[i]->getLugsLivres() << "; Zonas atravessadas:";
+			out << "Lugares livres: " << veiculos[i]->getLugsLivres() << "; Zonas atravessadas:";
 			vector<unsigned int> zonas = veiculos[i]->getZonas();
 			for (size_t j = 0; j < zonas.size(); j++) {
-				cout << " Z" << zonas[i];
+				out << " Z" << zonas[i];
 			}
-			cout << endl;
+			out << endl;
 		}
 		else
 		{
-			cout << "Capacidade: " << veiculos[i]->getCapacidade() << "; Estado: ";
+			out << "Capacidade: " << veiculos[i]->getCapacidade() << "; Estado: ";
 			if(veiculos[i]->getEstado())
-				cout << "Alugado" << endl;
+				out << "Alugado" << endl;
 			else
-				cout << "Livre" << endl;
+				out << "Livre" << endl;
 		}
 	}
+
+	return out.str();
 }
 
-void Empresa::showMensal() const
+string Empresa::showMensal() const
 {
+	ostringstream out;
+
 	string aux[] = {"Janeiro","Fevereiro","Marco","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
 
-	cout << endl << "///////Lucros Mensais///////" << endl;
+	out << endl << "///////Lucros Mensais///////" << endl;
 	for(size_t i = 0; i < lucrosMensais.size(); i++)
 	{
-		cout << aux[i] << ": ";
+		out << aux[i] << ": ";
 		if(lucrosMensais[i] == -1)
-			cout << "Nao Registado" << endl;
+			out << "Nao Registado" << endl;
 		else
-			cout << lucrosMensais[i] << "€" << endl;
+			out << lucrosMensais[i] << "ï¿½" << endl;
 	}
+
+	return out.str();
 }
 
-void Empresa::showDiario() const
+string Empresa::showDiario() const
 {
-	cout << endl << "///////Registos Diarios///////" << endl;
+	ostringstream out;
+
+	out << endl << "///////Registos Diarios///////" << endl;
 
 	for(size_t i = 0; i < registoDiario.size(); i++)
 	{
-		cout << "Dia " << i + 1 << ": " << registoDiario[i] << "€" << endl;
+		out << "Dia " << i + 1 << ": " << registoDiario[i] << "ï¿½" << endl;
 	}
+
+	return out.str();
 }
 
-ostream& operator <<(ostream& out,const Empresa &emp) {
+ostream& operator <<(ostream& out,const Empresa &emp)
+{
 	emp.guardarInfo(out);
 
 	return out;

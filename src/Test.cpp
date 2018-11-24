@@ -7,6 +7,18 @@
 
 using namespace std;
 
+template <class T>
+void checkingOnlyCinFail(T &answer)
+{
+	while(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << endl << " Inseriu uma resposta invalida." << endl;
+		cin >> answer;
+	}
+}
+/*
 void checkingOnlyCinFail(unsigned int &answer)
 {
 	while(cin.fail())
@@ -46,52 +58,59 @@ void checkingOnlyCinFailint(int &answer)
 		cout << endl<< " Inseriu uma resposta invalida."<< endl;
 		cin>>answer;
 	}
-}
+}*/
+
 void allNumbers(string &answer)//checks if in a string there are only numbers
 {
-	bool invalidAnswer=true;
+	bool invalidAnswer = true;
+
 	while(invalidAnswer)
 	{
-		invalidAnswer=false;
-		for (int i=0;i<answer.size();i++)
-	{
-		if(isalpha(answer[i]))
+		invalidAnswer = false;
+
+		for (size_t i = 0; i < answer.size(); i++)
 		{
-			invalidAnswer=true;
-			break;
+			if(isalpha(answer[i]))
+			{
+				invalidAnswer = true;
+				break;
+			}
 		}
+
+		if(invalidAnswer)
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl << " Inseriu uma resposta invalida." << endl;
+			cin >> answer;
+		}
+		else break;
 	}
-	if(invalidAnswer)
-	{
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout << endl<< " Inseriu uma resposta invalida."<< endl;
-		cin>>answer;
-	}
-	else break;}
 }
 void data_De_Nascimento(string &data_nasc)
 {
-	bool invalidOp=true;
-	while(cin.fail()||invalidOp)
+	bool invalidOp = true;
+
+	while(cin.fail() || invalidOp)
 	{
-		invalidOp=false;
-		if(data_nasc.size()==8)
+		invalidOp = false;
+
+		if(data_nasc.size() == 8)
 			{
-				for(int i=0;i<data_nasc.size();i++)
+				for(size_t i = 0; i < data_nasc.size(); i++)
 				{
-					if((i+1)%3 && i<6)//verificar se e '-'
+					if((i + 1) % 3 && i < 6) //verificar se Ã© '-'
 						{
-							if(data_nasc[i]!='-')
+							if(data_nasc[i] != '-')
 								{
-									invalidOp=true;
+									invalidOp = true;
 									break;//sai do ciclo for
 								}
 
 						}
 					else if(!isdigit(data_nasc[i]))
 						{
-							invalidOp=true;
+							invalidOp = true;
 							break;//sai do ciclo for
 						}
 				}
@@ -100,27 +119,41 @@ void data_De_Nascimento(string &data_nasc)
 		{
 			cin.clear();
 			cin.ignore(1000, '\n');
-			cout << endl<< " Inseriu uma data com o formato errado. Por favor insira uma data com este formato: DD-MM-AAAA"<< endl;
-			cin>>data_nasc;
+			cout << endl << " Inseriu uma data com o formato errado. Por favor insira uma data com este formato: DD-MM-AAAA" << endl;
+			cin >> data_nasc;
 		}
 	}
 
 }
-void respostaYorN(char &resposta)
+
+bool respostaYorN(char &resposta)
 {
-	while(cin.fail()||(resposta!='y' && resposta!='Y' && resposta!='n' && resposta!='N'))
+	while(cin.fail() || (resposta!='y' && resposta!='Y' && resposta!='n' && resposta!='N'))
 	{
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(Y/N)"<< endl;
-		cin>>resposta;
+		if(resposta == 'y' || resposta == 'Y')
+		{
+			return true;
+		}
+		else if(resposta == 'n' || resposta == 'N')
+		{
+			return false;
+		}
+		else if(cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl << " Opcao invalida, por favor, volte a inserir uma opcao valida(Y/N)" << endl;
+			cin >> resposta;
+		}
 	}
+
+	return false;
 }
 void display_First_Menu()
 {
-	cout<<endl<<"Que deseja fazer?"<<endl;
-	cout<<"1. Criar uma nova empresa"<<endl;
-	cout<<"2. Aceder a uma empresa ja existente"<<endl;
+	cout << endl << "Que deseja fazer?" << endl;
+	cout << "1. Criar uma nova empresa" << endl;
+	cout << "2. Aceder a uma empresa ja existente" << endl;
 }
 void adiciona_utente(Empresa &empresa) {
 
@@ -129,55 +162,57 @@ void adiciona_utente(Empresa &empresa) {
 	unsigned int zonaHabit_,zonaEsc;
 
 	//NOME
-	cout<<"Qual o nome do novo utente?"<<endl;
+	cout << "Qual o nome do novo utente?" << endl;
 	getline(cin,nome);
 
 	//DATA DE NASCIMENTO
-	cout<<endl<<"Qual a data de nascimento do utente?"<<endl;
-	cin>>data_nasc;
+	cout << endl << "Qual a data de nascimento do utente?" << endl;
+	cin >> data_nasc;
 	data_De_Nascimento(data_nasc);
 
 	//BI
-	cout<<endl<<"Qual o BI?"<<endl;
-	cin>>BI;
+	cout << endl << "Qual o BI?" << endl;
+	cin >> BI;
 	allNumbers(BI);
 
 	//ZONA DE HABITACAO
-	cout<<endl<<"Qual a zona onde a habitacao se encontra?"<<endl;
-	cin>>zonaHabit;
+	cout << endl << "Qual a zona onde a habitacao se encontra?" << endl;
+	cin >> zonaHabit;
 
 	//ZONA DA ESCOLA
-	cout<<endl<<"Qual a zona onde a escola se encontra?"<<endl;
-	cin>>zonaEsc;
+	cout << endl << "Qual a zona onde a escola se encontra?" << endl;
+	cin >> zonaEsc;
 
 	/////////////////////
 	//DADOS ESPECIFICOS//
 	/////////////////////
-	cout<<endl<<"Quer inserir uma crianca?"<<endl;
+	cout << endl << "Quer inserir uma crianca?" << endl;
 
 	char resposta;
-	cin>>resposta;
-	respostaYorN(resposta);
+	cin >> resposta;
 
-	if(resposta=='y'||resposta=='Y')
+	if(respostaYorN(resposta))
 	{
 		string nomeEE;
 		unsigned int contactoEE;
-		/////////////////////////////////
+
 		///Pedir informacao da crianca///
-		/////////////////////////////////
 
 		//NOME DO ENCARREGADO DE EDUCACAO
-		cout<<endl<<"Qual o nome do encarregado de educacao da crianca?"<<endl;
+		cout << endl << "Qual o nome do encarregado de educacao da crianca?" << endl;
+
 		getline(cin,nomeEE);
 
 		//CONTACTO DO ENCARREGADO DE EDUCACAO
-		cout<<endl<<"Qual o contacto do encarregado de educacao da crianca?"<<endl;
-		cin>>contactoEE;
+		cout << endl << "Qual o contacto do encarregado de educacao da crianca?" << endl;
+
+		cin >> contactoEE;
+
 		checkingOnlyCinFail(contactoEE);
 
 		//ADICIONAR A CRIANCA AOS UTENTES
 		Crianca c1(nome,data_nasc,BI,zonaHabit_,zonaEsc,nomeEE,contactoEE);
+
 		empresa.adicionarUtente(&c1);
 	}
 	else
@@ -185,22 +220,24 @@ void adiciona_utente(Empresa &empresa) {
 		char resposta;
 		bool docente;
 		unsigned int contacto;
-		///////////////////////////////////
-		//Pedir informacao do funcionario//
-		///////////////////////////////////
+
+		///Pedir informacao do funcionario///
 
 		//DOCENTE
-		cout<<"O funcionario que pretende adicionar e docente(Y/N)?"<<endl;
-		cin>>resposta;
-		respostaYorN(resposta);
+		cout << "O funcionario que pretende adicionar e docente(Y/N)?" << endl;
+		cin >> resposta;
+
+		docente = respostaYorN(resposta);
 
 		//CONTACTO DO FUNCIONARIO
-		cout<<"Qual o contacto do funcionario?"<<endl;
-		cin>>contacto;
+		cout << "Qual o contacto do funcionario?" << endl;
+		cin >> contacto;
+
 		checkingOnlyCinFail(contacto);
 
 		//ADICIONAR O FUNCIONARIO AOS UTENTES
 		Funcionario f1(nome,data_nasc,BI,zonaHabit_,zonaEsc,docente,contacto);
+
 		empresa.adicionarUtente(&f1);
 	}
 	//adicionado!! FALTA VER AS EXECOES E ERROS DE INPUT PARA A MAIOR PARTE DAS CENAS
@@ -210,13 +247,15 @@ void remove_utente(Empresa &empresa) {
 
 	string BI;
 	unsigned int num_Utente;
+
 	//Perguntar qual o numero de utente que pretende remover
-	cout<<endl<<"Insira o bi do utente( se apenas possuir o numero de utente, insira -1)"<<endl;
-	cin>>BI;
-	if(BI=="-1")
+	cout << endl << "Insira o bi do utente( se apenas possuir o numero de utente, insira -1)" << endl;
+	cin >> BI;
+
+	if(BI == "-1")
 	{
-		cout<<endl<<"Insira o numero do utente"<<endl;
-		cin>>num_Utente;
+		cout << endl << "Insira o numero do utente" << endl;
+		cin >> num_Utente;
 
 		empresa.removerUtente(num_Utente);
 	}
@@ -239,8 +278,8 @@ void modifica_utente(Empresa &empresa) {
 
 }
 
-void adiciona_veiculo(Empresa &empresa) {
-//const string &matricula, float consumo100km, float precoComb
+void adiciona_veiculo(Empresa &empresa)
+{
 	string matricula;
 	float consumo100km;
 	float precoComb;
@@ -248,29 +287,30 @@ void adiciona_veiculo(Empresa &empresa) {
 	//RETIRAR DADOS COMUNS AOS VEICULOS
 
 	//MATRICULA
-	cout<<endl<<"Qual a matricula do veiculo que pretende adicionar?"<<endl;
-	cin>>matricula; //tem um formato especia??
+	cout << endl << "Qual a matricula do veiculo que pretende adicionar?" << endl;
+	cin >> matricula;
 
 	//CONSUMO 100 KM
-	cout<<endl<<"Qual o consumo por 100km?"<<endl;
-	cin>>consumo100km;
-	checkingOnlyCinFailFLoat(consumo100km);
+	cout << endl << "Qual o consumo por 100km?" << endl;
+	cin >> consumo100km;
+
+	checkingOnlyCinFail(consumo100km);
 
 	//PRECO COMBUSTIVEL
-	cout<<endl<<"Qual o consumo por 100km?"<<endl;
-	cin>>precoComb;
-	checkingOnlyCinFailFLoat(precoComb);
+	cout << endl << "Qual o consumo por 100km?" << endl;
+	cin >> precoComb;
 
-	///////////////////////////
-	//ESPECIFICACAO DO VEICULO/
-	///////////////////////////
+	checkingOnlyCinFail(precoComb);
+
+
+	//ESPECIFICACAO DO VEICULO//
+
 	char resposta;
 
-	cout<<"O veiculo que pretende adicionar e escolar?"<<endl;
-	cin>>resposta;
-	respostaYorN(resposta);
+	cout << "O veiculo que pretende adicionar e escolar?" << endl;
+	cin >> resposta;
 
-	if(resposta=='Y'||resposta=='y')
+	if(respostaYorN(resposta))
 	{
 		unsigned int lugaresLivres;
 		vector<unsigned int> zonasAtravessadas;
@@ -283,135 +323,171 @@ void adiciona_veiculo(Empresa &empresa) {
 		cout<<endl<< "Quais sao as zonas que atravessa?"<<endl;
 		//	CENAS DE PEEEEEEEEEK E TAL NAO ME LEMBRO OOLOLOLOLOL
 	}
-	else{
+	else
+	{
 	    int capacidade;
 	    bool alugado;
 	    char resp;
-	    //CAPACIDADE
-	    cout<<endl<<"Qual a capacidade do veiculo Recreativo?"<<endl;
-	    cin>>capacidade;
-	    checkingOnlyCinFailint(capacidade);
-	    //ALUGADOS
-	    cout<<endl<<"Esta alugado?"<<endl;
-	    cin>>resp;
-	    respostaYorN(resp);
 
-	    if(resp=='y'||resp=='Y')
+	    //CAPACIDADE
+	    cout << endl << "Qual a capacidade do veiculo Recreativo?" << endl;
+	    cin >> capacidade;
+
+	    checkingOnlyCinFail(capacidade);
+
+	    //ALUGADOS
+	    cout << endl << "Esta alugado?" << endl;
+	    cin >> resp;
+
+	    if(respostaYorN(resp))
+	    {
 	    	alugado=true;
-	    else alugado=false;
+	    }
+	    else
+	    {
+	    	alugado=false;
+	   	}
 
 	    Recreativo r1(matricula,consumo100km,precoComb, capacidade,alugado);
+
 	    empresa.adicionarVeiculo(&r1);
 
 	}
 }
 
-void remove_veiculo(Empresa &empresa) {
+void remove_veiculo(Empresa &empresa)
+{
 	string matricula;
+
 	//Perguntar qual a matricula do carro que quer remover
-	cout<<endl<<"Insira a matricula do veiculo a remover ( se apenas possuir o id do veiculo, insira -1)"<<endl;
-	cin>>matricula;
-	if(matricula=="-1")
-		{
+	cout << endl << "Insira a matricula do veiculo a remover ( se apenas possuir o id do veiculo, insira -1)" << endl;
+	cin >> matricula;
+
+	if(matricula == "-1")
+	{
 		empresa.removerVeiculo(matricula);//matricula
-		}
-	else {
+	}
+	else
+	{
 		unsigned int id;
-		cout<<endl<<"Insira o id do veiculo que pretende remover"<<endl;
-		cin>>id;
+		cout << endl << "Insira o id do veiculo que pretende remover" << endl;
+		cin >> id;
 		checkingOnlyCinFail(id);
 
 		empresa.removerVeiculo(id);
 	}
 }
 
-void modifica_veiculo(Empresa &empresa) {
-/*removerZonaEscolar() e adicionarZonaEscolar() que removem e adicionam respetivamente uma zona ao vetor zonasAtravessadas do veículo Escolar
- *
- */
-	cout<<endl<< "Que pretende fazer?"<<endl;
-	cout<<"1.Adicionar uma zona escolar"<<setw(5)<<"2.Remover uma zona escolar"<<endl;
+void modifica_veiculo(Empresa &empresa)
+{
+	cout << endl << "Que pretende fazer?" << endl
+		 << "1.Adicionar uma zona escolar" << setw(5)
+		 << "2.Remover uma zona escolar" << endl;
+
 	char answer;
-	cin>>answer;
-	while(cin.fail()||(answer!=1 && answer!=2))
+
+	cin >> answer;
+
+	while(cin.fail() || (answer != 1 && answer != 2))
 	{
 		cin.clear();
 		cin.ignore(1000, '\n');
-		cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(Y/N)"<< endl;
-		cin>>answer;
+		cout << endl<< " Opcao invalida, por favor, volte a inserir uma opcao valida(1/2)"<< endl;
+		cin >> answer;
 	}
-	unsigned int idV = 1,zona = 1;
-	cout<<"";
+
+	unsigned int idV = 1, zona = 1;
+
+	cout << "";
+
 	switch(answer)
 	{
-	case '1':
+		case '1':
+		{
 			empresa.adicionarZonaEscolar(idV,zona);
-		break;
-	case '2':
-		break;
+			break;
+		}
+		case '2':
+			break;
 	}
 }
 
-void sair(Empresa &empresa) {
+void sair(Empresa &empresa)
+{
 	char resposta;
-	cout <<endl<< "Deseja guardar?" << endl;
 
-	if(resposta=='y'||resposta=='Y')//guardar as alteracoes
+	cout << endl << "Deseja guardar?" << endl;
+
+	if(respostaYorN(resposta)) //guardar as alteracoes
 	{
-	string nome=empresa.getNome()+".txt";//adicionar a extensao .txt
-	ofstream nf;
-	nf.open(nome);//criar um ficheiro com o nome da empresa
-	empresa.guardarInfo(nf);//guardar a informacao
-	nf.close();
-	cout << "Gravado em " << nome << " com sucesso!" << endl << endl
-			<< "Ate a proxima :)";
-	exit(0);//sair do programa
+		string nome=empresa.getNome()+".txt";//adicionar a extensao .txt
+		ofstream nf;
+		nf.open(nome);//criar um ficheiro com o nome da empresa
+		empresa.guardarInfo(nf);//guardar a informacao
+		nf.close();
+		cout << "Gravado em " << nome << " com sucesso!" << endl << endl;
 	}
-	else exit(0);//sair do programa
+
+	cout << "Ate a proxima :)" << endl;
+
+	return;
 }
 
-void display_Opcoes_Geral() {
+void display_Opcoes_Geral()
+{
 	cout << endl << "1. Alterar Veiculo" << setw(5) << "2. Alterar utente"
 			<< setw(5) << endl << "3. Sair" << endl;
 }
-void display_Opcoes_Veiculo() {
+
+void display_Opcoes_Veiculo()
+{
 	cout << endl << "1.1. Adicionar veiculo" << setw(5)
 			<< "1.2. Remover veiculo" << setw(5) << "1.3. Modificar Veiculo"
 			<< endl << "4. Voltar atras" << setw(5) << "3.Sair" << endl;
 }
-void display_Opcoes_Utente() {
+
+void display_Opcoes_Utente()
+{
 	cout << endl << "2.1. Adicionar utente" << setw(5) << "2.2. Remover utente"
 			<< setw(5) << "2.3. Modificar utente" << endl << "4. Voltar atras"
 			<< setw(5) << "3. Sair" << endl;
 }
-void valid_Option(string &op, bool first, bool inside) {
 
+void valid_Option(string &op, bool first, bool inside)
+{
 	bool invalidOp = true;
-	while (invalidOp) {
-		if (op.size() > 3) {
-			invalidOp = true;
-			break;
-		} else if (op.size() == 1 && (op[0] <= '1' || op[0] >= '4') && first)//menu geral
-				{
-			invalidOp = false;
-			break;
-		} else if (((op.size() == 3 && (op[0] != '1' || op[1] != '.' || op[2] <= '1' || op[2] >= '3'))|| (op.size() == 1 && (op[0] != '3'&& op[0] != '4'))) && inside && !first)	//menu veiculos
-				{
-			invalidOp = false;
-			break;
-		} else if (((op.size() == 3 && (op[0] != '2' || op[1] != '.' || op[2] <= '1' || op[2] >= '3')) || (op.size() == 1 && (op[0] != '3' && op[0] != '4'))) && !inside && !first)	//menu utentes
-				{
-			invalidOp = false;
-			break;
-		} else
-			invalidOp = true;
 
-		if (invalidOp) {
+	while (invalidOp)
+	{
+		if (op.size() > 3)
+		{
+			invalidOp = true;
+			break;
+		}
+		else if (op.size() == 1 && (op[0] <= '1' || op[0] >= '4') && first)//menu geral
+		{
+			invalidOp = false;
+			break;
+		}
+		else if (((op.size() == 3 && (op[0] != '1' || op[1] != '.' || op[2] <= '1' || op[2] >= '3'))|| (op.size() == 1 && (op[0] != '3'&& op[0] != '4'))) && inside && !first)	//menu veiculos
+		{
+			invalidOp = false;
+			break;
+		}
+		else if (((op.size() == 3 && (op[0] != '2' || op[1] != '.' || op[2] <= '1' || op[2] >= '3')) || (op.size() == 1 && (op[0] != '3' && op[0] != '4'))) && !inside && !first)	//menu utentes
+		{
+			invalidOp = false;
+			break;
+		}
+		else invalidOp = true;
+
+		if (invalidOp)
+		{
 			cin.clear();
 			cin.ignore(1000, '\n');
-			cout << endl
-					<< " Opcao invalida, por favor, volte a inserir uma opcao valida"
-					<< endl;
+
+			cout << endl << " Opcao invalida, por favor, volte a inserir uma opcao valida" << endl;
+
 			if (first)
 				display_Opcoes_Geral();
 			else if (inside)	//se estiver a tratar dos veiculos
@@ -420,11 +496,13 @@ void valid_Option(string &op, bool first, bool inside) {
 				display_Opcoes_Utente();
 			cin >> op;
 		}
-
 	}
 }
-void tratamento_opcoes(string opcao, Empresa &empresa) {
+
+void tratamento_opcoes(string opcao, Empresa &empresa)
+{
 	bool again = true;
+
 	while (again) {
 		if (opcao == "1") {
 			display_Opcoes_Veiculo();
@@ -464,10 +542,10 @@ void tratamento_opcoes(string opcao, Empresa &empresa) {
 			//Agora saber o que e que quer fazer
 			cin >> opcao;
 			valid_Option(opcao, true, false);
-
 		}
 	}
 }
+
 void default_Handler(Empresa &empresa)
 {
 	bool first = true, inside = false;
@@ -485,27 +563,30 @@ void default_Handler(Empresa &empresa)
 void main_Handler(Empresa &empresa,string nome_empresa )
 {
 	char answer;
-	while (true) {
-			//perguntar se quer que isto aconteça
+
+	while (true)
+	{
+			//perguntar se quer que isto aconteï¿½a
 			cout << endl << "Would you like to do more operations?(Y/N)" << endl;
 			cin >> answer;
 
-			respostaYorN(answer);
 			//se nao quiser continuar
-			if (answer == 'N' || answer == 'n')
+			if (!respostaYorN(answer))
 				sair(empresa);
 
 			//Peguntar o que quer fazer
 			cout << endl << "O que gostaria de fazer na " << nome_empresa << "?" << endl;
 
 			default_Handler(empresa);
-
-		}
+	}
 }
-Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa )
+
+Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa)
 {
 	Empresa empresa("teste");//inicializar a empresa
+
 	bool again=true;
+
 	char resposta1;
 
 	while (again)
@@ -592,7 +673,7 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 				//Perguntar quantas zonas
 				cout<<"Quantas zonas?"<<endl;
 				cin>>zonas;
-				checkingOnlyCinFailint(zonas);
+				checkingOnlyCinFail(zonas);
 
 				//Criar o nosso multivetor com precos
 				for(int i=0;i<zonas;i++)
@@ -601,7 +682,7 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 					{
 						cout<<"Qual o preco entre a zona "<<i<<" e "<<j<<" ?"<<endl;
 						cin>>preco;
-						checkingOnlyCinFailDouble(preco);
+						checkingOnlyCinFail(preco);
 
 						temp.push_back(preco);
 					}
@@ -647,6 +728,7 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 		  }
 	return empresa;
 }
+
 int main() {
 	ifstream inf;
 	inf.open("emp.txt");
@@ -674,14 +756,13 @@ int main() {
 		<< "////////////////////////////" << endl;
 
 	Empresa empresa=getEmpresa(abertura_por_ficheiro,f,nome_empresa);
-////////////////////////////
-//1 vez a fazer alteracoes//
-////////////////////////////
+
+	//1 vez a fazer alteracoes//
+
 	cout << endl << "O que gostaria de fazer na " << nome_empresa << " ?"<< endl;
 	default_Handler(empresa);//Handler de primeira utilizacao
-/////////////////////////////////
-//Voltar a fazer mais alteraçoes/
-/////////////////////////////////
+
+	//Voltar a fazer mais alteraï¿½oes//
 	main_Handler(empresa,nome_empresa);
 
 	if(abertura_por_ficheiro)//se a empresa foi criada por um ficheirob

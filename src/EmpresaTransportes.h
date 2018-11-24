@@ -56,13 +56,13 @@ public:
 	void alocaUtentes();
 	void alocaUt(unsigned int numUt);
 	bool finalDia(float kmsZona);
-	void calculoMensal();
+	bool calculoMensal();
 	void guardarInfo(ostream &f) const;
 	void carregarInfo(ifstream &f);
-	void showUtentes() const;
-	void showVeiculos() const;
-	void showMensal() const;
-	void showDiario() const;
+	string showUtentes() const;
+	string showVeiculos() const;
+	string showMensal() const;
+	string showDiario() const;
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
 };
 
