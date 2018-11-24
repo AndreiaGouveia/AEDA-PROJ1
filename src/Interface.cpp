@@ -184,9 +184,9 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "11. Mostrar os lucros mensais deste ano" << endl
 			 << "12. Mostrar os balancos diarios deste mes" << endl
 			 << "13. Mostrar a matriz de precos por zona" << endl
-			 << "14. Sair" << endl;
+			 << "14. Voltar" << endl;
 
-		switch(respostaNumeros(1, 9))
+		switch(respostaNumeros(1, 14))
 		{
 		case 1:
 			adicicionar_utente(empresa);
