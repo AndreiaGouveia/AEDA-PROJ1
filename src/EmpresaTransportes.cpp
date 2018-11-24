@@ -377,7 +377,7 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 	else
 	{
 		strst << "Veiculos que pode alugar:" << endl;
-		for(size_t i = 0; i < aux.size()/2; i+=2)
+		for(size_t i = 0; i <= aux.size()/2; i+=2)
 		{
 			strst << "ID: " << aux[i] << "\tCapacidade: " << aux[i + 1] << "\tPreco: " << calcularAluguer(aux[i]) <<endl;
 		}
@@ -434,7 +434,7 @@ void Empresa::alocaUtentes()
 	}
 }
 
-void Empresa::alocaUt(unsigned int numUt)
+unsigned int Empresa::alocaUt(unsigned int numUt)
 {
 	for(size_t i = 0; i < utentes.size(); i++)
 	{
@@ -447,7 +447,7 @@ void Empresa::alocaUt(unsigned int numUt)
 				{
 					tabelaPassageiros.insert(pair<unsigned int, unsigned int>(numUt,veiculos[j]->getId()));
 					veiculos[j]->reduzLug();
-					return;
+					return veiculos[j]->getId();
 				}
 				else
 					throw VeiculosInsuficientes();
@@ -465,17 +465,17 @@ bool Empresa::finalDia(float kmsZona)
 
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getCapacidade() == 0) //Nao � recreativo
+		if(veiculos[i]->getCapacidade() == 0) //Nao e recreativo
 			sum += veiculos[i]->calcGasto(kmsZona);
-		else//� recreativo
+		else//E recreativo
 		{
 			if(veiculos[i]->getEstado())
 			{
 				float kms;
 				veiculos[i]->setEstado(false);
 
-				cout << "Quantos kms percorreu o veiculo (recreativo) n"
-						<< veiculos[i]->getId() << " ?"; cin >> kms;
+				cout << "Quantos kms percorreu o veiculo (recreativo) n "
+						<< veiculos[i]->getId() << "? "; cin >> kms;
 
 				sum += veiculos[i]->calcGasto(kms);
 				sum += calcularAluguer(veiculos[i]->getId());
@@ -521,7 +521,8 @@ bool Empresa::calculoMensal()
 
 	if(j == lucrosMensais.size())
 	{
-		cout << "Chegou ao fim do ano! Eis os lucros do ano passado:" << showMensal() << endl;
+		cout << "Chegou ao fim do ano! Eis os lucros deste ano que passou:" << endl << showMensal();
+		lucrosMensais.clear();
 		return true;
 	}
 

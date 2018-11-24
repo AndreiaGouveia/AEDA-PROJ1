@@ -311,10 +311,12 @@ public:
 	 *
 	 * @param numUt Numero de identificacao do utente
 	 *
+	 * @return numero de identificacao do veiculo ao qual o utente foi atribuido
+	 *
 	 * Se nao existirem veiculos suficientes para todos os utentes lanca uma excecao do tipo VeiculosInsuficientes
 	 * Se o utente nao existir lanca uma excecao do tipo UtenteNaoExistente
 	*/
-	void alocaUt(unsigned int numUt);
+	unsigned int alocaUt(unsigned int numUt);
 	/**
 	 * @brief Processa o final de um dia na empresa
 	 * Calcula todos os gastos de todos os veiculos, bem como os ganhos com o aluguer de recreativos
@@ -332,7 +334,8 @@ public:
 	 * Tendo em conta os balancos diarios e os valores dos passes mensais,
 	 * calcula o lucro tirado no final do mes, dando assim inicio a um novo mes.
 	 * Os lucros sao guardados no vetor lucrosMensais e quando se insere o 12o valor
-	 * a funcao da inicio a um novo ano civil.
+	 * a funcao da inicio a um novo ano civil, mostrando no ecra os valores do lucro
+	 * do ano que passou e limpando o vetor lucrosMensais para o proximo ano.
 	 *
 	 * @return true se o vetor lucrosMensais estiver cheio (o que representa o fim do ano), false caso contrario
 	*/
