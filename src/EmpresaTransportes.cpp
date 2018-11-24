@@ -126,6 +126,7 @@ void Empresa::removerVeiculo(unsigned int id)
 		if(veiculos[i]->getId() == id)
 		{
 			veiculos.erase(veiculos.begin() + i);
+			alocaUtentes();
 			return;
 		}
 	}
@@ -140,6 +141,7 @@ void Empresa::removerVeiculo(string matricula)
 		if(veiculos[i]->getMatricula() == matricula)
 		{
 			veiculos.erase(veiculos.begin() + i);
+			alocaUtentes();
 			return;
 		}
 	}
@@ -153,6 +155,11 @@ void Empresa::removerUtente(unsigned int numUt)
 	{
 		if(utentes[i]->getNumUtente() == numUt)
 		{
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				tabelaPasses.erase(utentes[i]->getNumUtente());
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				tabelaPassageiros.erase(utentes[i]->getNumUtente());
+
 			utentes.erase(utentes.begin() + i);
 			return;
 		}
@@ -166,6 +173,11 @@ void Empresa::removerUtente(string BI)
 	{
 		if(utentes[i]->getBI() == BI)
 		{
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				tabelaPasses.erase(utentes[i]->getNumUtente());
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				tabelaPassageiros.erase(utentes[i]->getNumUtente());
+
 			utentes.erase(utentes.begin() + i);
 			return;
 		}
@@ -187,6 +199,7 @@ void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 			else
 			{
 				veiculos[i]->adicionarZona(zona);
+				alocaUtentes();
 				return;
 			}
 		}
@@ -208,6 +221,7 @@ void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 			else
 			{
 				veiculos[i]->removerZona(zona);
+				alocaUtentes();
 				return;
 			}
 		}
@@ -223,6 +237,10 @@ void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
 		if(utentes[i]->getNumUtente() == numUtente)
 		{
 			utentes[i]->setZonaHabitacao(zona);
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				atualizarPasses();
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				alocaUtentes();
 			return;
 		}
 	}
@@ -237,6 +255,10 @@ void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
 		if(utentes[i]->getNumUtente() == numUtente)
 		{
 			utentes[i]->setZonaEscola(zona);
+			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+				atualizarPasses();
+			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+				alocaUtentes();
 			return;
 		}
 	}
@@ -309,6 +331,8 @@ double Empresa::calculoPasseMensal(unsigned int numUtente)
 
 void Empresa::atualizarPasses()
 {
+	tabelaPassageiros.clear();
+
 	for(unsigned int i = 0; i < utentes.size(); i++)
 	{
 		unsigned int num = utentes[i]->getNumUtente();
@@ -377,7 +401,7 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade)
 	else
 	{
 		strst << "Veiculos que pode alugar:" << endl;
-		for(size_t i = 0; i < aux.size()/2; i+=2)
+		for(size_t i = 0; i <= aux.size()/2; i+=2)
 		{
 			strst << "ID: " << aux[i] << "\tCapacidade: " << aux[i + 1] << "\tPreco: " << calcularAluguer(aux[i]) <<endl;
 		}
@@ -417,6 +441,8 @@ void Empresa::alugaRecreativo(unsigned int idV)
 
 void Empresa::alocaUtentes()
 {
+	tabelaPassageiros.clear();
+
 	for(size_t i = 0; i < utentes.size(); i++)
 	{
 		for(size_t j = 0; j < veiculos.size(); j++)
@@ -434,7 +460,7 @@ void Empresa::alocaUtentes()
 	}
 }
 
-void Empresa::alocaUt(unsigned int numUt)
+unsigned int Empresa::alocaUt(unsigned int numUt)
 {
 	for(size_t i = 0; i < utentes.size(); i++)
 	{
@@ -447,7 +473,7 @@ void Empresa::alocaUt(unsigned int numUt)
 				{
 					tabelaPassageiros.insert(pair<unsigned int, unsigned int>(numUt,veiculos[j]->getId()));
 					veiculos[j]->reduzLug();
-					return;
+					return veiculos[j]->getId();
 				}
 				else
 					throw VeiculosInsuficientes();
@@ -465,17 +491,17 @@ bool Empresa::finalDia(float kmsZona)
 
 	for(size_t i = 0; i < veiculos.size(); i++)
 	{
-		if(veiculos[i]->getCapacidade() == 0) //Nao � recreativo
+		if(veiculos[i]->getCapacidade() == 0) //Nao e recreativo
 			sum += veiculos[i]->calcGasto(kmsZona);
-		else//� recreativo
+		else//E recreativo
 		{
 			if(veiculos[i]->getEstado())
 			{
 				float kms;
 				veiculos[i]->setEstado(false);
 
-				cout << "Quantos kms percorreu o veiculo (recreativo) n"
-						<< veiculos[i]->getId() << " ?"; cin >> kms;
+				cout << "Quantos kms percorreu o veiculo (recreativo) n "
+						<< veiculos[i]->getId() << "? "; cin >> kms;
 
 				sum += veiculos[i]->calcGasto(kms);
 				sum += calcularAluguer(veiculos[i]->getId());
@@ -521,7 +547,8 @@ bool Empresa::calculoMensal()
 
 	if(j == lucrosMensais.size())
 	{
-		cout << "Chegou ao fim do ano! Eis os lucros do ano passado:" << showMensal() << endl;
+		cout << "Chegou ao fim do ano! Eis os lucros deste ano que passou:" << endl << showMensal();
+		lucrosMensais.clear();
 		return true;
 	}
 

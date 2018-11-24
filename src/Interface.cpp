@@ -436,26 +436,66 @@ void calcula_um_passe(Empresa &empresa)
 void calcula_todos_passes(Empresa &empresa)
 {
 	empresa.atualizarPasses();
+
+	cout << empresa.showTabPasses();
 }
 
 void alocar_um_utente(Empresa &empresa)
 {
+	unsigned int id, veic;
 
+	cout << "Qual o numero do utente? ";
+	cin >> id;
+
+	try
+	{
+		veic = empresa.alocaUt(id);
+	}
+	catch(UtenteNaoExistente &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
+	catch(VeiculosInsuficientes &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
+
+	cout << "O utente n " << id << " foi atribuido ao transporte escolar n " << veic << endl;
 }
 
 void alocar_todos_utentes(Empresa &empresa)
 {
+	empresa.alocaUtentes();
 
+	cout << empresa.showTabPassag();
 }
 
 void processar_dia(Empresa &empresa)
 {
+	float kms;
 
+	cout << "//////Processar final do dia//////" << endl
+			<< "Qual e a media de kms percorridos por zona? ";
+	cin >> kms;
+
+	if(empresa.finalDia(kms))
+	{
+		cout << empresa.showDiario();
+	}
+	else
+	{
+		cout << "Ja se encontra no fim do mes. Processe o final deste mes(opcao 14) para poder fazer mais registos." << endl;
+	}
 }
 
 void processar_mes(Empresa &empresa)
 {
+	cout << "//////Processar final do mes//////" << endl;
 
+	if(!empresa.calculoMensal())
+		cout << empresa.showMensal();
 }
 
 void alugar_recreativo(Empresa &empresa)
