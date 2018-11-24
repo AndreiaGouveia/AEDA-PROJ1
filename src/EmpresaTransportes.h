@@ -284,7 +284,7 @@ public:
 	 * @return String contendo a informacao de quais os
 	 * transportes recreativos disponiveis bem como o custo do seu aluguer,
 	 *
-	 * Lancas as mesmas excecoes que o metodo calcularAluguer()
+	 * Lanca as mesmas excecoes que o metodo calcularAluguer()
 	*/
 	string verificaDispRecreativo(unsigned int capacidade);
 	/**
@@ -362,6 +362,18 @@ public:
 	 * @return String contendo a informacao organizada e legivel
 	*/
 	string showVeiculos() const;
+	/**
+	 * @brief Devolve a informacao da tabela dos valores dos passes da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
+	*/
+	string showTabPasses() const;
+	/**
+	 * @brief Devolve a informacao da tabela de alocacao dos passageiros da empresa
+	 *
+	 * @return String contendo a informacao organizada e legivel
+	*/
+	string showTabPassag() const;
 	/**
 	 * @brief Devolve a informacao dos lucros mensais da empresa
 	 *

@@ -326,6 +326,53 @@ void alterar_precoZonas(Empresa &empresa)
 
 }
 
+void calcula_um_passe(Empresa &empresa)
+{
+	unsigned int id;
+	double valor;
+
+	cout << "Qual o numero do utente? ";
+	cin >> id;
+
+	try
+	{
+		valor = empresa.calculoPasseMensal(id);
+	}
+	catch(UtenteNaoExistente &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
+
+	cout << "O valor do passe mensal do utente n " << id
+			<< " e " << valor << " euros" << endl;
+}
+
+void calcula_todos_passes(Empresa &empresa)
+{
+	empresa.atualizarPasses();
+}
+
+void alocar_um_utente(Empresa &empresa)
+{
+
+}
+
+void alocar_todos_utentes(Empresa &empresa)
+{
+
+}
+
+void processar_dia(Empresa &empresa)
+{
+
+}
+
+void processar_mes(Empresa &empresa)
+{
+
+}
+
 void alugar_recreativo(Empresa &empresa)
 {
 	unsigned int cap_id;
@@ -374,6 +421,16 @@ void mostrar_veiculos(const Empresa &empresa)
 	cout << empresa.showVeiculos();
 }
 
+void mostrar_tab_passes(const Empresa &empresa)
+{
+	cout << empresa.showTabPasses();
+}
+
+void mostrar_tab_alocacao(const Empresa &empresa)
+{
+	cout << empresa.showTabPassag();
+}
+
 void mostrar_lucros_mensais(const Empresa &empresa)
 {
 	cout << empresa.showMensal();
@@ -402,15 +459,23 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "5. Alterar zona atravessada por um veiculo"
 			 << "6. Remover veiculo" << endl
 			 << "7. Alterar preco das zonas" << endl
-			 << "8. Alugar recreativo" << endl
-			 << "9. Mostrar a lista de utentes" << endl
-			 << "10. Mostrar a lista de veiculos" << endl
-			 << "11. Mostrar os lucros mensais deste ano" << endl
-			 << "12. Mostrar os balancos diarios deste mes" << endl
-			 << "13. Mostrar a matriz de precos por zona" << endl
-			 << "14. Voltar" << endl;
+			 << "8. Calcular o valor do passe mensal de um utente" << endl
+			 << "9. Atualizar o valor dos passes mensais no registo" << endl
+			 << "10. Alocar um utente para o transporte escolar" << endl
+			 << "11. Alocar todos os utentes para os transportes escolares" << endl
+			 << "12. Alugar recreativo" << endl
+			 << "13. Processar o final do dia de hoje" << endl
+			 << "14. Processar o final deste mes" << endl
+			 << "15. Mostrar a lista de utentes" << endl
+			 << "16. Mostrar a lista de veiculos" << endl
+			 << "17. Mostrar a tabela do valor dos passes" << endl
+			 << "18. Mostrar a tabela de alocacao de utentes por veiculo" << endl
+			 << "19. Mostrar os lucros mensais deste ano" << endl
+			 << "20. Mostrar os balancos diarios deste mes" << endl
+			 << "21. Mostrar a matriz de precos por zona" << endl
+			 << "22. Voltar" << endl;
 
-		switch(respostaNumeros(1, 14))
+		switch(respostaNumeros(1, 22))
 		{
 		case 1:
 			adicicionar_utente(empresa);
@@ -434,26 +499,49 @@ void trabalhar_empresa(Empresa &empresa)
 			alterar_precoZonas(empresa);
 			break;
 		case 8:
-			alugar_recreativo(empresa);
+			calcula_um_passe(empresa);
 			break;
 		case 9:
-			mostrar_utentes(empresa);
+			calcula_todos_passes(empresa);
 			break;
 		case 10:
-			mostrar_veiculos(empresa);
+			alocar_um_utente(empresa);
 			break;
 		case 11:
-			mostrar_lucros_mensais(empresa);
+			alocar_todos_utentes(empresa);
 			break;
 		case 12:
-			mostrar_registo_diario(empresa);
+			alugar_recreativo(empresa);
 			break;
 		case 13:
-			mostrar_precos(empresa);
+			processar_dia(empresa);
 			break;
 		case 14:
-			return;
+			processar_mes(empresa);
 			break;
+		case 15:
+			mostrar_utentes(empresa);
+			break;
+		case 16:
+			mostrar_veiculos(empresa);
+			break;
+		case 17:
+			mostrar_tab_passes(empresa);
+			break;
+		case 18:
+			mostrar_tab_alocacao(empresa);
+			break;
+		case 19:
+			mostrar_lucros_mensais(empresa);
+			break;
+		case 20:
+			mostrar_registo_diario(empresa);
+			break;
+		case 21:
+			mostrar_precos(empresa);
+			break;
+		case 22:
+			return;
 		}
 	}
 }
@@ -532,14 +620,14 @@ Empresa continuar_empresa()
 
 void sair(Empresa &empresa)
 {
-	cout << "Deseja salvar o progresso?  ";
+	cout << "Deseja salvar o progresso?(S ou N)  ";
 
 	if(respostaS_N() == 'S')
 	{
 		ofstream ficheiro;
 		string nome_ficheiro;
 
-		nome_ficheiro = nome_ficheiro + ".txt";
+		nome_ficheiro = empresa.getNome() + ".txt";
 
 		ficheiro.open(nome_ficheiro);
 

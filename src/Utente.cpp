@@ -9,22 +9,22 @@ unsigned int Utente::ult_numUtente = 0;
 Utente::Utente(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc)
 : nome(nome), data_nascimento(data_nasc), BI(BI), numUtente(++ult_numUtente), zonaHabitacao(zonaHabit), zonaEscola(zonaEsc){}
 
-string Utente::getNome()
+string Utente::getNome() const
 {
 	return nome;
 }
 
-string Utente::getData_Nasc()
+string Utente::getData_Nasc() const
 {
 	return data_nascimento;
 }
 
-string Utente::getBI()
+string Utente::getBI() const
 {
 	return BI;
 }
 
-unsigned int Utente::getNumUtente()
+unsigned int Utente::getNumUtente() const
 {
 	return numUtente;
 }

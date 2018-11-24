@@ -5,6 +5,8 @@ char respostaS_N()
 {
 	char resposta;
 
+	cin >> resposta;
+
 	do
 	{
 		if(resposta == 's' || resposta == 'S')
@@ -86,9 +88,7 @@ void readLine(string &str)
 
 	cin.getline(c_str, 10000, '\n');
 
-	string str2(c_str);
-
-	str = str2;
+	str = string(c_str);
 }
 
 void allNumbers(string &answer, const int &n)//checks if in a string there are only numbers
