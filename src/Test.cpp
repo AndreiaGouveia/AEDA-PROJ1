@@ -648,7 +648,7 @@ Empresa getEmpresa(bool &abertura_por_ficheiro,ifstream &f,string &nome_empresa 
 	return empresa;
 }
 int main() {
-	ifstream inf;
+	/*ifstream inf;
 	inf.open("emp.txt");
 	Empresa emp(inf);
 	inf.close();
@@ -663,7 +663,7 @@ int main() {
 	of.open("emp(1).txt");
 	of << emp;
 	of.close();
-	return 0;
+	return 0;*/
 
 	ifstream f;
 	bool abertura_por_ficheiro=false;// se foi aberto por ficheiro ou nao

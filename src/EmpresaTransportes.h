@@ -8,17 +8,19 @@
 class Empresa
 {
 private:
-	string nome_empresa;
-	vector <Utente *> utentes;
-	vector <Veiculo *> veiculos;
-	float precoPessoa; //preco por pessoa do aluguer de tranportes recreativos
-	vector<vector<double>> precos_zona; //matriz de precos dos passes de acordo com as zonas
-	vector<double> lucrosMensais; //registo dos lucros
-	vector<double> registoDiario; //registo do lucro/prejuizo diario
-	map<unsigned int,double> tabelaPasses;
-	map<unsigned int,unsigned int> tabelaPassageiros;
+	string nome_empresa; ///< Nome da empresa
+	vector <Utente *> utentes; ///< Listagem dos Utentes da Empresa
+	vector <Veiculo *> veiculos; ///< Listagem dos Veiculos da Empresa
+	float precoPessoa; ///< Preco por pessoa do aluguer de tranportes recreativos
+	vector<vector<double>> precos_zona; ///< Matriz de precos dos passes de acordo com as zonas
+	vector<double> lucrosMensais; ///< Registo dos lucros registados mensalmente
+	vector<double> registoDiario; ///< registo do lucro/prejuizo diario do mes corrente
+	map<unsigned int,double> tabelaPasses; ///< Tabela que guarda a correspondencia Utente -> valor do passe mensal
+	map<unsigned int,unsigned int> tabelaPassageiros; ///< Tabela que guarda a correspondencia Utente -> veiculo ao qual foi alocado
 public:
-	//cria empresa apenas com nome
+	/**
+	 * @brief
+	 */
 	Empresa(string nome);
 	//carrega empresa de um ficheiro .txt
 	Empresa(ifstream &f);

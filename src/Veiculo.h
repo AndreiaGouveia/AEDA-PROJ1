@@ -8,12 +8,12 @@ using namespace std;
 
 class Veiculo {
 protected:
-	const unsigned int idV;
-	const string matricula;
-	float consumo100km;
-	float precoComb;
+	const unsigned int idV; ///< Identificacao interna do veiculo
+	const string matricula; ///< Matricula do veiculo (Nota: nao ha matriculas repetidas)
+	float consumo100km; ///< Volume medio de Litros consumidos por 100 kms
+	float precoComb; ///< Preco do combustivel usado no veiculo
 public:
-	static unsigned int numVeiculos;
+	static unsigned int numVeiculos; ///< Membro estatico que guarda qual o numero de identificacao do ultimo veiculo registado
 	Veiculo(const string &matricula, float consumo100km, float precoComb);
 	virtual ~Veiculo() {}
 	unsigned int getId() const;
@@ -38,9 +38,9 @@ public:
 
 class Escolar: public Veiculo {
 private:
-	const unsigned int lugTotais;
-	unsigned int lugaresLivres;
-	vector<unsigned int> zonasAtravessadas;
+	const unsigned int lugTotais; ///< Capacidade do Trasnporte Escolar (Nota: usado apenas na inicializacao do objeto)
+	unsigned int lugaresLivres; ///< Numero de lugares livres no transporte escolar
+	vector<unsigned int> zonasAtravessadas; ///< Listagem das zonas em que o transporte escolar passa
 public:
 	Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas);
 	unsigned int getLugsLivres() const;
@@ -58,8 +58,8 @@ public:
 
 class Recreativo: public Veiculo {
 private:
-	const unsigned int capacidade;
-	bool alugado;
+	const unsigned int capacidade; ///< Capacidade do transporte recreativo (Nota: nao pode ser alterada depois de inicializada)
+	bool alugado; ///< Estado de aluguer do transporte recreativo: alugado->true; livre->false
 public:
 	Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado);
 	unsigned int getCapacidade() const;
