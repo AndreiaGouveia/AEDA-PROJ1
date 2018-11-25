@@ -1,0 +1,4 @@
+<map id="Utente" name="Utente">
+<area shape="rect" id="node2" href="$class_crianca.html" title="Classe para instanciar criancas. " alt="" coords="5,80,72,107"/>
+<area shape="rect" id="node3" href="$class_funcionario.html" title="Classe para instanciar funcionarios. " alt="" coords="97,80,186,107"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Empresa de Transporte Escolar: Empresa Class Reference</title>
+<title>EmpresaTransportes: Empresa Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,9 +21,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Empresa de Transporte Escolar
+   <div id="projectname">EmpresaTransportes
    </div>
-   <div id="projectbrief">Implementacao e estruturacao de uma empresa de transportes</div>
   </td>
  </tr>
  </tbody>
@@ -179,14 +178,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a90c7dfc23aba2ddead3c72ed39bc843f">alocaUtentes</a> ()</td></tr>
 <tr class="memdesc:a90c7dfc23aba2ddead3c72ed39bc843f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processa a alocacao de passageiros para os transportes escolares. A cada utente faz corresponder o veiculo (sempre um transporte escolar) que tem de usar. Nao o faz com nenhum criterio especifico, apenas vai por ordem crescente de numero de identificacao de utente e de veiculo O resultado da alocacao e uma tabela de corresnpondencias entre Utentes e Veiculos, i.e. a tabelaPassageiros Se nao existirem veiculos suficientes para todos os utentes lanca uma excecao do tipo VeiculosInsuficientes. <br /></td></tr>
 <tr class="separator:a90c7dfc23aba2ddead3c72ed39bc843f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01d9d82ed48240d69fcb99f82f4ff404"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a01d9d82ed48240d69fcb99f82f4ff404">alocaUt</a> (unsigned int numUt)</td></tr>
-<tr class="memdesc:a01d9d82ed48240d69fcb99f82f4ff404"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aloca apenas o utente especificado a um transporte escolar O resultado da alocacao e guardado na tabelaPassageiros.  <a href="#a01d9d82ed48240d69fcb99f82f4ff404">More...</a><br /></td></tr>
-<tr class="separator:a01d9d82ed48240d69fcb99f82f4ff404"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aa982d37d7decca59e9f362a378a479"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a0aa982d37d7decca59e9f362a378a479">alocaUt</a> (unsigned int numUt)</td></tr>
+<tr class="memdesc:a0aa982d37d7decca59e9f362a378a479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aloca apenas o utente especificado a um transporte escolar O resultado da alocacao e guardado na tabelaPassageiros.  <a href="#a0aa982d37d7decca59e9f362a378a479">More...</a><br /></td></tr>
+<tr class="separator:a0aa982d37d7decca59e9f362a378a479"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af41234653cd92b527030ebd3f67ee7a5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#af41234653cd92b527030ebd3f67ee7a5">finalDia</a> (float kmsZona)</td></tr>
 <tr class="memdesc:af41234653cd92b527030ebd3f67ee7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processa o final de um dia na empresa Calcula todos os gastos de todos os veiculos, bem como os ganhos com o aluguer de recreativos e guarda a informacao sobre o balanco do dia no vetor registoDiario. Para alem disso, todos os trasnportes recreativos alugados passam a estar livres para o dia seguinte, dando assim inicio a um novo dia.  <a href="#af41234653cd92b527030ebd3f67ee7a5">More...</a><br /></td></tr>
 <tr class="separator:af41234653cd92b527030ebd3f67ee7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a1e541280c5f7ae9e3f418d33b4cbd2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a4a1e541280c5f7ae9e3f418d33b4cbd2">calculoMensal</a> ()</td></tr>
-<tr class="memdesc:a4a1e541280c5f7ae9e3f418d33b4cbd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processa o calculo do lucro mensal na empresa Tendo em conta os balancos diarios e os valores dos passes mensais, calcula o lucro tirado no final do mes, dando assim inicio a um novo mes. Os lucros sao guardados no vetor lucrosMensais e quando se insere o 12o valor a funcao da inicio a um novo ano civil.  <a href="#a4a1e541280c5f7ae9e3f418d33b4cbd2">More...</a><br /></td></tr>
+<tr class="memdesc:a4a1e541280c5f7ae9e3f418d33b4cbd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processa o calculo do lucro mensal na empresa Tendo em conta os balancos diarios e os valores dos passes mensais, calcula o lucro tirado no final do mes, dando assim inicio a um novo mes. Os lucros sao guardados no vetor lucrosMensais e quando se insere o 12o valor a funcao da inicio a um novo ano civil, mostrando no ecra os valores do lucro do ano que passou e limpando o vetor lucrosMensais para o proximo ano.  <a href="#a4a1e541280c5f7ae9e3f418d33b4cbd2">More...</a><br /></td></tr>
 <tr class="separator:a4a1e541280c5f7ae9e3f418d33b4cbd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bfb65fa408e944aed798e7c37933b78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a4bfb65fa408e944aed798e7c37933b78">guardarInfo</a> (ostream &amp;f) const</td></tr>
 <tr class="memdesc:a4bfb65fa408e944aed798e7c37933b78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Envia toda a informacao da empresa para a ostream especificada. Usando um ficheiro, a funcao guarda a informacao nesse ficheiro.  <a href="#a4bfb65fa408e944aed798e7c37933b78">More...</a><br /></td></tr>
@@ -200,12 +199,21 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a5a6d0c8a801a77a5bf48e32a96890c61"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a5a6d0c8a801a77a5bf48e32a96890c61">showVeiculos</a> () const</td></tr>
 <tr class="memdesc:a5a6d0c8a801a77a5bf48e32a96890c61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devolve informacao dos veiculos da empresa.  <a href="#a5a6d0c8a801a77a5bf48e32a96890c61">More...</a><br /></td></tr>
 <tr class="separator:a5a6d0c8a801a77a5bf48e32a96890c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6805855f3ef22581fe37fa017f8bf9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a9c6805855f3ef22581fe37fa017f8bf9">showTabPasses</a> () const</td></tr>
+<tr class="memdesc:a9c6805855f3ef22581fe37fa017f8bf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devolve a informacao da tabela dos valores dos passes da empresa.  <a href="#a9c6805855f3ef22581fe37fa017f8bf9">More...</a><br /></td></tr>
+<tr class="separator:a9c6805855f3ef22581fe37fa017f8bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55b9c57d015db981e5bab12c43513ec4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a55b9c57d015db981e5bab12c43513ec4">showTabPassag</a> () const</td></tr>
+<tr class="memdesc:a55b9c57d015db981e5bab12c43513ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devolve a informacao da tabela de alocacao dos passageiros da empresa.  <a href="#a55b9c57d015db981e5bab12c43513ec4">More...</a><br /></td></tr>
+<tr class="separator:a55b9c57d015db981e5bab12c43513ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dbd5fca995d27f9911d5e694e01c76e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a3dbd5fca995d27f9911d5e694e01c76e">showMensal</a> () const</td></tr>
 <tr class="memdesc:a3dbd5fca995d27f9911d5e694e01c76e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devolve a informacao dos lucros mensais da empresa.  <a href="#a3dbd5fca995d27f9911d5e694e01c76e">More...</a><br /></td></tr>
 <tr class="separator:a3dbd5fca995d27f9911d5e694e01c76e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c7180cf55b876478c0774055f2cfd31"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a3c7180cf55b876478c0774055f2cfd31">showDiario</a> () const</td></tr>
 <tr class="memdesc:a3c7180cf55b876478c0774055f2cfd31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devolve a informacao dos balancos diarios da empresa.  <a href="#a3c7180cf55b876478c0774055f2cfd31">More...</a><br /></td></tr>
 <tr class="separator:a3c7180cf55b876478c0774055f2cfd31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59b1514addb5ac8254ae2cabe32a5ed6"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_empresa.html#a59b1514addb5ac8254ae2cabe32a5ed6">showPrecos</a> () const</td></tr>
+<tr class="memdesc:a59b1514addb5ac8254ae2cabe32a5ed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devolve a informacao dos precos por zona da empresa.  <a href="#a59b1514addb5ac8254ae2cabe32a5ed6">More...</a><br /></td></tr>
+<tr class="separator:a59b1514addb5ac8254ae2cabe32a5ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -420,14 +428,14 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 
 </div>
 </div>
-<a id="a01d9d82ed48240d69fcb99f82f4ff404"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01d9d82ed48240d69fcb99f82f4ff404">&#9670;&nbsp;</a></span>alocaUt()</h2>
+<a id="a0aa982d37d7decca59e9f362a378a479"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aa982d37d7decca59e9f362a378a479">&#9670;&nbsp;</a></span>alocaUt()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Empresa::alocaUt </td>
+          <td class="memname">unsigned int Empresa::alocaUt </td>
           <td>(</td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>numUt</em></td><td>)</td>
@@ -443,6 +451,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>numero de identificacao do veiculo ao qual o utente foi atribuido</dd></dl>
 <p>Se nao existirem veiculos suficientes para todos os utentes lanca uma excecao do tipo VeiculosInsuficientes Se o utente nao existir lanca uma excecao do tipo UtenteNaoExistente </p>
 
 </div>
@@ -657,7 +666,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
       </table>
 </div><div class="memdoc">
 
-<p>Processa o calculo do lucro mensal na empresa Tendo em conta os balancos diarios e os valores dos passes mensais, calcula o lucro tirado no final do mes, dando assim inicio a um novo mes. Os lucros sao guardados no vetor lucrosMensais e quando se insere o 12o valor a funcao da inicio a um novo ano civil. </p>
+<p>Processa o calculo do lucro mensal na empresa Tendo em conta os balancos diarios e os valores dos passes mensais, calcula o lucro tirado no final do mes, dando assim inicio a um novo mes. Os lucros sao guardados no vetor lucrosMensais e quando se insere o 12o valor a funcao da inicio a um novo ano civil, mostrando no ecra os valores do lucro do ano que passou e limpando o vetor lucrosMensais para o proximo ano. </p>
 <dl class="section return"><dt>Returns</dt><dd>true se o vetor lucrosMensais estiver cheio (o que representa o fim do ano), false caso contrario </dd></dl>
 
 </div>
@@ -1249,6 +1258,66 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 
 </div>
 </div>
+<a id="a59b1514addb5ac8254ae2cabe32a5ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59b1514addb5ac8254ae2cabe32a5ed6">&#9670;&nbsp;</a></span>showPrecos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Empresa::showPrecos </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Devolve a informacao dos precos por zona da empresa. </p>
+<dl class="section return"><dt>Returns</dt><dd>String contendo a informacao organizada e legivel </dd></dl>
+
+</div>
+</div>
+<a id="a55b9c57d015db981e5bab12c43513ec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55b9c57d015db981e5bab12c43513ec4">&#9670;&nbsp;</a></span>showTabPassag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Empresa::showTabPassag </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Devolve a informacao da tabela de alocacao dos passageiros da empresa. </p>
+<dl class="section return"><dt>Returns</dt><dd>String contendo a informacao organizada e legivel </dd></dl>
+
+</div>
+</div>
+<a id="a9c6805855f3ef22581fe37fa017f8bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c6805855f3ef22581fe37fa017f8bf9">&#9670;&nbsp;</a></span>showTabPasses()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Empresa::showTabPasses </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Devolve a informacao da tabela dos valores dos passes da empresa. </p>
+<dl class="section return"><dt>Returns</dt><dd>String contendo a informacao organizada e legivel </dd></dl>
+
+</div>
+</div>
 <a id="acd94b5de5f758663768d4c4af41b0039"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd94b5de5f758663768d4c4af41b0039">&#9670;&nbsp;</a></span>showUtentes()</h2>
 
@@ -1312,13 +1381,14 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>String contendo a informacao de quais os transportes recreativos disponiveis bem como o custo do seu aluguer, </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>String contendo a informacao de quais os transportes recreativos disponiveis bem como o custo do seu aluguer,</dd></dl>
+<p>Lanca as mesmas excecoes que o metodo <a class="el" href="class_empresa.html#a1aeac933b91a2abfb92d11ba51fe3699" title="Calcula o preco do aluguer do transporte recreativo especificado. Baseia-se no preco de aluguer por p...">calcularAluguer()</a> </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/Cajo/Desktop/Repos/AEDA-PROJ1/src/<a class="el" href="_empresa_transportes_8h_source.html">EmpresaTransportes.h</a></li>
-<li>C:/Users/Cajo/Desktop/Repos/AEDA-PROJ1/src/EmpresaTransportes.cpp</li>
+<li>src/<a class="el" href="_empresa_transportes_8h_source.html">EmpresaTransportes.h</a></li>
+<li>src/EmpresaTransportes.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

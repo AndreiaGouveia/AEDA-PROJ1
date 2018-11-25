@@ -10,6 +10,9 @@ var searchData=
   ['setzonahabitacao',['setZonaHabitacao',['../class_utente.html#a7276cad0368359751b7aad74ed305806',1,'Utente']]],
   ['showdiario',['showDiario',['../class_empresa.html#a3c7180cf55b876478c0774055f2cfd31',1,'Empresa']]],
   ['showmensal',['showMensal',['../class_empresa.html#a3dbd5fca995d27f9911d5e694e01c76e',1,'Empresa']]],
+  ['showprecos',['showPrecos',['../class_empresa.html#a59b1514addb5ac8254ae2cabe32a5ed6',1,'Empresa']]],
+  ['showtabpassag',['showTabPassag',['../class_empresa.html#a55b9c57d015db981e5bab12c43513ec4',1,'Empresa']]],
+  ['showtabpasses',['showTabPasses',['../class_empresa.html#a9c6805855f3ef22581fe37fa017f8bf9',1,'Empresa']]],
   ['showutentes',['showUtentes',['../class_empresa.html#acd94b5de5f758663768d4c4af41b0039',1,'Empresa']]],
   ['showveiculos',['showVeiculos',['../class_empresa.html#a5a6d0c8a801a77a5bf48e32a96890c61',1,'Empresa']]]
 ];
