@@ -609,10 +609,12 @@ void Empresa::guardarInfo(ostream &ficheiro) const
 
 	for (i = 0; i < registoDiario.size(); i++) {
 		if(i == registoDiario.size() - 1)
-			ficheiro << registoDiario[i] << '}';
+			ficheiro << registoDiario[i];
 		else
 			ficheiro << registoDiario[i] << ',';
 	}
+
+	ficheiro << '}';
 }
 
 void Empresa::carregarInfo(ifstream &f) {

@@ -26,7 +26,6 @@ char respostaS_N()
 			cin.clear();
 			cin.ignore(1000, '\n');
 			cout << endl << " Opcao invalida, por favor, volte a inserir uma opcao valida (S (sim), N (nao) ou Ctrl + Z para sair)" << endl;
-			cin >> resposta;
 		}
 	}while(true);
 
@@ -51,6 +50,8 @@ int respostaNumeros(const int &min, const int &max)
 			cin.ignore(1000, '\n');
 			cout << endl << " Opcao invalida, por favor, insira um numero entre " << min << " e " << max << ".  ";
 		}
+		else
+			cout << endl << " Opcao invalida, por favor, insira um numero entre " << min << " e " << max << ".  ";
 	}while(true);
 }
 
@@ -82,11 +83,6 @@ bool file_handler(string &nome_ficheiro, ifstream &ficheiro)
 	}while(true);
 }
 
-void readLine(string &str)
-{
-	getline(cin, str, '\n');
-}
-
 void allNumbers(string &answer, const int &n)//checks if in a string there are only numbers
 {
 	bool invalidAnswer;
@@ -111,7 +107,6 @@ void allNumbers(string &answer, const int &n)//checks if in a string there are o
 			cin.clear();
 			cin.ignore(1000, '\n');
 			cout << endl << " Inseriu uma resposta invalida.Tem de ser composto por " << n << "digitos." << endl;
-			cin >> answer;
 		}
 		else break;
 	}while(true);
@@ -152,7 +147,6 @@ void validar_data(string &data_nasc)
 			cin.clear();
 			cin.ignore(1000, '\n');
 			cout << endl << " Inseriu uma data com o formato errado. Por favor insira uma data com este formato: DD-MM-AAAA" << endl;
-			cin >> data_nasc;
 		}
 	}
 }

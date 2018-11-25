@@ -16,7 +16,8 @@ void adicicionar_utente(Empresa &empresa)
 
 	//NOME
 	cout << "Qual o nome do novo utente?" << endl;
-	readLine(nome);
+	cin.ignore(1000,'\n');
+	getline(cin,nome);
 
 	//DATA DE NASCIMENTO
 	cout << endl << "Qual a data de nascimento do utente?" << endl;
@@ -49,18 +50,17 @@ void adicicionar_utente(Empresa &empresa)
 
 		//NOME DO ENCARREGADO DE EDUCACAO
 		cout << endl << "Qual o nome do encarregado de educacao?" << endl;
-		readLine(nomeEE);
+		cin.ignore(1000,'\n');
+		getline(cin,nomeEE);
 
 		//CONTACTO DO ENCARREGADO DE EDUCACAO
 		cout << endl << "Qual o contacto do encarregado de educacao?" << endl;
 		checkCinFail(contactoEE);
 
 		//ADICIONAR A CRIANCA AOS UTENTES
-		Crianca c1(nome, data_nasc, BI, zonaHabit, zonaEsc, nomeEE, contactoEE);
-
 		try
 		{
-			empresa.adicionarUtente(&c1);
+			empresa.adicionarUtente(new Crianca(nome, data_nasc, BI, zonaHabit, zonaEsc, nomeEE, contactoEE));
 		}
 		catch (UtenteJaExiste &e)
 		{
@@ -93,12 +93,9 @@ void adicicionar_utente(Empresa &empresa)
 		cout << "Qual o contacto do funcionario?" << endl;
 		checkCinFail(contacto);
 
-		//ADICIONAR O FUNCIONARIO AOS UTENTES
-		Funcionario f1(nome, data_nasc, BI, zonaHabit, zonaEsc, docente, contacto);
-
 		try
 		{
-			empresa.adicionarUtente(&f1);
+			empresa.adicionarUtente(new Funcionario(nome, data_nasc, BI, zonaHabit, zonaEsc, docente, contacto));
 		}
 		catch (UtenteJaExiste &e)
 		{
@@ -232,14 +229,12 @@ void adicicionar_veiculo(Empresa &empresa)
 	validar_matricula(matricula);
 
 	//CONSUMO 100 KM
-	cout << endl << "Qual o consumo por 100km?" << endl;
-	cin >> consumo100km;
+	cout << endl << "Qual o consumo (em litros) por 100km?" << endl;
 
 	checkCinFail(consumo100km);
 
 	//PRECO COMBUSTIVEL
-	cout << endl << "Qual o consumo por 100km?" << endl;
-	cin >> precoComb;
+	cout << endl << "Qual o preco do combustivel que utiliza?" << endl;
 
 	checkCinFail(precoComb);
 
@@ -260,31 +255,18 @@ void adicicionar_veiculo(Empresa &empresa)
 		bool valido = false;
 
 		//LUGARES LIVRES
-		cout << endl << "Quantos lugares tem o veículo?  " << endl;
+		cout << endl << "Quantos lugares tem o veiculo?  " << endl;
 		cin >> capacidade;
 
 		//ZONAS ATRAVESSADAS
-		cout << endl << "Quais sao as zonas que atravessa? (insira uma de cada vez e carregue Ctrl + Z quando tiver terminado)" << endl;
+		cout << endl << "Quais sao as zonas que atravessa? (insira uma de cada vez e insira 0 quando tiver terminado)" << endl;
 
-		while(true)
+		while((zona = respostaNumeros(1,n)) != 0)
 		{
-			cin >> zona;
-
-			if(cin.eof())
-			{
-				break;
-			}
-			else if(zona >= 1 && zona <= n && find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona) == zonasAtravessadas.end())
+			if(find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona) == zonasAtravessadas.end())
 			{
 				zonasAtravessadas.push_back(zona);
 				valido = true;
-				break;
-			}
-			else if(cin.fail())
-			{
-				cin.clear();
-				cin.ignore(1000, '\n');
-				cout << endl << " Opcao invalida, por favor, insira uma zona entre 1 e " << n << ".  ";
 			}
 		}
 
@@ -295,11 +277,9 @@ void adicicionar_veiculo(Empresa &empresa)
 		}
 		else
 		{
-			Escolar e1(matricula, consumo100km, precoComb, capacidade, zonasAtravessadas);
-
 			try
 			{
-				empresa.adicionarVeiculo(&e1);
+				empresa.adicionarVeiculo(new Escolar(matricula, consumo100km, precoComb, capacidade, zonasAtravessadas));
 			}
 			catch(VeiculoJaExiste &e)
 			{
@@ -337,11 +317,9 @@ void adicicionar_veiculo(Empresa &empresa)
 			return;
 		}
 
-		Recreativo r1(matricula,consumo100km,precoComb, capacidade,alugado);
-
 		try
 		{
-			empresa.adicionarVeiculo(&r1);
+			empresa.adicionarVeiculo(new Recreativo(matricula,consumo100km,precoComb, capacidade,alugado));
 		}
 		catch(VeiculoJaExiste &e)
 		{
@@ -550,7 +528,25 @@ void alugar_recreativo(Empresa &empresa)
 	cout << "Quer alugar o veiculo para quantas pessoas? ";
 	cin >> cap_id;
 
+	try
+	{
 	info = empresa.verificaDispRecreativo(cap_id);
+	}
+	catch(VeiculoNaoRecreativo &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
+	catch(VeiculoNaoExistente &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
+	catch(PrecoNaoDefinido &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
+	}
 	cout << info;
 
 	if(info == "Nao existe nenhum veiculo disponivel com essa capacidade.\n")
@@ -736,9 +732,8 @@ Empresa criar_empresa()
 	vector < vector < double > > precos_zona;
 
 	cout << "Quantas zonas?  ";
-	cin >> zonas;
 
-	//checkCinFail(zonas);
+	checkCinFail(zonas);
 
 	for(int i = 0; i < zonas; i++)
 	{
@@ -746,9 +741,8 @@ Empresa criar_empresa()
 		for(int j = 0; j <= i; j++)
 		{
 			cout<<"Qual o preco entre a zona "<< i + 1<<" e "<< j + 1 <<"?  ";
-			cin >> preco;
 
-			//checkCinFail(preco);
+			checkCinFail(preco);
 
 			precos_zona[i][j] = preco;
 

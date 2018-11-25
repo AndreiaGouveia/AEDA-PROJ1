@@ -1,0 +1,17 @@
+//empresa
+G1
+//utentes
+Carlos Albuquerque	12-12-2012	200987564	1	1	4	Sofia Lajes	987200366
+//veiculos
+1	12-26-PT	8	1.54	20	{1}
+//precos
+-1
+	Z1	Z2	Z3	Z4
+Z1	20	28	36	54
+Z2	28	20	28	36
+Z3	36	28	20	28
+Z4	54	36	28	20
+//lucros
+{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
+//diarios
+{
