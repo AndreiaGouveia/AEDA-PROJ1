@@ -1,9 +1,11 @@
 #include "Utente.h"
 #include "Veiculo.h"
+#include "Oficina.h"
 #include <map>
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <queue>
 
 /**
  * @class Empresa
@@ -29,6 +31,7 @@ private:
 	vector<double> registoDiario; ///< registo do lucro/prejuizo diario do mes corrente
 	map<unsigned int,double> tabelaPasses; ///< Tabela que guarda a correspondencia Utente -> valor do passe mensal
 	map<unsigned int,unsigned int> tabelaPassageiros; ///< Tabela que guarda a correspondencia Utente -> veiculo ao qual foi alocado
+	priority_queue<Oficina> oficinas; ///< Fila de oficinas ordenada pelo menor tempo de espera
 public:
 	/**
 	 * @brief Construtor simples da classe Empresa
@@ -394,7 +397,39 @@ public:
 	 *
 	 * @return String contendo a informacao organizada e legivel
 	*/
-	string showPrecos() const; //TODO criar nova documentacao
+	string showPrecos() const;
+//==========================================================================
+	/**
+	 * @brief Verifica se a oficina especificada existe na fila de oficinas
+	 *
+	 * @return true -> existe
+	 * @return false -> nao existe
+	*/
+	bool checkOficina(const Oficina& ofc);
+	/**
+	 * @brief Insere uma oficina na fila de oficinas
+	 *
+	 * @return true -> a oficina foi inserida com sucesso
+	 * @return false -> a oficina ja existia e nao foi inserida
+	*/
+	bool insertOficina(const Oficina& ofc);
+	/**
+	 * @brief Remove uma oficina na fila de oficinas
+	 *
+	 * @return true -> a oficina foi removida com sucesso
+	 * @return false -> a oficina nao existe
+	*/
+	bool removeOficina(const Oficina& ofc);
+	/**
+	 * @brief Escolhe qual a oficina em que o veiculo especificado deve fazer as reparacoes.
+	 * A excolha depende da distancia maxima a garagem passada como argumento e da disponibilidade das oficinas.
+	 *
+	 * @param id Identificacao do veiculo a reparar
+	 * @param dist_max Distancia maxima entre a oficina e a garagem pretendida
+	 *
+	 * @return Oficina escolhida para a reparacao
+	*/
+	Oficina repararVeiculo(unsigned int id, double dist_max);
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
 };
 

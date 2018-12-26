@@ -891,3 +891,113 @@ ostream& operator <<(ostream& out,const Empresa &emp)
 
 	return out;
 }
+
+//=========================================
+bool Empresa::checkOficina(const Oficina& ofc)
+{
+	bool flag = false;
+	vector<Oficina> aux;
+
+	while(!oficinas.empty())
+	{
+		if(oficinas.top() == ofc)
+		{
+			flag = true;
+			break;
+		}
+		else
+		{
+			aux.push_back(oficinas.top());
+			oficinas.pop();
+		}
+	}
+
+	for(size_t i = 0; i < aux.size(); i++)
+	{
+		oficinas.push(aux[i]);
+	}
+
+	return flag;
+}
+
+bool Empresa::insertOficina(const Oficina& ofc) //TODO exceptions?
+{
+	if(!checkOficina(ofc)){
+		oficinas.push(ofc);
+		return true;
+	}
+	else
+		return false;
+}
+
+bool Empresa::removeOficina(const Oficina& ofc) //TODO exceptions?
+{
+	if(!checkOficina(ofc)){
+		return false;
+	}
+	else{
+		vector<Oficina> aux;
+
+		while(!oficinas.empty())
+		{
+			if(oficinas.top() == ofc)
+			{
+				oficinas.pop();
+				break;
+			}
+			else
+			{
+				aux.push_back(oficinas.top());
+				oficinas.pop();
+			}
+		}
+
+		for(size_t i = 0; i < aux.size(); i++)
+		{
+			oficinas.push(aux[i]);
+		}
+
+		return true;
+	}
+}
+
+Oficina Empresa::repararVeiculo(unsigned int id, double dist_max)
+{
+	vector<Oficina> aux;
+	Oficina temp;
+	size_t i;
+
+	while(!oficinas.empty())
+	{
+		if(oficinas.top().getDist() <= dist_max)
+		{
+			temp = oficinas.top();
+			oficinas.pop();
+
+			for(i = 0; i < veiculos.size(); i++)
+			{
+				if(veiculos[i]->getId() == id)
+					break;
+			}
+			break;
+		}
+		else
+		{
+			aux.push_back(oficinas.top());
+			oficinas.pop();
+		}
+	}
+
+	if(!oficinas.empty() && i != veiculos.size()){
+		temp.reparacao();
+		veiculos[i]->setReparacao(true);
+	}
+
+	for(size_t i = 0; i < aux.size(); i++)
+	{
+		oficinas.push(aux[i]);
+	}
+
+
+	return temp;
+}

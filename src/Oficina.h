@@ -14,12 +14,11 @@ using namespace std;
  * Esta classe permite criar e trabalhar com oficinas.
  * As oficinas sao caracterizadas pelo seu nome, disponibilidade e distancia a garagem da Empresa.
  * A disponibilidade e o numero de dias que faltam ate a oficina estar livre.
- * De entre estes atributos o que se pode alterar e a disponibilidade, sendo que sempre que um veiculo
- * e enviado para reparacoes este ficara 1 dia na oficina.
+ * Sempre que um veiculo e enviado para reparacoes ele ficara 1 dia na oficina.
  */
 class Oficina
 {
-	const string nome; ///< Nome da oficina (constante)
+	string nome; ///< Nome da oficina
 	int disponibilidade; ///< Disponibilidade da oficina (numero de dias que faltam ate a oficina estar livre)
 	double distancia; ///< Distancia da oficina a garagem da Empresa
 public:
@@ -27,8 +26,8 @@ public:
 	 * @brief Construtor da classe Oficina
 	 *
 	 * @param nom	Nome da oficina
-	 * @param disp	Disponibilidade inicial (caso omitida e 0)
-	 * @param dist	Distancia a garagem (caso omitida e 0)
+	 * @param disp	Disponibilidade inicial (cpor omissao e 0)
+	 * @param dist	Distancia a garagem (por omissao e 0)
 	*/
 	Oficina(string nom = "", int disp = 0, double dist = 0);
 	/**
@@ -46,7 +45,7 @@ public:
 	/**
 	 * @brief Retorna a distancia da oficina a garagem da Empresa
 	 *
-	 * @return Distancia da oficina
+	 * @return Distancia da oficina a garagem
 	*/
 	double getDist() const;
 	/**
@@ -60,16 +59,25 @@ public:
 	 * Permite ordenar as oficinas numa fila de prioridade em que o elemento do topo e o que
 	 * possui menor numero de dias de espera (disponibilidade)
 	 *
-	 * @return true A oficina da esquerda e maior que a da direita
-	 * @return false A oficina da direita e maior ou igual a da esquerda
+	 * @return true -> a oficina da esquerda e maior que a da direita
+	 * @return false -> a oficina da direita e maior ou igual a da esquerda
 	*/
-	bool operator <(const Oficina &right);
+	bool operator <(const Oficina& right) const;
+	/**
+	 * @brief Compara duas oficinas e verifica se sao iguais.
+	 * Duas oficinas sao iguais se tiverem o mesmo nome (sao da mesma cadeia de oficinas),
+	 * a mesma disponibilidade e a mesma distancia a garagem.
+	 *
+	 * @return true -> as oficinas sao iguais
+	 * @return false -> as oficinas sao diferentes
+	*/
+	bool operator ==(const Oficina& right) const;
 	/**
 	 * @brief Envia a informacao sobre uma oficina para uma ostream
 	 *
 	 * @return A propria ostream
 	*/
-	friend ostream& operator <<(ostream& out, const Oficina &of);
+	friend ostream& operator <<(ostream& out, const Oficina& of);
 };
 
 #endif

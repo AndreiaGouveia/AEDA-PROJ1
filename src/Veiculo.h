@@ -27,6 +27,7 @@ protected:
 	const string matricula; ///< Matricula do veiculo (Nota: nao ha matriculas repetidas)
 	float consumo100km; ///< Volume medio de Litros consumidos por 100 kms
 	float precoComb; ///< Preco do combustivel usado no veiculo
+	bool emReparacao; ///< Estado de reparacao do veiculo (se esta ou nao a ser reparado neste momento) //TODO UML
 public:
 	static unsigned int numVeiculos; ///< Membro estatico que guarda qual o numero de identificacao do ultimo veiculo registado
 	/**
@@ -80,6 +81,20 @@ public:
 	 * @return string com toda a informacao do veiculo (atributos separados por tabs)
 	*/
 	virtual string getInfo() const;
+//============================================================================
+	/**
+	 * @brief Devolve o estado de reparacao do veiculo
+	 *
+	 * @return true -> o veiculo esta em oficina a ser reparado
+	 * @return false -> o veiculo esta disponivel
+	 */
+	bool getReparacao() const;
+	/**
+	 * @brief Altera o estado de reparacao do veiculo
+	 *
+	 * @param rep Novo estado (true-> veiculo em oficina, false-> veiculo saiu da oficina)
+	 */
+	void setReparacao(bool rep);
 	friend ostream& operator <<(ostream& out, const Veiculo& veic);
 };
 

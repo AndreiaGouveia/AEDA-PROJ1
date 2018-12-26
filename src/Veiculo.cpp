@@ -3,7 +3,7 @@
 unsigned int Veiculo::numVeiculos = 0;
 
 Veiculo::Veiculo(const string &matricula, float consumo100km, float precoComb) :
-				idV(++numVeiculos), matricula(matricula) {
+				idV(++numVeiculos), matricula(matricula), emReparacao(false) {
 	this->consumo100km = consumo100km;
 	this->precoComb = precoComb;
 }
@@ -39,6 +39,17 @@ ostream& operator <<(ostream& out, const Veiculo& veic) {
 	out << veic.getInfo();
 
 	return out;
+}
+
+//========================================
+bool Veiculo::getReparacao() const
+{
+	return emReparacao;
+}
+
+void Veiculo::setReparacao(bool rep)
+{
+	this->emReparacao = rep;
 }
 
 ////////////////////////////////////////////////////////////////
