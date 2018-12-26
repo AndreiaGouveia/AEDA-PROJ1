@@ -261,7 +261,7 @@ void adicicionar_veiculo(Empresa &empresa)
 		//ZONAS ATRAVESSADAS
 		cout << endl << "Quais sao as zonas que atravessa? (insira uma de cada vez e insira 0 quando tiver terminado)" << endl;
 
-		while((zona = respostaNumeros(1,n)) != 0)
+		while((zona = respostaNumeros(0,n)) != 0)
 		{
 			if(find(zonasAtravessadas.begin(), zonasAtravessadas.end(), zona) == zonasAtravessadas.end())
 			{
