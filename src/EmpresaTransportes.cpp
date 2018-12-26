@@ -454,7 +454,7 @@ void Empresa::alocaUtentes()
 				veiculos[j]->reduzLug();
 				break;
 			}
-			else
+			else if(j == veiculos.size() - 1)
 				throw VeiculosInsuficientes();
 		}
 	}
@@ -475,7 +475,7 @@ unsigned int Empresa::alocaUt(unsigned int numUt)
 					veiculos[j]->reduzLug();
 					return veiculos[j]->getId();
 				}
-				else
+				else if(j == veiculos.size() - 1)
 					throw VeiculosInsuficientes();
 			}
 		}
@@ -727,7 +727,7 @@ void Empresa::carregarInfo(ifstream &f) {
 		}
 	}
 
-	alocaUtentes();
+	//alocaUtentes();
 	atualizarPasses();
 }
 

@@ -239,7 +239,7 @@ void adicicionar_veiculo(Empresa &empresa)
 	checkCinFail(precoComb);
 
 
-	//ESPECIFICACAO DO VEICULO//
+	// ESPECIFICACAO DO VEICULO //
 
 	char resposta;
 
@@ -393,7 +393,9 @@ void alterar_veiculo(Empresa &empresa)
 				cout << e.getMsg() << endl;
 				return;
 			}
-			catch (exception &ZonaJaExiste) {}
+			catch (ZonaJaExistente &e) {
+				cout << e.getMsg() << endl;
+			}
 
 			break;
 		}
@@ -489,7 +491,12 @@ void alocar_um_utente(Empresa &empresa)
 
 void alocar_todos_utentes(Empresa &empresa)
 {
+	try{
 	empresa.alocaUtentes();
+	}
+	catch(VeiculosInsuficientes &e){
+		e.getMsg();
+	}
 
 	cout << empresa.showTabPassag();
 }
