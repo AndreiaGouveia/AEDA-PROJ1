@@ -6,6 +6,7 @@
  */
 #include "Motorista.h"
 #include <algorithm>
+
 Motorista::Motorista(string nome,bool atual): nome(nome),atual(atual)
 {
 
@@ -13,7 +14,7 @@ Motorista::Motorista(string nome,bool atual): nome(nome),atual(atual)
 
 Motorista::Motorista(string nome,bool atual,vector<Veiculo> veiculos): nome(nome),atual(atual)
 {
-		this->veiculos=veiculos;
+	this->veiculos=veiculos;
 }
 
 string Motorista::getNome()
@@ -33,7 +34,13 @@ vector <Veiculo> Motorista::getVeiculos()
 
 void Motorista::inserirVeiculo(Veiculo *veiculo)
 {
-	veiculos.push_back(*veiculo);
+	vector<Veiculo>::iterator it;
+	it=find(veiculos.begin(),veiculos.end(),*veiculo);
+
+	if(it==veiculos.end())//se nao existir
+	{
+		veiculos.push_back(*veiculo);
+	}
 }
 
 void Motorista::setAtual(bool atual)
@@ -45,6 +52,7 @@ void Motorista::removerVeiculo(Veiculo *veiculo)
 {
 	vector<Veiculo>::iterator it;
 	it=find(veiculos.begin(),veiculos.end(),*veiculo);
+
 	if(it!=veiculos.end())//se existir
 	{
 		veiculos.erase(it);
@@ -55,6 +63,17 @@ void Motorista::despedir()
 {
 	this->atual=false;
 	this->veiculos.clear();
+}
+
+void Motorista::contratar()
+{
+	this->atual=true;
+}
+
+void Motorista::contratar(Veiculo *veiculo)
+{
+	this->atual=true;
+	veiculos.push_back(*veiculo);
 }
 
 
