@@ -7,6 +7,10 @@
 #include "Motorista.h"
 #include <algorithm>
 
+Motorista::Motorista(string nome):nome(nome)
+{
+	this->false;
+}
 Motorista::Motorista(string nome,bool atual): nome(nome),atual(atual)
 {
 

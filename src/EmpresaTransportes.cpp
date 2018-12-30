@@ -1005,9 +1005,17 @@ Oficina Empresa::repararVeiculo(unsigned int id, double dist_max)
 //===============================================================
 bool Empresa::checkMotorista(string nome)
 {
-	Motorista m(nome);
+	Motorista motorista(nome);
 
-	return motoristas.find(m)!=motoristas.end();
+	return motoristas.find(motorista)!=motoristas.end();
+}
+bool Empresa::contratarNovoMotorista(string nome,list<pair<string , unsigned >> veiculos)
+{
+	if(checkMotorista(nome))
+		return false;
+	Motorista motorista(nome,true,veiculos);
+	motoristas.insert(motorista);
+	return true;
 }
 bool Empresa::inserirAntigoMotorista(string nome)
 {

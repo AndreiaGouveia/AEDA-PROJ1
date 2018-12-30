@@ -471,7 +471,7 @@ public:
 	 * @return true -> foi inserido na tabela com sucesso
 	 * @return false -> nao foi inserido na tabela com sucesso
 	*/
-	bool contratarNovoMotorista(string nome,Veiculo * veiculo);
+	bool contratarNovoMotorista(string nome,list<pair<string , unsigned >> veiculos);
 	/**
 	* @brief Coloca um motorista antigo na tabela de dispersão, assume se que o valor do atual seja false
 	*
@@ -502,7 +502,7 @@ public:
 	*/
 	bool inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos);
 	/**
-	* @brief Insere um novo veiculo num motorista ja existente
+	* @brief Insere um novo veiculo num motorista ja existente atravez do id do veiculo
 	*
 	* @param nome Nome do motorista
 	* @param veiculo Veiculo a inserir
@@ -512,7 +512,7 @@ public:
 	*/
 	bool removerVeiculo(string nome, unsigned id);
 	/**
-	* @brief Insere um novo veiculo num motorista ja existente
+	* @brief Insere um novo veiculo num motorista ja existente atravez da matricula do veiculo
 	*
 	* @param nome Nome do motorista
 	* @param veiculo Veiculo a inserir

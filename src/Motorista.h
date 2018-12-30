@@ -38,6 +38,7 @@ public:
 	* @param atual	Se o motorista esta empregado ou nao
 	* @param veiculos	Veiculos/transportes associados ao condutor
 	*/
+	Motorista(string nome);
 	Motorista(string nome,bool atual);
 	Motorista(string nome,bool atual,list <pair <string,unsigned>> veiculos);
 	/**
@@ -62,13 +63,13 @@ public:
 	/**
 	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
 	*
-	* @return se esta contratado ou nao
+	* @return void
 	*/
 	void inserirVeiculo(string matricula , unsigned id);
 	/**
 	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
 	*
-	* @return se esta contratado ou nao
+	* @return void
 	*/
 	void inserirVeiculos(list <pair<string , unsigned>> v);
 	/**
@@ -92,7 +93,7 @@ public:
 	/**
 	 * @brief Permite despedir um funcionaro, mudando o atual e eliminando os elementos da lista
 	 *
-	 * @return se esta contratado ou nao
+	 * @return void
 	 */
 	void despedir();
 	/**
