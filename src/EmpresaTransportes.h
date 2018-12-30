@@ -12,19 +12,19 @@
 
 struct motoristaHash
 {
-	int operator() (Motorista & mt) const
+	int operator() (const  Motorista & mt) const
 	{
 		return mt.getNome().length() + mt.getVeiculos().size(); //tamanho do nome e nr de veiculos que tem
 
 	}
 
-	bool operator()(Motorista &mt1 , Motorista &mt2)
+	bool operator()(const Motorista &mt1 ,const  Motorista &mt2)const
 	{
 		return mt1.getNome()==mt2.getNome(); //se tiverem nomes iguais
 	}
 };
 
-typedef unordered_set<Motorista,motoristaHash,motoristaHash> tabHMotorista;
+typedef unordered_set<Motorista, motoristaHash, motoristaHash> tabHMotorista;
 
 /**
  * @class Empresa

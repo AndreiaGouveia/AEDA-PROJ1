@@ -9,7 +9,7 @@
 
 Motorista::Motorista(string nome):nome(nome)
 {
-	this->false;
+	this->atual=false;
 }
 Motorista::Motorista(string nome,bool atual): nome(nome),atual(atual)
 {
@@ -21,7 +21,7 @@ Motorista::Motorista(string nome,bool atual,list <pair <string,unsigned>> veicul
 	this->veiculos=veiculos;
 }
 
-string Motorista::getNome()
+string Motorista::getNome() const
 {
 	return this->nome;
 }
@@ -31,7 +31,7 @@ bool Motorista::getAtual()
 	return this->atual;
 }
 
-list <pair <string,unsigned>> Motorista::getVeiculos()
+list <pair <string,unsigned>> Motorista::getVeiculos() const
 {
 	return this->veiculos;
 }

@@ -11,7 +11,6 @@
 #include <string>
 #include <list>
 #include <iostream>
-#include "Veiculo.h"
 
 using namespace std;
 /*A empresa mantém um registo de todos os seus motoristas (trabalhadores atuais ou angos da empresa)
@@ -46,7 +45,7 @@ public:
 	*
 	* @return nome do Motorista
 	*/
-	string getNome();
+	string getNome() const;
 	/**
 	* @brief Permite saber se o motorista esta contratado ou nao
 	*
@@ -59,7 +58,7 @@ public:
 	*
 	* @return lista de veiculos associados ao motorista
 	*/
-	list <pair <string,unsigned>> getVeiculos();
+	list <pair <string,unsigned>> getVeiculos() const;
 	/**
 	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
 	*
