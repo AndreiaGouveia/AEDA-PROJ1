@@ -1,11 +1,30 @@
 #include "Utente.h"
 #include "Veiculo.h"
 #include "Oficina.h"
+#include "Motorista.h"
 #include <map>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <queue>
+#include <unordered_set>
+#include <string>
+
+struct motoristaHash
+{
+	int operator() (Motorista & mt) const
+	{
+		return mt.getNome().length() + mt.getVeiculos().size(); //tamanho do nome e nr de veiculos que tem
+
+	}
+
+	bool operator()(Motorista &mt1 , Motorista &mt2)
+	{
+		return mt1.getNome()==mt2.getNome(); //se tiverem nomes iguais
+	}
+};
+
+typedef unordered_set<Motorista,motoristaHash,motoristaHash> tabHMotorista;
 
 /**
  * @class Empresa
@@ -32,6 +51,8 @@ private:
 	map<unsigned int,double> tabelaPasses; ///< Tabela que guarda a correspondencia Utente -> valor do passe mensal
 	map<unsigned int,unsigned int> tabelaPassageiros; ///< Tabela que guarda a correspondencia Utente -> veiculo ao qual foi alocado
 	priority_queue<Oficina> oficinas; ///< Fila de oficinas ordenada pelo menor tempo de espera
+	tabHMotorista motoristas; ///< Tabela de dispersao que contem os motoristas da empresa
+
 public:
 	/**
 	 * @brief Construtor simples da classe Empresa
@@ -431,6 +452,84 @@ public:
 	*/
 	Oficina repararVeiculo(unsigned int id, double dist_max);
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
+//==========================================================================
+	/**
+	* @brief Verifica se um determinado motorista existe ou nao
+	*
+	* @param nome Nome do motorista
+	*
+	* @return true -> existia
+	* @return false -> nao existia
+	*/
+	bool checkMotorista(string nome);
+	/**
+	 * @brief Contata um novo motorista colocando-o na lista de dispersao, o atual assume se como true, pois e um novo motorista
+	 *
+	 * @param nome Nome do motorista a contratar
+	 * @param veiculo Veiculo associado ao motorista
+	 *
+	 * @return true -> foi inserido na tabela com sucesso
+	 * @return false -> nao foi inserido na tabela com sucesso
+	*/
+	bool contratarNovoMotorista(string nome,Veiculo * veiculo);
+	/**
+	* @brief Coloca um motorista antigo na tabela de dispersão, assume se que o valor do atual seja false
+	*
+	* @param nome Nome do motorista
+	*
+	* @return true -> foi inserido na tabela com sucesso
+	* @return false -> nao foi inserido na tabela com sucesso
+	*/
+	bool inserirAntigoMotorista(string nome);
+	/**
+	* @brief Insere um novo veiculo num motorista ja existente
+	*
+	* @param nome Nome do motorista
+	* @param veiculo Veiculo a inserir
+	*
+	* @return true -> o veiculo foi inserido com sucesso
+	* @return false -> o veiculo ja pertencia ao motorista
+	*/
+	bool inserirVeiculo(string nome, string matricula, unsigned id);
+	/**
+	* @brief Insere uma lista de veiculos num motorista ja existente
+	*
+	* @param nome Nome do motorista
+	* @param veiculos Lista de veiculos a inserir
+	*
+	* @return true -> os veiculos foram inseridos com sucesso
+	* @return false -> os veiculos nao foram inseridos com sucesso
+	*/
+	bool inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos);
+	/**
+	* @brief Insere um novo veiculo num motorista ja existente
+	*
+	* @param nome Nome do motorista
+	* @param veiculo Veiculo a inserir
+	*
+	* @return true -> o veiculo foi inserido com sucesso
+	* @return false -> o veiculo ja pertencia ao motorista
+	*/
+	bool removerVeiculo(string nome, unsigned id);
+	/**
+	* @brief Insere um novo veiculo num motorista ja existente
+	*
+	* @param nome Nome do motorista
+	* @param veiculo Veiculo a inserir
+	*
+	* @return true -> o veiculo foi inserido com sucesso
+	* @return false -> o veiculo ja pertencia ao motorista
+	*/
+	bool removerVeiculo(string nome, string matricula);
+	/**
+	* @brief Remove um motorista da tabela de motoristas
+	*
+	* @param nome Nome do motorista a remover
+	*
+	* @return true -> Se o motorista foi removido com sucesso
+	* @return false -> Se o motorista nao foi removido com sucesso
+	*/
+	bool removerMotorista(string nome);
 };
 
 class CmpId

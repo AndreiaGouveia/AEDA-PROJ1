@@ -9,7 +9,7 @@
 #define SRC_MOTORISTA_H_
 
 #include <string>
-#include <vector>
+#include <list>
 #include <iostream>
 #include "Veiculo.h"
 
@@ -20,80 +20,87 @@ no caso de necessidade de contratação de um motorista, a empresa tem como prefer
 trabalhadores já conhecidos. O motorista deve estar associado aos transportes que realiza (se é um
 trabalhador atual da empresa).
  * */
-
+//assumir que todos os veiculos teem motorista
+//ver se ha motoristas disponiveis para tal veiculo(ou seja que nao tenham esse veiculo) se nao contrata um novo
 class Motorista
 {
 
 private:
 	bool atual;
 	string nome;
-	vector <Veiculo> veiculos;
+	list <pair <string,unsigned>>  veiculos;
 
 public:
 	/**
-		 * @brief Construtor da classe Motorista
-		 *
-		 * @param nome	Nome do Motorista
-		 * @param atual	Se o motorista esta empregado ou nao
-		 * @param veiculos	Veiculos/transportes associados ao condutor
+	* @brief Construtor da classe Motorista
+	*
+	* @param nome	Nome do Motorista
+	* @param atual	Se o motorista esta empregado ou nao
+	* @param veiculos	Veiculos/transportes associados ao condutor
 	*/
 	Motorista(string nome,bool atual);
-	Motorista(string nome,bool atual,vector<Veiculo> veiculos);
+	Motorista(string nome,bool atual,list <pair <string,unsigned>> veiculos);
 	/**
-		 * @brief Permite acesso ao nome do Motorista
-		 *
-		 * @return nome do Motorista
-		*/
+	* @brief Permite acesso ao nome do Motorista
+	*
+	* @return nome do Motorista
+	*/
 	string getNome();
 	/**
-			 * @brief Permite saber se o motorista esta contratado ou nao
-			 *
-			 * @return se esta contratado ou nao
-			*/
+	* @brief Permite saber se o motorista esta contratado ou nao
+	*
+	* @return true -> se esta contratado
+	* @return false -> se nao estiver contratado
+	*/
 	bool getAtual();
 	/**
-				 * @brief Permite aceder aos veiculos/transportes associados ao condutor
-				 *
-				 * @return se esta contratado ou nao
-				*/
-	vector <Veiculo> getVeiculos();
+	* @brief Permite aceder aos veiculos/transportes associados ao condutor
+	*
+	* @return lista de veiculos associados ao motorista
+	*/
+	list <pair <string,unsigned>> getVeiculos();
 	/**
-					 * @brief Permite inserir novos veiculos/transportes associados ao condutor
-					 *
-					 * @return se esta contratado ou nao
-					*/
-	void inserirVeiculo(Veiculo *veiculo);
+	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
+	*
+	* @return se esta contratado ou nao
+	*/
+	void inserirVeiculo(string matricula , unsigned id);
 	/**
-						 * @brief Permite modificar o estado do contracto
-						 *
-						 * @return void
-						*/
+	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
+	*
+	* @return se esta contratado ou nao
+	*/
+	void inserirVeiculos(list <pair<string , unsigned>> v);
+	/**
+	* @brief Permite modificar o estado do contracto
+	*
+	* @return void
+	*/
 	void setAtual(bool atual);
 	/**
-						 * @brief Permite remover veiculos/transportes associados ao condutor
-						 *
-						 * @return se esta contratado ou nao
-						*/
-	void removerVeiculo(Veiculo *veiculo);
+	 * @brief Permite remover veiculos/transportes associados ao condutor atravez do id do veiculo
+	*
+	* @return void
+	*/
+	void removerVeiculo(unsigned id);
 	/**
-						 * @brief Permite despedir um funcionaro, mudando o atual e dando clear ao vetor
-						 *
-						 * @return se esta contratado ou nao
-						*/
+	 * @brief Permite remover veiculos/transportes associados ao condutor atravez da matricula do veiculo
+	 *
+	 * @return void
+	 */
+	void removerVeiculo(string matricula);
+	/**
+	 * @brief Permite despedir um funcionaro, mudando o atual e eliminando os elementos da lista
+	 *
+	 * @return se esta contratado ou nao
+	 */
 	void despedir();
 	/**
-						 * @brief Permite contratar um funcionario ja existente, mudando o atual para true
-						 *
-						 * @return void
-						*/
-	void contratar();
-	/**
-						 * @brief ermite contratar um funcionario ja existente, mudando o atual para true e inserindo um veiculo
-						 *
-						 * @return void
-						*/
-	void contratar(Veiculo *veiculo);
-
+	 * @brief Permite contratar um funcionario ja existente, mudando o atual para true
+	 *
+	 * @return void
+	 */
+	void contratar(string matricula,unsigned id);
 
 };
 

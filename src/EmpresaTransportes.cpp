@@ -1001,3 +1001,76 @@ Oficina Empresa::repararVeiculo(unsigned int id, double dist_max)
 
 	return temp;
 }
+
+//===============================================================
+bool Empresa::checkMotorista(string nome)
+{
+	Motorista m(nome);
+
+	return motoristas.find(m)!=motoristas.end();
+}
+bool Empresa::inserirAntigoMotorista(string nome)
+{
+	Motorista m(nome);
+	pair<tabHMotorista::iterator, bool> res = motoristas.insert(m);
+			return  res.second;
+}
+bool Empresa::inserirVeiculo(string nome, string matricula, unsigned id)
+{
+	if(!checkMotorista(nome))
+			return false;
+	Motorista m(nome);
+	tabHMotorista::iterator it = motoristas.find(m);
+	Motorista motorista=*it;
+	motoristas.erase(it);
+	motorista.inserirVeiculo(matricula,id);
+	motoristas.insert(motorista);
+	return true;
+}
+bool Empresa::inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos)
+{
+	if(!checkMotorista(nome))
+			return false;
+	Motorista m(nome);
+	tabHMotorista::iterator it = motoristas.find(m);
+	Motorista motorista=*it;
+	motoristas.erase(it);
+	motorista.inserirVeiculos(veiculos);
+	motoristas.insert(motorista);
+	return true;
+}
+bool Empresa::removerVeiculo(string nome, unsigned id)
+{
+	if(!checkMotorista(nome))
+		return false;
+	Motorista m(nome);
+	tabHMotorista::iterator it = motoristas.find(m);
+	Motorista motorista=*it;
+	motoristas.erase(it);
+	motorista.removerVeiculo(id);
+	motoristas.insert(motorista);
+
+	return true;
+}
+bool Empresa::removerVeiculo(string nome, string matricula)
+{
+	if(!checkMotorista(nome))
+			return false;
+		Motorista m(nome);
+		tabHMotorista::iterator it = motoristas.find(m);
+		Motorista motorista=*it;
+		motoristas.erase(it);
+		motorista.removerVeiculo(matricula);
+		motoristas.insert(motorista);
+
+		return true;
+}
+
+bool Empresa::removerMotorista(string nome)
+{
+	if(!checkMotorista(nome))
+			return false;
+	Motorista motorista(nome);
+	motoristas.erase(motoristas.find(motorista));
+	return true;
+}
