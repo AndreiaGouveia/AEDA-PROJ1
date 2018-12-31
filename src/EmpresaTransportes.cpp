@@ -1013,6 +1013,7 @@ bool Empresa::contratarNovoMotorista(string nome,list<pair<string , unsigned >> 
 
 	return true;
 }
+
 bool Empresa::inserirAntigoMotorista(string nome)
 {
 	Motorista m(nome);
@@ -1021,6 +1022,7 @@ bool Empresa::inserirAntigoMotorista(string nome)
 
 	return  res.second;
 }
+
 bool Empresa::inserirVeiculo(string nome, string matricula, unsigned id)
 {
 	if(motoristas.empty())
@@ -1052,6 +1054,7 @@ bool Empresa::inserirVeiculo(string nome, string matricula, unsigned id)
 
 	return true;
 }
+
 bool Empresa::inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos)
 {
 	if(motoristas.empty())

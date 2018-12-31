@@ -95,5 +95,31 @@ public:
 	string getMsg() { return msg; }
 };
 
+class EscolaNaoExistente
+{
+private:
+	string msg;
+public:
+	EscolaNaoExistente() { msg = "Escola nao existe."; }
+	string getMsg() { return msg; }
+};
+
+class EscolaJaExiste
+{
+private:
+	string msg;
+public:
+	EscolaJaExiste() { msg = "Escola ja existe."; }
+	string getMsg() { return msg; }
+};
+
+class ZonasIncompativeis
+{
+private:
+	string msg;
+public:
+	ZonasIncompativeis() { msg = "A zona da Escola e do Utente sao incompativeis."; }
+	string getMsg() { return msg; }
+};
 
 #endif /* SRC_EXCEPTIONS_H_ */

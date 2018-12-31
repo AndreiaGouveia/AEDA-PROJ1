@@ -1,5 +1,6 @@
 #include "Utente.h"
 #include "Veiculo.h"
+#include "Escola.h"
 #include "Oficina.h"
 #include "Motorista.h"
 #include <map>
@@ -50,6 +51,7 @@ private:
 	vector<double> registoDiario; ///< registo do lucro/prejuizo diario do mes corrente
 	map<unsigned int,double> tabelaPasses; ///< Tabela que guarda a correspondencia Utente -> valor do passe mensal
 	map<unsigned int,unsigned int> tabelaPassageiros; ///< Tabela que guarda a correspondencia Utente -> veiculo ao qual foi alocado
+	BST<Escola*> escolas; ///< Árvore Binária ordenada pelo numero de alunos e funcionarios de cada escola que utilizam esta rede de transportes
 	priority_queue<Oficina> oficinas; ///< Fila de oficinas ordenada pelo menor tempo de espera
 	tabHMotorista motoristas; ///< Tabela de dispersao que contem os motoristas da empresa
 
@@ -464,7 +466,7 @@ public:
 	*/
 	bool contratarNovoMotorista(string nome,list<pair<string , unsigned >> veiculos);
 	/**
-	* @brief Coloca um motorista antigo na tabela de dispers�o, assume se que o valor do atual seja false
+	* @brief Coloca um motorista antigo na tabela de dispers�o, assume se que o valor do atual seja false
 	*
 	* @param nome Nome do motorista
 	*
@@ -525,6 +527,14 @@ public:
 	* @return false -> se sera necessario contratar um novo motorista
 	*/
 	bool averiguar_motoristas(string matricula, unsigned id);
+
+//==========================================================================
+	pair<bool, Escola*> verificaEscola(unsigned codigo);
+	void adicionaEscola(Escola *esc);
+	vector<Utente*> removeEscola(unsigned codigo);
+	bool InsereUtenteEscola(unsigned codigo, Utente *ut);
+	bool RemoveUtenteEscola(Utente *ut);
+	string getEscolasZona(unsigned zona);
 };
 
 class CmpId
