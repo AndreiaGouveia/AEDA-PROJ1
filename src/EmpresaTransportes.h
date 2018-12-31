@@ -3,6 +3,7 @@
 #include "Escola.h"
 #include "Oficina.h"
 #include "Motorista.h"
+#include "BST.h"
 #include <map>
 #include <iostream>
 #include <sstream>
@@ -10,6 +11,7 @@
 #include <queue>
 #include <unordered_set>
 #include <string>
+#include <utility>
 
 struct motoristaHash
 {
@@ -51,9 +53,9 @@ private:
 	vector<double> registoDiario; ///< registo do lucro/prejuizo diario do mes corrente
 	map<unsigned int,double> tabelaPasses; ///< Tabela que guarda a correspondencia Utente -> valor do passe mensal
 	map<unsigned int,unsigned int> tabelaPassageiros; ///< Tabela que guarda a correspondencia Utente -> veiculo ao qual foi alocado
-	BST<Escola*> escolas; ///< Árvore Binária ordenada pelo numero de alunos e funcionarios de cada escola que utilizam esta rede de transportes
 	priority_queue<Oficina> oficinas; ///< Fila de oficinas ordenada pelo menor tempo de espera
 	tabHMotorista motoristas; ///< Tabela de dispersao que contem os motoristas da empresa
+	BST<Escola> escolas; ///< Árvore Binária ordenada pelo numero de alunos e funcionarios de cada escola que utilizam esta rede de transportes
 
 public:
 	/**
@@ -529,9 +531,10 @@ public:
 	bool averiguar_motoristas(string matricula, unsigned id);
 
 //==========================================================================
-	pair<bool, Escola*> verificaEscola(unsigned codigo);
-	void adicionaEscola(Escola *esc);
-	vector<Utente*> removeEscola(unsigned codigo);
+	pair<bool, Escola> verificaEscola(unsigned codigo);
+	void adicionaEscola(Escola &esc);
+	vector<Utente*> removeEscola(Escola &esc);
+	pair<bool, Escola> encontraEscolaUtente(Utente &ut);
 	bool InsereUtenteEscola(unsigned codigo, Utente *ut);
 	bool RemoveUtenteEscola(Utente *ut);
 	string getEscolasZona(unsigned zona);

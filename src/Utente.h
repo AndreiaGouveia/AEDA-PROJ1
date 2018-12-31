@@ -100,6 +100,7 @@ public:
 	*/
 	virtual string getInfo() const;
 	friend ostream& operator<<(ostream &out, const Utente &utente);
+	bool operator==(const Utente &ut);
 };
 
 /**

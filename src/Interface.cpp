@@ -783,7 +783,7 @@ void inserir_antigo_motorista(Empresa &empresa)
 	cout<<"insira o nome do motorista que pretende colocar no sistema"<<endl;
 	cin>>nome;
 
-	if(empresa.inserirAntigoMotorista(nome));
+	if(empresa.inserirAntigoMotorista(nome))
 		cout<<"Motorista foi inserido com sucesso"<<endl;
 	else cout <<"Motorista nao foi inserido com sucesso"<<endl;
 }

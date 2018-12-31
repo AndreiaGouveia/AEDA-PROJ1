@@ -1,6 +1,6 @@
 #include "Escola.h"
 
-Escola::Escola(string nome, unsigned codigo, string nome_d,string morada_d, unsigned zona)
+Escola::Escola(string nome, unsigned codigo, string nome_d, string morada_d, unsigned zona)
 {
 	this->nome = nome;
 	this->codigo = codigo;
@@ -9,27 +9,27 @@ Escola::Escola(string nome, unsigned codigo, string nome_d,string morada_d, unsi
 	this->zona = zona;
 }
 
-vector<Utente> & Escola::getUtentes()
+vector<Utente*> Escola::getUtentes() const
 {
 	return utentes;
 }
 
-string Escola::getNome()
+string Escola::getNome() const
 {
 	return nome;
 }
 
-unsigned Escola::getCodigo()
+unsigned Escola::getCodigo() const
 {
 	return codigo;
 }
 
-unsigned Escola::getZona()
+unsigned Escola::getZona() const
 {
 	return zona;
 }
 
-pair<string,string> Escola::getDiretorInfo()
+pair<string,string> Escola::getDiretorInfo() const
 {
 	pair<string, string> par;
 	par.first = this->nome_diretor;
@@ -47,7 +47,7 @@ void Escola::removeUtente(Utente *ut)
 {
 	for(size_t i = 0; i < utentes.size(); i++)
 	{
-		if(*utentes[i] == *ut)
+		if(utentes[i] == ut)
 		{
 			utentes.erase(utentes.begin() + i);
 
@@ -56,7 +56,7 @@ void Escola::removeUtente(Utente *ut)
 	}
 }
 
-bool Escola::operator<(Escola &esc)
+bool Escola::operator<(const Escola &esc) const
 {
 	if(this->getUtentes().size() == esc.getUtentes().size())
 	{

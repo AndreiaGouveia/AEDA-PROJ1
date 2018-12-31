@@ -1248,3 +1248,136 @@ bool Empresa::averiguar_motoristas(string matricula, unsigned id)
 	}
 	return false;
 }
+
+//===============================================================
+
+pair<bool, Escola> Empresa::verificaEscola(unsigned codigo)
+{
+	BSTItrIn<Escola> itr(escolas);
+
+	Escola null("", 0, "", "", 0);
+
+	pair<bool, Escola> par(false, null);
+
+	while(!itr.isAtEnd())
+	{
+		if(itr.retrieve().getCodigo() == codigo)
+		{
+			par.first = true;
+			par.second = itr.retrieve();
+			return par;
+		}
+
+		itr.advance();
+	}
+
+	return par;
+}
+
+void Empresa::adicionaEscola(Escola &esc)
+{
+	escolas.insert(esc);
+}
+
+vector<Utente*> Empresa::removeEscola(Escola &esc)
+{
+	vector<Utente*> temp = esc.getUtentes();
+
+	escolas.remove(esc);
+
+	return temp;
+}
+
+pair<bool, Escola> Empresa::encontraEscolaUtente(Utente &ut)
+{
+	BSTItrIn<Escola> itr(escolas);
+
+	Escola null("", 0, "", "", 0);
+
+	pair<bool, Escola> par(false, null);
+
+	while(!itr.isAtEnd())
+	{
+		if(itr.retrieve().getZona() == ut.getZonaEscola())
+		{
+			vector<Utente*> temp = itr.retrieve().getUtentes();
+
+			for(size_t i = 0; i < temp.size(); i++)
+			{
+				if(*(temp[i]) == ut)
+				{
+					par.first = true;
+					par.second = itr.retrieve();
+					return par;
+				}
+			}
+		}
+
+		itr.advance();
+	}
+
+	return par;
+}
+
+bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut)
+{
+	pair<bool, Escola> res = verificaEscola(codigo);
+
+	if(res.first)
+	{
+		if(ut->getZonaEscola() == res.second.getZona())
+		{
+			Escola aux = res.second;
+
+			aux.addUtente(ut);
+
+			escolas.remove(res.second);
+
+			escolas.insert(aux);
+
+			return true;
+		}
+		else throw ZonasIncompativeis();
+	}
+	else throw EscolaNaoExistente();
+}
+
+bool Empresa::RemoveUtenteEscola(Utente *ut)
+{
+	pair<bool, Escola> res = encontraEscolaUtente(*ut);
+
+	if(res.first)
+	{
+		Escola aux = res.second;
+
+		aux.removeUtente(ut);
+
+		escolas.remove(res.second);
+
+		escolas.insert(aux);
+
+		return true;
+	}
+	else throw EscolaNaoExistente();
+}
+
+string Empresa::getEscolasZona(unsigned zona)
+{
+	BSTItrIn<Escola> itr(escolas);
+
+	ostringstream s;
+
+	while(!itr.isAtEnd())
+	{
+		if(itr.retrieve().getZona() == zona)
+		{
+			s << itr.retrieve().getCodigo() << '\t' << itr.retrieve().getNome() << '\n';
+		}
+
+		itr.advance();
+	}
+
+	return s.str();
+}
+
+
