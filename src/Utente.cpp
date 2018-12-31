@@ -7,7 +7,15 @@
 unsigned int Utente::ult_numUtente = 0;
 
 Utente::Utente(const string &nome, const string &data_nasc, const string &BI, const unsigned int &zonaHabit, const unsigned int &zonaEsc)
-: nome(nome), data_nascimento(data_nasc), BI(BI), numUtente(++ult_numUtente), zonaHabitacao(zonaHabit), zonaEscola(zonaEsc){}
+: nome(nome), data_nascimento(data_nasc), BI(BI), numUtente(++ult_numUtente), zonaHabitacao(zonaHabit), zonaEscola(zonaEsc)
+{
+	this->cod_escola = 0;
+}
+
+unsigned Utente::getCodEscola()
+{
+	return this->cod_escola;
+}
 
 string Utente::getNome() const
 {
@@ -47,6 +55,11 @@ void Utente::setZonaHabitacao(unsigned int zona)
 void Utente::setZonaEscola(unsigned int zona)
 {
 	zonaEscola = zona;
+}
+
+void Utente::setCodEscola(unsigned codigo)
+{
+	this->cod_escola = codigo;
 }
 
 string Utente::getInfo() const

@@ -6,6 +6,84 @@
 #include "Input_handler.h"
 #include <iomanip>
 
+void inserir_escola(Empresa &empresa);
+
+void inserir_utente_escola(Empresa &empresa, Utente *ut)
+{
+	unsigned codigo;
+
+	while(true)
+	{
+		cout << "A que escola pretende associar o utente? (Ctrl + Z para ver lista de escolas/inserir nova escola)" << '\t';
+		cin >> codigo;
+
+		if(cin.eof())
+		{
+			char c;
+
+			cout << "Pretende ver a lista de escolas ('v') ou inserir uma nova escola ('i')?" << '\t';
+			cin >> c;
+
+			if(c == 'v')
+			{
+				cout << empresa.getEscolasZona(ut->getZonaEscola()) << endl;
+			}
+			else if(c == 'i')
+			{
+				inserir_escola(empresa);
+			}
+			else continue;
+		}
+		else if(cin.fail())
+		{
+			cin.ignore(10000, '\n');
+			cin.clear();
+		}
+		else
+		{
+			try
+			{
+				empresa.InsereUtenteEscola(codigo, ut);
+			}
+			catch(ZonasIncompativeis &z)
+			{
+				z.getMsg();
+				continue;
+			}
+			catch(EscolaNaoExistente &e)
+			{
+				e.getMsg();
+				continue;
+			}
+
+			return;
+		}
+	}
+}
+
+void remover_utente_escola(Empresa &empresa, Utente *ut)
+{
+	empresa.RemoveUtenteEscola(ut);
+
+	cout << "Deverá agora associar o utente a uma nova escola." << endl;
+
+	inserir_utente_escola(empresa, ut);
+}
+
+void mudar_escola_utente(Empresa &empresa, unsigned numUtente)
+{
+	vector<Utente*> aux = empresa.getUtentes();
+
+	for(size_t i = 0; i < aux.size(); i++)
+	{
+		if(aux[i]->getNumUtente() == numUtente)
+		{
+			remover_utente_escola(empresa, aux[i]);
+			inserir_utente_escola(empresa, aux[i]);
+			break;
+		}
+	}
+}
 
 void adicicionar_utente(Empresa &empresa)
 {
@@ -188,6 +266,8 @@ void alterar_utente(Empresa &empresa)
 				cout << e.getMsg() << endl;
 				return;
 			}
+
+			mudar_escola_utente(empresa, numUtente);
 
 			break;
 		}
@@ -788,6 +868,113 @@ void inserir_antigo_motorista(Empresa &empresa)
 	else cout <<"Motorista nao foi inserido com sucesso"<<endl;
 }
 
+void inserir_escola(Empresa &empresa)
+{
+	string nome, nome_d, morada_d;
+	unsigned codigo, zona;
+
+	cout << "Insira o nome da escola." <<  '\t';
+	cin >> nome;
+
+	cout << "Insira o nome do Diretor." << '\t';
+	cin >> nome_d;
+
+	cout << "Insira a morada do Diretor." << '\t';
+	cin >> morada_d;
+
+	cout << "Insira o codigo da escola (5 digitos)." << '\t';
+	cin >> codigo;
+
+	while(true)
+	{
+		if(cin.eof())
+		{
+			return;
+		}
+		else if(cin.fail())
+		{
+			cin.ignore(100000, '\n');
+			cin.clear();
+		}
+		else if(codigo > 99999 || !empresa.verificaEscola(codigo).first)
+		{}
+		else break;
+
+		cerr << "Input errado. Insira um código de 5 digitos" << '\t';
+		cin >> codigo;
+	}
+
+	cout << "Insira a Zona." << '\t';
+	cin >> zona;
+
+	while(true)
+	{
+		if(cin.eof())
+		{
+			return;
+		}
+		else if(cin.fail())
+		{
+			cin.ignore(100000, '\n');
+			cin.clear();
+		}
+		else if(zona < 1 || zona > empresa.getPrecos().size())
+		{}
+		else break;
+
+		cerr << "Input errado. Insira uma zona que exista." << '\t';
+		cin >> zona;
+	}
+
+	Escola esc(nome, codigo, nome_d, morada_d, zona);
+
+	empresa.adicionaEscola(esc);
+}
+
+void remover_escola(Empresa &empresa)
+{
+	unsigned codigo;
+
+	cout << "Qual o codigo da escola que pretende remover? (Ctrl+Z para sair)" << '\t';
+	cin >> codigo;
+
+	if(cin.eof())
+	{
+		return;
+	}
+
+	pair<bool, Escola> res = empresa.verificaEscola(codigo);
+
+	while(cin.fail() && codigo > 99999 && !res.first)
+	{
+		cin.ignore();
+
+		cerr << "Input errado. Insira um código existente" << '\t';
+		cin.clear();
+		cin >> codigo;
+
+		if(cin.eof())
+		{
+			return;
+		}
+	}
+
+	vector<Utente*> aux = empresa.removeEscola(res.second);
+
+	if(aux.size() > 0)
+	{
+		inserir_utente_escola(empresa, aux[0]);
+	}
+
+	cout << "Os utentes serao recolocados na mesma escola." << endl;
+
+	for(size_t i = 1; i < aux.size(); i++)
+	{
+		aux[i]->setCodEscola(aux[0]->getCodEscola());
+		empresa.InsereUtenteEscola(aux[0]->getCodEscola(), aux[i]);
+	}
+}
+
 void trabalhar_empresa(Empresa &empresa)
 {
 	while(true)
@@ -820,9 +1007,11 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "24. Remover veiculo de um motorista" << endl
 			 << "25. Remover Motorista" << endl
 			 << "26. Inserir um antigo motorista" << endl
-			 << "27. Voltar" << endl;
+			 << "27. Adicionar Escola" << endl
+			 << "28. Remover Escola" << endl
+			 << "29. Voltar" << endl;
 
-		switch(respostaNumeros(1, 27))
+		switch(respostaNumeros(1, 30))
 		{
 		case 1:
 			adicicionar_utente(empresa);
@@ -903,6 +1092,12 @@ void trabalhar_empresa(Empresa &empresa)
 			inserir_antigo_motorista(empresa);
 			break;
 		case 27:
+			inserir_escola(empresa);
+			break;
+		case 28:
+			remover_escola(empresa);
+			break;
+		case 29:
 			return;
 		}
 	}

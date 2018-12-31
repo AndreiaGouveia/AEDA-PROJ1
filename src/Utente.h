@@ -22,6 +22,7 @@ using namespace std;
  */
 class Utente {
 protected:
+	unsigned cod_escola; ///< Codigo da escola frequentada pelo utente
 	const string nome; ///< Nome do utente
 	const string data_nascimento; ///< Data de nascimento do utente (Nota: nao e controlado o input)
 	const string BI; ///< BI do utente (Nota: nao ha BI's repetidos)
@@ -41,6 +42,12 @@ public:
 	 */
 	Utente(const string &nome, const string &data_nasc, const string &BI,const unsigned int &zonaHabit, const unsigned int &zonaEsc);
 	virtual ~Utente() {}
+	/**
+	 * @brief Permite acesso ao codigo da escola frequentada pelo utente
+	 *
+	 * @return codigo da escola
+	 */
+	unsigned getCodEscola();
 	/**
 	 * @brief Permite acesso ao nome do utente
 	 *
@@ -89,6 +96,12 @@ public:
 	 * @param zona Nova zona de escola
 	*/
 	void setZonaEscola(unsigned int zona);
+	/**
+	 * @brief Altera o codigo da escola do utente
+	 *
+	 * @param codigo da nova escola
+	*/
+	void setCodEscola(unsigned codigo);
 	virtual unsigned int getContacto() const = 0;
 	virtual void setContacto(unsigned int cont) = 0;
 	virtual string getNomeEE() const {return "";}
