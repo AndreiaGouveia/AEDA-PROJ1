@@ -1,16 +1,19 @@
 #include "EmpresaTransportes.h"
 
-Empresa::Empresa(string nome) {
+Empresa::Empresa(string nome) : escolas(Escola("", 0, "", "", 0))
+{
 	nome_empresa = nome;
 	precoPessoa = -1;
 	lucrosMensais = vector<double>(12, -1);
 }
 
-Empresa::Empresa(ifstream &f) {
+Empresa::Empresa(ifstream &f) : escolas(Escola("", 0, "", "", 0))
+{
 	carregarInfo(f);
 }
 
-Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic,unsigned int precoPessoa, ifstream &fprecos) {
+Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic,unsigned int precoPessoa, ifstream &fprecos) : escolas(Escola("", 0, "", "", 0))
+{
 	nome_empresa = nome;
 	utentes = vUt;
 	veiculos = vVeic;
