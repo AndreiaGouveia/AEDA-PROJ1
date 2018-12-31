@@ -77,18 +77,13 @@ public:
 	* @return void
 	*/
 	void setAtual(bool atual);
+
 	/**
-	 * @brief Permite remover veiculos/transportes associados ao condutor atravez do id do veiculo
-	*
-	* @return void
-	*/
-	void removerVeiculo(unsigned id);
-	/**
-	 * @brief Permite remover veiculos/transportes associados ao condutor atravez da matricula do veiculo
+	 * @brief Permite remover veiculos/transportes associados ao condutor atravez da matricula e id do veiculo
 	 *
 	 * @return void
 	 */
-	void removerVeiculo(string matricula);
+	void removerVeiculo(string matricula,unsigned id);
 	/**
 	 * @brief Permite despedir um funcionaro, mudando o atual e eliminando os elementos da lista
 	 *
@@ -101,7 +96,13 @@ public:
 	 * @return void
 	 */
 	void contratar(string matricula,unsigned id);
-
+	/**
+	 * @brief Permite saber quantos veiculos ainda podem ser inseridos
+	 *
+	 * @return O numero de veiculos que ainda podem ser inseridos
+	 */
+	int nr_veiculos_por_inserir();
+	void mostrar_veiculos();
 };
 
 

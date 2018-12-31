@@ -618,6 +618,176 @@ void mostrar_precos(const Empresa &empresa)
 	cout << empresa.showPrecos();
 }
 
+void inserir_motorista( Empresa &empresa)
+{
+	string matricula,nome;
+	unsigned id;
+
+	cout <<"insira o nome e os veiculos,insira parar para parar"<<endl;
+	cin>>nome;
+
+	pair<string,unsigned > m;
+	list<pair<string,unsigned>> veiculos;
+
+	cout<<"matricula: ";
+	cin>>matricula;
+
+	while(matricula!="parar")
+		{
+			cout<<"id: ";
+			cin>>id;
+
+			m=make_pair(matricula, id);
+
+			veiculos.push_back(m);
+
+			cout<<"matricula: ";
+			cin>>matricula;
+		}
+
+	if(empresa.contratarNovoMotorista(nome,veiculos))
+		cout<< "O veiculo foi inserido com sucesso"<<endl;
+	else cout<<"O veiculo que inseriu nao possui motoristas livres, tera que contratar um novo motorista"<<endl;
+
+	empresa.mostrar_nome_motoristas();
+}
+
+void inserir_veiculo(Empresa &empresa)
+{
+	char answer;
+
+	cout<< "Quer atribuir o veiculo a um motorista em especifico?"<<endl;
+	cin>>answer;
+
+	if(answer=='y'||answer=='Y')
+		{
+			//mostrar os motoristas existentes e o seu estado de contratacao
+			if(!empresa.mostrar_nome_motoristas())
+				{
+					cout<< "Para executar esta operacao necessita que haja motoristas no sistema"<<endl;
+					return;
+				}
+
+		string nome;
+
+		cout<<"insira o nome do motorista"<<endl;
+		cin>>nome;
+
+		//introduzir informacoes sobre os veiculos a inserir no motorista
+
+		string matricula;
+		unsigned id;
+		pair<string,unsigned > m;
+		list<pair<string,unsigned>> veiculos;
+
+		//NOTA: ainda falta verificar se o veiculo existe
+		cout<<"Insira a matricula e o id correspondente ao veiculo e quando quiser parar escreva parar"<<endl;
+		cout<<"Matricula: "<<endl;
+		cin>>matricula;
+
+		while(matricula!="parar")
+		 {
+			  cout<<"id: ";
+			  cin>>id;
+
+			  m=make_pair(matricula, id);
+
+			  veiculos.push_back(m);
+
+			  cout<<"Matricula: ";
+			  cin>>matricula;
+		 }
+
+		if(empresa.inserirVeiculos(nome,veiculos))
+			cout<<"Os veiculos foram inseridos com sucesso"<<endl;
+		else cout<<"Alguns dos veiculos nao puderam ser inseridos pois ultrapasaram o limite de 5 veiculos por motorista"<<endl;
+
+		empresa.mostrar_nome_motoristas();
+	}
+	else
+	{
+		string matricula;
+		unsigned id;
+		pair<string,unsigned > m;
+		list<pair<string,unsigned>> veiculos;
+
+		//NOTA: ainda falta verificar se o veiculo existe
+		cout<<"Insira a matricula e o id correspondente ao veiculo e quando quiser parar escreva parar"<<endl;
+		cout<<"matricula: ";
+		cin>>matricula;
+
+		while(matricula!="parar")
+			 {
+				cout<<"id: "<<endl;
+				cin>>id;
+
+				if(empresa.averiguar_motoristas(matricula,id))
+					cout<< "O veiculo foi inserido com sucesso"<<endl;
+				else cout<<"O veiculo que inseriu nao possui motoristas livres, tera que contratar um novo motorista"<<endl;
+
+				cout<<"matricula: "<<endl;
+				cin>>matricula;
+			 }
+		empresa.mostrar_nome_motoristas();
+	}
+}
+
+void removerVeiculo(Empresa & empresa)
+{
+	empresa.mostrar_nome_motoristas();
+
+	string nome;
+
+	cout<<"insira o nome do motorista"<<endl;
+	cin>>nome;
+
+	string matricula;
+	unsigned id;
+	pair<string,unsigned > m;
+	list<pair<string,unsigned>> veiculos;
+
+	cout<<"matricula: "<<endl;
+	cin>>matricula;
+
+	cout<<"id: "<<endl;
+	cin>>id;
+
+	if(empresa.removerVeiculo(nome,matricula,id))
+		cout<<"O veiculo foi removido com sucesso"<<endl;
+	else cout<<"O veiculo nao foi removido com sucesso"<<endl;
+
+	empresa.mostrar_nome_motoristas();
+}
+
+void remover_motorista(Empresa &empresa)
+{
+	empresa.mostrar_nome_motoristas();
+
+	string nome;
+
+	cout<<"insira o nome do motorista que pretende remover"<<endl;
+	cin>>nome;
+
+	if(empresa.removerMotorista(nome))
+		cout<< "Motorista removido com sucesso"<<endl;
+	else cout<<"Motorista nao existente"<<endl;
+
+}
+
+void inserir_antigo_motorista(Empresa &empresa)
+{
+	empresa.mostrar_nome_motoristas();
+
+	string nome;
+
+	cout<<"insira o nome do motorista que pretende colocar no sistema"<<endl;
+	cin>>nome;
+
+	if(empresa.inserirAntigoMotorista(nome));
+		cout<<"Motorista foi inserido com sucesso"<<endl;
+	else cout <<"Motorista nao foi inserido com sucesso"<<endl;
+}
+
 void trabalhar_empresa(Empresa &empresa)
 {
 	while(true)
@@ -645,9 +815,14 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "19. Mostrar os lucros mensais deste ano" << endl
 			 << "20. Mostrar os balancos diarios deste mes" << endl
 			 << "21. Mostrar a matriz de precos por zona" << endl
-			 << "22. Voltar" << endl;
+			 << "22. Inserir motorista" << endl
+			 << "23. Inserir veiculo(s)" << endl
+			 << "24. Remover veiculo de um motorista" << endl
+			 << "25. Remover Motorista" << endl
+			 << "26. Inserir um antigo motorista" << endl
+			 << "27. Voltar" << endl;
 
-		switch(respostaNumeros(1, 22))
+		switch(respostaNumeros(1, 27))
 		{
 		case 1:
 			adicicionar_utente(empresa);
@@ -713,6 +888,21 @@ void trabalhar_empresa(Empresa &empresa)
 			mostrar_precos(empresa);
 			break;
 		case 22:
+			inserir_motorista(empresa);
+			break;
+		case 23:
+			inserir_veiculo(empresa);
+			break;
+		case 24:
+			removerVeiculo(empresa);
+			break;
+		case 25:
+			remover_motorista(empresa);
+			break;
+		case 26:
+			inserir_antigo_motorista(empresa);
+			break;
+		case 27:
 			return;
 		}
 	}

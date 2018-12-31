@@ -454,15 +454,6 @@ public:
 	friend ostream& operator <<(ostream& out,const Empresa &emp);
 //==========================================================================
 	/**
-	* @brief Verifica se um determinado motorista existe ou nao
-	*
-	* @param nome Nome do motorista
-	*
-	* @return true -> existia
-	* @return false -> nao existia
-	*/
-	bool checkMotorista(string nome);
-	/**
 	 * @brief Contata um novo motorista colocando-o na lista de dispersao, o atual assume se como true, pois e um novo motorista
 	 *
 	 * @param nome Nome do motorista a contratar
@@ -502,25 +493,15 @@ public:
 	*/
 	bool inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos);
 	/**
-	* @brief Insere um novo veiculo num motorista ja existente atravez do id do veiculo
+	* @brief Insere um novo veiculo num motorista ja existente atravez da matricula e id do veiculo
 	*
 	* @param nome Nome do motorista
 	* @param veiculo Veiculo a inserir
 	*
 	* @return true -> o veiculo foi inserido com sucesso
-	* @return false -> o veiculo ja pertencia ao motorista
+	* @return false -> o veiculo nao foi removido com sucesso
 	*/
-	bool removerVeiculo(string nome, unsigned id);
-	/**
-	* @brief Insere um novo veiculo num motorista ja existente atravez da matricula do veiculo
-	*
-	* @param nome Nome do motorista
-	* @param veiculo Veiculo a inserir
-	*
-	* @return true -> o veiculo foi inserido com sucesso
-	* @return false -> o veiculo ja pertencia ao motorista
-	*/
-	bool removerVeiculo(string nome, string matricula);
+	bool removerVeiculo(string nome, string matricula,unsigned id);
 	/**
 	* @brief Remove um motorista da tabela de motoristas
 	*
@@ -530,6 +511,20 @@ public:
 	* @return false -> Se o motorista nao foi removido com sucesso
 	*/
 	bool removerMotorista(string nome);
+	/**
+	* @brief Apresenta na consola todos os motoristas e o seu estado de contratacao
+	*
+	* @return true -> se existir motoristas na tabela
+	* @return false -> se nao existir motoristas na tabela
+	*/
+	bool mostrar_nome_motoristas();
+	/**
+	* @brief Vai adicionar um veiculo no primeiro motorista disponivel
+	*
+	* @return true -> se incluiu o veiculo num motorista ja existente na tabela
+	* @return false -> se sera necessario contratar um novo motorista
+	*/
+	bool averiguar_motoristas(string matricula, unsigned id);
 };
 
 class CmpId
