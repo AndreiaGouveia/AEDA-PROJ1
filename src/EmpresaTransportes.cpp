@@ -1330,6 +1330,8 @@ bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut)
 	{
 		if(ut->getZonaEscola() == res.second.getZona())
 		{
+			ut->setCodEscola(codigo);
+
 			Escola aux = res.second;
 
 			aux.addUtente(ut);
@@ -1351,6 +1353,8 @@ bool Empresa::RemoveUtenteEscola(Utente *ut)
 
 	if(res.first)
 	{
+		ut->setCodEscola(0);
+
 		Escola aux = res.second;
 
 		aux.removeUtente(ut);
@@ -1362,6 +1366,32 @@ bool Empresa::RemoveUtenteEscola(Utente *ut)
 		return true;
 	}
 	else throw EscolaNaoExistente();
+}
+
+string Empresa::getEscolas()
+{
+	ostringstream s;
+
+	for(unsigned zona = 1; zona <= this->getUtentes().size(); zona++)
+	{
+		s << "======= z" << zona << " =======" << endl;
+
+		BSTItrIn<Escola> itr(escolas);
+
+		while(!itr.isAtEnd())
+		{
+			if(itr.retrieve().getZona() == zona)
+			{
+				s << itr.retrieve().getCodigo() << '\t' << itr.retrieve().getNome() << '\t' << itr.retrieve().getDiretorInfo().first << '\n';
+			}
+
+			itr.advance();
+		}
+
+		s << endl;
+	}
+
+	return s.str();
 }
 
 string Empresa::getEscolasZona(unsigned zona)

@@ -536,6 +536,7 @@ public:
 	pair<bool, Escola> encontraEscolaUtente(Utente &ut);
 	bool InsereUtenteEscola(unsigned codigo, Utente *ut);
 	bool RemoveUtenteEscola(Utente *ut);
+	string getEscolas();
 	string getEscolasZona(unsigned zona);
 };
 

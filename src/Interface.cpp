@@ -14,14 +14,14 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 
 	while(true)
 	{
-		cout << "A que escola pretende associar o utente? (Ctrl + Z para ver lista de escolas/inserir nova escola)" << '\t';
+		cout << "A que escola pretende associar o utente? (Ctrl + Z para ver lista de escolas/inserir nova escola)   ";
 		cin >> codigo;
 
 		if(cin.eof())
 		{
 			char c;
 
-			cout << "Pretende ver a lista de escolas ('v') ou inserir uma nova escola ('i')?" << '\t';
+			cout << "Pretende ver a lista de escolas ('v') ou inserir uma nova escola ('i')?   ";
 			cin >> c;
 
 			if(c == 'v')
@@ -79,7 +79,6 @@ void mudar_escola_utente(Empresa &empresa, unsigned numUtente)
 		if(aux[i]->getNumUtente() == numUtente)
 		{
 			remover_utente_escola(empresa, aux[i]);
-			inserir_utente_escola(empresa, aux[i]);
 			break;
 		}
 	}
@@ -136,15 +135,19 @@ void adicicionar_utente(Empresa &empresa)
 		checkCinFail(contactoEE);
 
 		//ADICIONAR A CRIANCA AOS UTENTES
+		Utente* ut = new Crianca(nome, data_nasc, BI, zonaHabit, zonaEsc, nomeEE, contactoEE);
+
 		try
 		{
-			empresa.adicionarUtente(new Crianca(nome, data_nasc, BI, zonaHabit, zonaEsc, nomeEE, contactoEE));
+			empresa.adicionarUtente(ut);
 		}
 		catch (UtenteJaExiste &e)
 		{
 			cout << e.getMsg() << endl;
 			return;
 		}
+
+		inserir_utente_escola(empresa, ut);
 	}
 	else if(resposta == 'N')
 	{
@@ -171,15 +174,19 @@ void adicicionar_utente(Empresa &empresa)
 		cout << "Qual o contacto do funcionario?" << endl;
 		checkCinFail(contacto);
 
+		Utente* ut = new Funcionario(nome, data_nasc, BI, zonaHabit, zonaEsc, docente, contacto);
+
 		try
 		{
-			empresa.adicionarUtente(new Funcionario(nome, data_nasc, BI, zonaHabit, zonaEsc, docente, contacto));
+			empresa.adicionarUtente(ut);
 		}
 		catch (UtenteJaExiste &e)
 		{
 			cout << e.getMsg() << endl;
 			return;
 		}
+
+		inserir_utente_escola(empresa, ut);
 	}
 	else return;
 }
@@ -873,16 +880,17 @@ void inserir_escola(Empresa &empresa)
 	string nome, nome_d, morada_d;
 	unsigned codigo, zona;
 
-	cout << "Insira o nome da escola." <<  '\t';
-	cin >> nome;
+	cout << "Insira o nome da escola.   ";
+	cin.ignore(1000,'\n');
+	getline(cin,nome);
 
-	cout << "Insira o nome do Diretor." << '\t';
-	cin >> nome_d;
+	cout << "Insira o nome do Diretor.   ";
+	getline(cin,nome_d);
 
-	cout << "Insira a morada do Diretor." << '\t';
-	cin >> morada_d;
+	cout << "Insira a morada do Diretor.   ";
+	getline(cin,morada_d);
 
-	cout << "Insira o codigo da escola (5 digitos)." << '\t';
+	cout << "Insira o codigo da escola (5 digitos).   ";
 	cin >> codigo;
 
 	while(true)
@@ -896,15 +904,19 @@ void inserir_escola(Empresa &empresa)
 			cin.ignore(100000, '\n');
 			cin.clear();
 		}
-		else if(codigo > 99999 || !empresa.verificaEscola(codigo).first)
+		else if(codigo > 99999)
 		{}
+		else if(empresa.verificaEscola(codigo).first)
+		{
+			cerr << "Escola ja existe. ";
+		}
 		else break;
 
-		cerr << "Input errado. Insira um código de 5 digitos" << '\t';
+		cerr << "Input errado. Insira um código de 5 digitos.   ";
 		cin >> codigo;
 	}
 
-	cout << "Insira a Zona." << '\t';
+	cout << "Insira a Zona.   ";
 	cin >> zona;
 
 	while(true)
@@ -922,7 +934,7 @@ void inserir_escola(Empresa &empresa)
 		{}
 		else break;
 
-		cerr << "Input errado. Insira uma zona que exista." << '\t';
+		cerr << "Input errado. Insira uma zona que exista.   ";
 		cin >> zona;
 	}
 
@@ -935,29 +947,32 @@ void remover_escola(Empresa &empresa)
 {
 	unsigned codigo;
 
-	cout << "Qual o codigo da escola que pretende remover? (Ctrl+Z para sair)" << '\t';
+	cout << "Qual o codigo da escola que pretende remover? (Ctrl+Z para sair)   ";
 	cin >> codigo;
 
-	if(cin.eof())
+	while(true)
 	{
-		return;
-	}
-
-	pair<bool, Escola> res = empresa.verificaEscola(codigo);
-
-	while(cin.fail() && codigo > 99999 && !res.first)
-	{
-		cin.ignore();
-
-		cerr << "Input errado. Insira um código existente" << '\t';
-		cin.clear();
-		cin >> codigo;
-
 		if(cin.eof())
 		{
 			return;
 		}
+		else if(cin.fail())
+		{
+			cin.ignore(10000, '\n');
+			cin.clear();
+		}
+		else if(codigo > 99999)
+		{}
+		else
+		{
+			break;
+		}
+
+		cerr << "Input errado. Insira um código existente.   ";
+		cin >> codigo;
 	}
+
+	pair<bool, Escola> res = empresa.verificaEscola(codigo);
 
 	vector<Utente*> aux = empresa.removeEscola(res.second);
 
@@ -970,9 +985,13 @@ void remover_escola(Empresa &empresa)
 
 	for(size_t i = 1; i < aux.size(); i++)
 	{
-		aux[i]->setCodEscola(aux[0]->getCodEscola());
 		empresa.InsereUtenteEscola(aux[0]->getCodEscola(), aux[i]);
 	}
+}
+
+void mostrar_escolas(Empresa &empresa)
+{
+	cout << empresa.getEscolas();
 }
 
 void trabalhar_empresa(Empresa &empresa)
@@ -1009,7 +1028,8 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "26. Inserir um antigo motorista" << endl
 			 << "27. Adicionar Escola" << endl
 			 << "28. Remover Escola" << endl
-			 << "29. Voltar" << endl;
+			 << "29. Mostrar Escolas" << endl
+			 << "30. Voltar" << endl;
 
 		switch(respostaNumeros(1, 30))
 		{
@@ -1098,6 +1118,9 @@ void trabalhar_empresa(Empresa &empresa)
 			remover_escola(empresa);
 			break;
 		case 29:
+			mostrar_escolas(empresa);
+			break;
+		case 30:
 			return;
 		}
 	}
