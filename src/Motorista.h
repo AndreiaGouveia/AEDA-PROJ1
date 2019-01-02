@@ -27,7 +27,7 @@ class Motorista
 private:
 	bool atual;
 	string nome;
-	list <pair <string,unsigned>>  veiculos;
+	list <unsigned>  veiculos;
 
 public:
 	/**
@@ -39,7 +39,7 @@ public:
 	*/
 	Motorista(string nome);
 	Motorista(string nome,bool atual);
-	Motorista(string nome,bool atual,list <pair <string,unsigned>> veiculos);
+	Motorista(string nome,bool atual,list <unsigned> veiculos);
 	/**
 	* @brief Permite acesso ao nome do Motorista
 	*
@@ -58,19 +58,19 @@ public:
 	*
 	* @return lista de veiculos associados ao motorista
 	*/
-	list <pair <string,unsigned>> getVeiculos() const;
+	list <unsigned> getVeiculos() const;
 	/**
 	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
 	*
 	* @return void
 	*/
-	void inserirVeiculo(string matricula , unsigned id);
+	void inserirVeiculo(unsigned id);
 	/**
 	* @brief Permite inserir novos veiculos/transportes associando-os ao condutor
 	*
 	* @return void
 	*/
-	void inserirVeiculos(list <pair<string , unsigned>> v);
+	void inserirVeiculos(list <unsigned> v);
 	/**
 	* @brief Permite modificar o estado do contracto
 	*
@@ -83,7 +83,7 @@ public:
 	 *
 	 * @return void
 	 */
-	void removerVeiculo(string matricula,unsigned id);
+	void removerVeiculo(unsigned id);
 	/**
 	 * @brief Permite despedir um funcionaro, mudando o atual e eliminando os elementos da lista
 	 *
@@ -95,7 +95,7 @@ public:
 	 *
 	 * @return void
 	 */
-	void contratar(string matricula,unsigned id);
+	void contratar(unsigned id);
 	/**
 	 * @brief Permite saber quantos veiculos ainda podem ser inseridos
 	 *
@@ -103,6 +103,7 @@ public:
 	 */
 	int nr_veiculos_por_inserir();
 	void mostrar_veiculos();
+	bool operator==(Motorista &m1);
 };
 
 

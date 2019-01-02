@@ -16,7 +16,7 @@ Motorista::Motorista(string nome,bool atual): nome(nome),atual(atual)
 
 }
 
-Motorista::Motorista(string nome,bool atual,list <pair <string,unsigned>> veiculos): nome(nome),atual(atual)
+Motorista::Motorista(string nome,bool atual,list <unsigned> veiculos): nome(nome),atual(atual)
 {
 	this->veiculos=veiculos;
 }
@@ -31,32 +31,31 @@ bool Motorista::getAtual()
 	return this->atual;
 }
 
-list <pair <string,unsigned>> Motorista::getVeiculos() const
+list <unsigned> Motorista::getVeiculos() const
 {
 	return this->veiculos;
 }
 
-void Motorista::inserirVeiculo(string matricula , unsigned id)
+void Motorista::inserirVeiculo(unsigned id)
 {
-	list<pair<string , unsigned>>::iterator it;
-	pair <string,unsigned> veiculo= make_pair(matricula,id);
+	list<unsigned>::iterator it;
 
-	it=find(veiculos.begin(),veiculos.end(),veiculo);
+	it=find(veiculos.begin(),veiculos.end(),id);
 
 	if(it==veiculos.end())//se nao existir
 	{
-		veiculos.push_back(veiculo);
+		veiculos.push_back(id);
 		it++;
 	}
 }
 
-void Motorista::inserirVeiculos(list <pair<string , unsigned>> v)
+void Motorista::inserirVeiculos(list <unsigned> v)
 {
-	list<pair<string , unsigned>>::iterator it=v.begin();
+	list<unsigned>::iterator it=v.begin();
 
 	while(it!=v.end())
 	{
-		inserirVeiculo((*it).first,(*it).second);
+		inserirVeiculo(*it);
 		it++;
 	}
 }
@@ -66,16 +65,15 @@ void Motorista::setAtual(bool atual)
 	this->atual=atual;
 }
 
-void Motorista::removerVeiculo(string matricula,unsigned id)
+void Motorista::removerVeiculo(unsigned id)
 {
 	//meter um return false
 	if(veiculos.empty())
 		return ;
 
-	list<pair <string,unsigned>>::iterator it;
-	pair <string,unsigned> veiculo= make_pair(matricula,id);
+	list<unsigned>::iterator it;
 
-	it=find(veiculos.begin(),veiculos.end(),veiculo);
+	it=find(veiculos.begin(),veiculos.end(),id);
 
 		if(it!=veiculos.end())//se existir
 		{
@@ -91,18 +89,17 @@ void Motorista::despedir()
 	this->veiculos.clear();
 }
 
-void Motorista::contratar(string matricula,unsigned id)
+void Motorista::contratar(unsigned id)
 {
 	this->atual=true;
 
-	list<pair <string,unsigned>>::iterator it;cout<<"kakas"<<endl;
-	pair <string,unsigned> veiculo= make_pair(matricula,id);
+	list<unsigned>::iterator it;
 
-	it=find(veiculos.begin(),veiculos.end(),veiculo);
+	it=find(veiculos.begin(),veiculos.end(),id);
 
 	if(it==veiculos.end())//se nao existir
 	{
-		veiculos.push_back(veiculo);
+		veiculos.push_back(id);
 	}
 
 }
@@ -117,13 +114,16 @@ void Motorista::mostrar_veiculos()
 	if(veiculos.empty())
 		cout<<"Nao tem veiculos associados"<<endl;
 
-	list<pair<string, unsigned >>::iterator it=veiculos.begin();
-	pair<string,unsigned> a;
+	list<unsigned>::iterator it=veiculos.begin();
 
 	while(it!=veiculos.end())
 	{
-		a=*it;
-		cout<< "matricula: "<<a.first<<"id: "<<a.second<<endl;
+		cout<<"id: "<<*it<<endl;
 		it++;
 	}
 }
+
+bool Motorista::operator==(Motorista &m1)
+	{
+		return this->nome==m1.getNome();
+	}

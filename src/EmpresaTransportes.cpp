@@ -626,6 +626,11 @@ void Empresa::carregarInfo(ifstream &f) {
 	string line, aux;
 	vector<string> atributos;
 	stringstream str;
+	/*Motorista * motorista;
+	string nome;
+	bool atual,first_time=true;
+	size_t m;
+	list<pair<string,unsigned>> veic;*/
 
 	while (getline(f, line)) {
 		if (line == "//empresa")
@@ -640,6 +645,8 @@ void Empresa::carregarInfo(ifstream &f) {
 			seletor = 'l';
 		else if (line == "//diarios")
 			seletor = 'd';
+		else if (line == "//motoristas")
+			seletor = 'm';
 		else {
 			switch (seletor) {
 			case 'e':
@@ -724,6 +731,80 @@ void Empresa::carregarInfo(ifstream &f) {
 					}
 				}
 				break;
+
+			/*case 'm':
+				aux.clear();
+
+				m=0;
+
+				if(line[0]!='\t')
+				{//getting the name
+
+					if(!first_time)
+						{
+							motoristas.erase(*motorista);
+							(*motorista).inserirVeiculos(veic);
+							motoristas.insert(*motorista);
+						}
+
+					for (;m<line.size()-1;m++)
+						{
+							if(line[m]!='\t')
+							{
+								aux += line[m];
+							}
+							else break;
+						}
+				nome=aux;
+				cout<<"nome: "<<aux<<endl;
+				aux.clear();
+				m++;//passar o tab a frente
+
+					for (;m<line.size()-1;m++)//read until the end
+						{
+								aux += line[m];
+						}
+
+				if(aux=="ativo")
+					atual=true;
+				else atual=false;
+
+				Motorista m(nome,atual);
+				(*motorista)=m;
+				motoristas.insert(*motorista);
+
+				aux=nome;
+				}
+				else //lidar com veiculos
+				{
+					string matricula;
+					unsigned id;
+
+					m=1;
+
+					for(;m<line.size()-1;m++)
+						{
+							if(line[m]=='\t')
+								break;
+
+							aux+=line[m];
+						}
+
+					matricula=aux;
+
+					m++;
+
+					aux.clear();
+
+					for(;m<line.size()-1;m++)
+						{
+							id=line[m]*pow(10,line.size()-m-2);
+						}
+
+						cout<<"ID: "<<id<<endl;
+
+				}
+					break;*/
 			default:
 				return;
 			}
@@ -1006,7 +1087,7 @@ Oficina Empresa::repararVeiculo(unsigned int id, double dist_max)
 }
 
 //===============================================================
-bool Empresa::contratarNovoMotorista(string nome,list<pair<string , unsigned >> veiculos)
+bool Empresa::contratarNovoMotorista(string nome,list<unsigned> veiculos)
 {
 	Motorista  motorista(nome,true);
 
@@ -1026,7 +1107,7 @@ bool Empresa::inserirAntigoMotorista(string nome)
 	return  res.second;
 }
 
-bool Empresa::inserirVeiculo(string nome, string matricula, unsigned id)
+bool Empresa::inserirVeiculo(string nome,unsigned id)
 {
 	if(motoristas.empty())
 		return false;
@@ -1047,18 +1128,21 @@ bool Empresa::inserirVeiculo(string nome, string matricula, unsigned id)
 	Motorista motorista=*it;
 
 	if(motorista.getVeiculos().size()>=5)
+		{
+		cout<<"Nao e possivel inserir o veiculo pois exede o limite maximo de veiculos por motorista"<<endl;
 		return false;
+		}
 
 	motoristas.erase(it);
 
-	motorista.inserirVeiculo(matricula,id);
+	motorista.inserirVeiculo(id);
 
 	motoristas.insert(motorista);
 
 	return true;
 }
 
-bool Empresa::inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos)
+bool Empresa::inserirVeiculos(string nome, list<unsigned> veiculos)
 {
 	if(motoristas.empty())
 		return false;
@@ -1091,7 +1175,7 @@ bool Empresa::inserirVeiculos(string nome, list<pair<string , unsigned>> veiculo
 
 	return true;
 }
-bool Empresa::removerVeiculo(string nome, string matricula,unsigned id)
+bool Empresa::removerVeiculo(string nome,unsigned id)
 {
 	if(motoristas.empty())
 		return false;
@@ -1119,7 +1203,7 @@ bool Empresa::removerVeiculo(string nome, string matricula,unsigned id)
 
 	motoristas.erase(it);
 
-	motorista.removerVeiculo(matricula,id);
+	motorista.removerVeiculo(id);
 
 	motoristas.insert(motorista);
 
@@ -1158,7 +1242,7 @@ bool Empresa::mostrar_nome_motoristas()
 {
 	if(motoristas.empty())
 	{
-		cout<<"Nao ha motoristas no sistema";
+		cout<<"Nao ha motoristas no sistema"<<endl;
 
 		return false;
 	}
@@ -1185,7 +1269,7 @@ bool Empresa::mostrar_nome_motoristas()
 	return true;
 }
 
-bool Empresa::averiguar_motoristas(string matricula, unsigned id)
+bool Empresa::averiguar_motoristas(unsigned id)
 {
 	if(motoristas.empty())
 		{
@@ -1197,7 +1281,6 @@ bool Empresa::averiguar_motoristas(string matricula, unsigned id)
 	tabHMotorista::iterator it1 = motoristas.end();
 
 	Motorista motorista=*it;
-	pair <string , unsigned> veiculo = make_pair(matricula , id);
 
 	while(it!=motoristas.end())
 	{
@@ -1215,13 +1298,13 @@ bool Empresa::averiguar_motoristas(string matricula, unsigned id)
 		else {
 				it++;
 
-				list<pair <string , unsigned>> veiculos = motorista.getVeiculos();
+				list<unsigned> veiculos = motorista.getVeiculos();
 
-				if(find(veiculos.begin(),veiculos.end(),veiculo)==veiculos.end() && (veiculos.size()<5))//garantir que o veiculo ja nao existe no motorista
+				if(find(veiculos.begin(),veiculos.end(),id)==veiculos.end() && (veiculos.size()<5))//garantir que o veiculo ja nao existe no motorista
 					{
 						motoristas.erase(motorista);
 
-						motorista.inserirVeiculo(matricula,id);
+						motorista.inserirVeiculo(id);
 
 						motoristas.insert(motorista);
 
@@ -1243,13 +1326,109 @@ bool Empresa::averiguar_motoristas(string matricula, unsigned id)
 
 		motoristas.erase(it1);
 
-		motorista.contratar(matricula,id);
+		motorista.contratar(id);
 
 		motoristas.insert(motorista);
 
 		return true;
 	}
 	return false;
+}
+
+bool Empresa::despedir_motorista(string nome)
+{
+	if(motoristas.empty())
+		{
+			cout<<"Nao ha motoristas no sistema";
+			return false;
+		}
+
+	tabHMotorista::iterator it = motoristas.begin();
+
+	while(it!=motoristas.end())
+	{
+
+		if(it->getNome()==nome)
+			break;
+
+		it++;
+	}
+
+	if(it==motoristas.end())
+	{
+		cout<<"O motorista nao existe"<<endl;
+
+		return false;
+	}
+
+	Motorista motorista=*it;
+
+	motoristas.erase(it);
+
+	motorista.despedir();
+
+	motoristas.insert(motorista);
+
+	return true;
+}
+
+int Empresa::nr_restante_veiculos(string nome)
+{
+	if(motoristas.empty())
+		{
+			cout<<"Nao ha motoristas no sistema";
+			return 6;
+		}
+
+		tabHMotorista::iterator it = motoristas.begin();
+
+		while(it!=motoristas.end())
+		{
+
+			if(it->getNome()==nome)
+				break;
+
+			it++;
+		}
+
+		if(it==motoristas.end())
+		{
+			cout<<"O motorista nao existe"<<endl;
+
+			return 6;
+		}
+
+		Motorista motorista=*it;
+
+		return motorista.nr_veiculos_por_inserir();
+}
+
+bool Empresa::remover_Veiculo(unsigned id)
+{
+	if(motoristas.empty())
+		return true;
+
+	tabHMotorista::iterator it = motoristas.begin();
+
+	list <unsigned> veiculos;
+
+	while(it!=motoristas.end())
+		{
+			Motorista motorista=*it;
+
+			if(motorista.getAtual())//se possuir veiculos
+			{
+				motoristas.erase(*it);
+
+				motorista.removerVeiculo(id);
+
+				motoristas.insert(motorista);
+			}
+
+			it++;
+		}
+
+	return true;
 }
 
 //===============================================================

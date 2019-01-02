@@ -707,34 +707,38 @@ void mostrar_precos(const Empresa &empresa)
 
 void inserir_motorista( Empresa &empresa)
 {
-	string matricula,nome;
+	string nome;
 	unsigned id;
+	int counter=0;
 
-	cout <<"insira o nome e os veiculos,insira parar para parar"<<endl;
+	cout <<"insira o nome do novo motorista e os veiculos associado. Insira 0 para parar"<<endl;
 	cin>>nome;
 
-	pair<string,unsigned > m;
-	list<pair<string,unsigned>> veiculos;
+	list<unsigned> veiculos;
 
-	cout<<"matricula: ";
-	cin>>matricula;
+	cout<<"id: ";
+	cin>>id;
 
-	while(matricula!="parar")
+	counter++;
+
+	veiculos.push_back(id);
+
+	while(id!=0 && counter<5)
 		{
+			counter++;
 			cout<<"id: ";
 			cin>>id;
 
-			m=make_pair(matricula, id);
+			veiculos.push_back(id);
 
-			veiculos.push_back(m);
-
-			cout<<"matricula: ";
-			cin>>matricula;
 		}
 
+	if(counter==5)
+		cout<<"Ja nao pode inserir mais veiculos neste motorista. O limite sao 5 por motorista"<<endl;
+
 	if(empresa.contratarNovoMotorista(nome,veiculos))
-		cout<< "O veiculo foi inserido com sucesso"<<endl;
-	else cout<<"O veiculo que inseriu nao possui motoristas livres, tera que contratar um novo motorista"<<endl;
+		cout<< "O(s) veiculo(s) foi inserido com sucesso"<<endl;
+	else cout<<"O(s) veiculo(s) que inseriu nao possui(em) motoristas livres, tera que contratar um novo motorista"<<endl;
 
 	empresa.mostrar_nome_motoristas();
 }
@@ -757,32 +761,31 @@ void inserir_veiculo(Empresa &empresa)
 
 		string nome;
 
-		cout<<"insira o nome do motorista"<<endl;
+		cout<<"Insira o nome do motorista"<<endl;
 		cin>>nome;
 
 		//introduzir informacoes sobre os veiculos a inserir no motorista
 
-		string matricula;
 		unsigned id;
-		pair<string,unsigned > m;
-		list<pair<string,unsigned>> veiculos;
+		list<unsigned> veiculos;
 
 		//NOTA: ainda falta verificar se o veiculo existe
-		cout<<"Insira a matricula e o id correspondente ao veiculo e quando quiser parar escreva parar"<<endl;
-		cout<<"Matricula: "<<endl;
-		cin>>matricula;
+		cout<<"Insira o id correspondente ao veiculo e quando quiser parar insira 0"<<endl;
+		cout<<"Id: "<<endl;
+		cin>>id;
 
-		while(matricula!="parar")
+		veiculos.push_back(id);
+
+		for(int i=1;id!=0;i++)
 		 {
-			  cout<<"id: ";
-			  cin>>id;
+			if((empresa.nr_restante_veiculos(nome)-i)>=0)
+			  {
+				cout<<"id: ";
+				cin>>id;
 
-			  m=make_pair(matricula, id);
+				veiculos.push_back(id);
+			  }
 
-			  veiculos.push_back(m);
-
-			  cout<<"Matricula: ";
-			  cin>>matricula;
 		 }
 
 		if(empresa.inserirVeiculos(nome,veiculos))
@@ -793,28 +796,24 @@ void inserir_veiculo(Empresa &empresa)
 	}
 	else
 	{
-		string matricula;
 		unsigned id;
-		pair<string,unsigned > m;
-		list<pair<string,unsigned>> veiculos;
+		list<unsigned> veiculos;
 
 		//NOTA: ainda falta verificar se o veiculo existe
-		cout<<"Insira a matricula e o id correspondente ao veiculo e quando quiser parar escreva parar"<<endl;
-		cout<<"matricula: ";
-		cin>>matricula;
+		cout<<"Insira o id correspondente ao veiculo e quando quiser parar insira 0"<<endl;
+		cout<<"Id: ";
+		cin>>id;
 
-		while(matricula!="parar")
+		while(id!=0)
 			 {
-				cout<<"id: "<<endl;
-				cin>>id;
-
-				if(empresa.averiguar_motoristas(matricula,id))
+				if(empresa.averiguar_motoristas(id))
 					cout<< "O veiculo foi inserido com sucesso"<<endl;
 				else cout<<"O veiculo que inseriu nao possui motoristas livres, tera que contratar um novo motorista"<<endl;
 
-				cout<<"matricula: "<<endl;
-				cin>>matricula;
+				cout<<"id: "<<endl;
+				cin>>id;
 			 }
+
 		empresa.mostrar_nome_motoristas();
 	}
 }
@@ -828,18 +827,13 @@ void removerVeiculo(Empresa & empresa)
 	cout<<"insira o nome do motorista"<<endl;
 	cin>>nome;
 
-	string matricula;
 	unsigned id;
-	pair<string,unsigned > m;
-	list<pair<string,unsigned>> veiculos;
-
-	cout<<"matricula: "<<endl;
-	cin>>matricula;
+	list<unsigned> veiculos;
 
 	cout<<"id: "<<endl;
 	cin>>id;
 
-	if(empresa.removerVeiculo(nome,matricula,id))
+	if(empresa.removerVeiculo(nome,id))
 		cout<<"O veiculo foi removido com sucesso"<<endl;
 	else cout<<"O veiculo nao foi removido com sucesso"<<endl;
 
@@ -852,7 +846,7 @@ void remover_motorista(Empresa &empresa)
 
 	string nome;
 
-	cout<<"insira o nome do motorista que pretende remover"<<endl;
+	cout<<"Insira o nome do motorista que pretende remover: "<<endl;
 	cin>>nome;
 
 	if(empresa.removerMotorista(nome))
@@ -867,12 +861,27 @@ void inserir_antigo_motorista(Empresa &empresa)
 
 	string nome;
 
-	cout<<"insira o nome do motorista que pretende colocar no sistema"<<endl;
+	cout<<"Insira o nome do motorista que pretende colocar no sistema: "<<endl;
 	cin>>nome;
 
 	if(empresa.inserirAntigoMotorista(nome))
 		cout<<"Motorista foi inserido com sucesso"<<endl;
 	else cout <<"Motorista nao foi inserido com sucesso"<<endl;
+}
+
+void despedir_motorista(Empresa &empresa)
+{
+	empresa.mostrar_nome_motoristas();
+
+	string nome;
+
+	cout<<"Insira o nome do motorista cujo estado do contrato pretende alterar: "<<endl;
+	cin>>nome;
+
+	if(empresa.despedir_motorista(nome))
+		cout<<"Contrato terminado com sucesso"<<endl;
+	else cout<<"O contrato nao foi terminado com sucesso"<<endl;
+
 }
 
 void inserir_escola(Empresa &empresa)
@@ -1026,12 +1035,13 @@ void trabalhar_empresa(Empresa &empresa)
 			 << "24. Remover veiculo de um motorista" << endl
 			 << "25. Remover Motorista" << endl
 			 << "26. Inserir um antigo motorista" << endl
-			 << "27. Adicionar Escola" << endl
-			 << "28. Remover Escola" << endl
-			 << "29. Mostrar Escolas" << endl
-			 << "30. Voltar" << endl;
+			 << "27. Despedir um motorista" << endl
+			 << "28. Adicionar Escola" << endl
+			 << "29. Remover Escola" << endl
+			 << "30. Mostrar Escolas" << endl
+			 << "31. Voltar" << endl;
 
-		switch(respostaNumeros(1, 30))
+		switch(respostaNumeros(1, 31))
 		{
 		case 1:
 			adicicionar_utente(empresa);
@@ -1112,15 +1122,18 @@ void trabalhar_empresa(Empresa &empresa)
 			inserir_antigo_motorista(empresa);
 			break;
 		case 27:
-			inserir_escola(empresa);
+			despedir_motorista(empresa);
 			break;
 		case 28:
-			remover_escola(empresa);
+			inserir_escola(empresa);
 			break;
 		case 29:
-			mostrar_escolas(empresa);
+			remover_escola(empresa);
 			break;
 		case 30:
+			mostrar_escolas(empresa);
+			break;
+		case 31:
 			return;
 		}
 	}

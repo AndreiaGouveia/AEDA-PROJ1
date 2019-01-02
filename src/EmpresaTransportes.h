@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <string>
 #include <utility>
+#include "math.h"
 
 struct motoristaHash
 {
@@ -54,7 +55,7 @@ private:
 	map<unsigned int,unsigned int> tabelaPassageiros; ///< Tabela que guarda a correspondencia Utente -> veiculo ao qual foi alocado
 	priority_queue<Oficina> oficinas; ///< Fila de oficinas ordenada pelo menor tempo de espera
 	tabHMotorista motoristas; ///< Tabela de dispersao que contem os motoristas da empresa
-	BST<Escola> escolas; ///< Árvore Binária ordenada pelo numero de alunos e funcionarios de cada escola que utilizam esta rede de transportes
+	BST<Escola> escolas; ///< Ã�rvore BinÃ¡ria ordenada pelo numero de alunos e funcionarios de cada escola que utilizam esta rede de transportes
 
 public:
 	/**
@@ -465,9 +466,9 @@ public:
 	 * @return true -> foi inserido na tabela com sucesso
 	 * @return false -> nao foi inserido na tabela com sucesso
 	*/
-	bool contratarNovoMotorista(string nome,list<pair<string , unsigned >> veiculos);
+	bool contratarNovoMotorista(string nome,list<unsigned> veiculos);
 	/**
-	* @brief Coloca um motorista antigo na tabela de dispers�o, assume se que o valor do atual seja false
+	* @brief Coloca um motorista antigo na tabela de dispersï¿½o, assume se que o valor do atual seja false
 	*
 	* @param nome Nome do motorista
 	*
@@ -484,7 +485,7 @@ public:
 	* @return true -> o veiculo foi inserido com sucesso
 	* @return false -> o veiculo ja pertencia ao motorista
 	*/
-	bool inserirVeiculo(string nome, string matricula, unsigned id);
+	bool inserirVeiculo(string nome,unsigned id);
 	/**
 	* @brief Insere uma lista de veiculos num motorista ja existente
 	*
@@ -494,7 +495,7 @@ public:
 	* @return true -> os veiculos foram inseridos com sucesso
 	* @return false -> os veiculos nao foram inseridos com sucesso
 	*/
-	bool inserirVeiculos(string nome, list<pair<string , unsigned>> veiculos);
+	bool inserirVeiculos(string nome, list<unsigned> veiculos);
 	/**
 	* @brief Insere um novo veiculo num motorista ja existente atravez da matricula e id do veiculo
 	*
@@ -504,7 +505,16 @@ public:
 	* @return true -> o veiculo foi inserido com sucesso
 	* @return false -> o veiculo nao foi removido com sucesso
 	*/
-	bool removerVeiculo(string nome, string matricula,unsigned id);
+	bool removerVeiculo(string nome,unsigned id);
+	/**
+	* @brief Remove um veiculo nos motoristas todos. Apenas usado quando um veiculo e retirado da empresa
+	*
+	* @param id Veiculo a remover
+	*
+	* @return true -> o veiculo foi removido com sucesso
+	* @return false -> o veiculo nao foi removido com sucesso
+	*/
+	bool remover_Veiculo(unsigned id);
 	/**
 	* @brief Remove um motorista da tabela de motoristas
 	*
@@ -527,8 +537,22 @@ public:
 	* @return true -> se incluiu o veiculo num motorista ja existente na tabela
 	* @return false -> se sera necessario contratar um novo motorista
 	*/
-	bool averiguar_motoristas(string matricula, unsigned id);
-
+	bool averiguar_motoristas(unsigned id);
+	/**
+	* @brief Vai despedir um motorista
+	*
+	* @return true -> se o contracto foi cancelado com sucesso
+	* @return false -> se o contracto nao foi cancelado com sucesso
+	*/
+	bool despedir_motorista(string nome);
+	/**
+	* @brief Vai averiguar quantos veiculos ainda sao possiveis adicionar
+	*
+	*@param nome nome do motorista
+	*
+	* @return int  nr de veiculos que ainda sao possiveis adicionar
+	*/
+	int nr_restante_veiculos(string nome);
 //==========================================================================
 	pair<bool, Escola> verificaEscola(unsigned codigo);
 	void adicionaEscola(Escola &esc);
