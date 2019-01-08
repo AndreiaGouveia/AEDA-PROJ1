@@ -750,7 +750,7 @@ void inserir_veiculo(Empresa &empresa)
 	cout<< "Quer atribuir o veiculo a um motorista em especifico?"<<endl;
 	cin>>answer;
 
-	if(answer=='y'||answer=='Y')
+	if(answer=='s'||answer=='S')
 		{
 			//mostrar os motoristas existentes e o seu estado de contratacao
 			if(!empresa.mostrar_nome_motoristas())
@@ -771,20 +771,26 @@ void inserir_veiculo(Empresa &empresa)
 
 		//NOTA: ainda falta verificar se o veiculo existe
 		cout<<"Insira o id correspondente ao veiculo e quando quiser parar insira 0"<<endl;
-		cout<<"Id: "<<endl;
+		cout<<"id: "<<endl;
 		cin>>id;
-
-		veiculos.push_back(id);
 
 		for(int i=1;id!=0;i++)
 		 {
-			if((empresa.nr_restante_veiculos(nome)-i)>=0)
+			veiculos.push_back(id);
+
+			if((empresa.nr_restante_veiculos(nome)-i)>=0 && empresa.nr_restante_veiculos(nome)==6 )
 			  {
 				cout<<"id: ";
 				cin>>id;
 
-				veiculos.push_back(id);
+				if(id==0)
+					break;
 			  }
+			else
+			{
+				cout<< "Ja nao pode adicionar mais veiculos, o limite por motorista sao 5"<<endl;
+				break;
+			}
 
 		 }
 

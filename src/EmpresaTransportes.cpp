@@ -130,11 +130,15 @@ void Empresa::removerVeiculo(unsigned int id)
 		{
 			veiculos.erase(veiculos.begin() + i);
 			alocaUtentes();
+			if(removeVeiculoMotoristas(id))
+				cout<<"Veiculo removido com sucesso dos motoristas";
 			return;
 		}
 	}
 
 	throw VeiculoNaoExistente();
+
+
 }
 
 void Empresa::removerVeiculo(string matricula)
@@ -145,6 +149,7 @@ void Empresa::removerVeiculo(string matricula)
 		{
 			veiculos.erase(veiculos.begin() + i);
 			alocaUtentes();
+			removeVeiculoMotoristas(veiculos[i]->getId());
 			return;
 		}
 	}
@@ -568,6 +573,40 @@ void Empresa::guardarInfo(ostream &ficheiro) const
 	{
 		ficheiro << *utentes[i] << endl;
 	}
+	ficheiro << "//motoristas" << endl;
+
+	if(!(motoristas.empty()))
+		{
+			tabHMotorista::const_iterator it = motoristas.begin();
+
+			Motorista motorista=*it;
+
+			while(it!=motoristas.end())
+				{
+					motorista=*it;
+
+					ficheiro<<motorista.getNome()<<"\t"<<"Estado do contracto:\t";
+					cout<<"motorsta: "<<motorista.getNome()<<endl;
+
+					if(motorista.getAtual())
+						ficheiro<<"+ativo";
+					else ficheiro<<"-nao ativo";
+
+					list<unsigned > veic=motorista.getVeiculos();
+
+					list<unsigned>::iterator v=veic.begin();
+
+					while(v!=veic.end())
+					{
+						ficheiro<<"\t"<<*v;
+						v++;
+					}
+					ficheiro<<endl;
+
+					it++;
+				}
+		}
+
 
 	ficheiro << "//veiculos" << endl;
 
@@ -626,11 +665,9 @@ void Empresa::carregarInfo(ifstream &f) {
 	string line, aux;
 	vector<string> atributos;
 	stringstream str;
-	/*Motorista * motorista;
-	string nome;
-	bool atual,first_time=true;
-	size_t m;
-	list<pair<string,unsigned>> veic;*/
+	string nome=" lool";
+	bool atual=false;
+	list<unsigned> veic;
 
 	while (getline(f, line)) {
 		if (line == "//empresa")
@@ -648,6 +685,7 @@ void Empresa::carregarInfo(ifstream &f) {
 		else if (line == "//motoristas")
 			seletor = 'm';
 		else {
+			cout<<"seletor: "<<seletor<<endl;
 			switch (seletor) {
 			case 'e':
 				nome_empresa = line.substr(0, line.length());
@@ -732,79 +770,66 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 				break;
 
-			/*case 'm':
-				aux.clear();
+			case 'm':
+					{
+						int counter=0;
+						int number=0;
+					nome.clear();
+					cout<<"hereee";
 
-				m=0;
+					for (;line[counter]!='\t';counter++)//le o nome ate encontrar um tab
+					{
+						nome +=line[counter];
+					}
 
-				if(line[0]!='\t')
-				{//getting the name
+					cout<<nome;
 
-					if(!first_time)
+					for (;counter<line.length()-1;counter++)//le ate encontrar um mais(esta contratado) ou um menos
+					{
+						if(line[counter]=='+')
 						{
-							motoristas.erase(*motorista);
-							(*motorista).inserirVeiculos(veic);
-							motoristas.insert(*motorista);
+							atual=true;
+							break;
 						}
-
-					for (;m<line.size()-1;m++)
+						else if(line[counter]=='-')
 						{
-							if(line[m]!='\t')
+							atual=false;
+							break;
+						}
+					}
+
+					veic.clear();//da clear aos veiculos
+					cout<<"here"<<endl;
+
+					cout<<line<<endl;
+					for(;counter<=line.length();counter++)
+						{
+							if(line[counter]=='\t')
 							{
-								aux += line[m];
+								veic.push_back(number);//se for um digito coloca o id na lista de veiculos
+								cout<<"line "<<number<<endl;
+								number=0;
 							}
-							else break;
-						}
-				nome=aux;
-				cout<<"nome: "<<aux<<endl;
-				aux.clear();
-				m++;//passar o tab a frente
-
-					for (;m<line.size()-1;m++)//read until the end
-						{
-								aux += line[m];
+							if(isdigit(line[counter]))
+								{
+									number*=10;
+									number+=((int)line[counter]-48);
+									cout<<number;
+								}
 						}
 
-				if(aux=="ativo")
-					atual=true;
-				else atual=false;
+					veic.push_back(number);//se for um digito coloca o id na lista de veiculos				cout<<"donne"<<endl;
 
-				Motorista m(nome,atual);
-				(*motorista)=m;
-				motoristas.insert(*motorista);
+					Motorista motorista(nome, atual, veic);//cria o motorista
 
-				aux=nome;
-				}
-				else //lidar com veiculos
-				{
-					string matricula;
-					unsigned id;
+					motoristas.insert(motorista);
 
-					m=1;
-
-					for(;m<line.size()-1;m++)
-						{
-							if(line[m]=='\t')
-								break;
-
-							aux+=line[m];
-						}
-
-					matricula=aux;
-
-					m++;
-
-					aux.clear();
-
-					for(;m<line.size()-1;m++)
-						{
-							id=line[m]*pow(10,line.size()-m-2);
-						}
-
-						cout<<"ID: "<<id<<endl;
-
-				}
-					break;*/
+					cout<<"survived"<<endl;
+					nome.clear();
+					veic.clear();
+					counter=0;
+					break;
+					}
 			default:
 				return;
 			}
@@ -1431,6 +1456,30 @@ bool Empresa::remover_Veiculo(unsigned id)
 	return true;
 }
 
+bool Empresa::removeVeiculoMotoristas(unsigned id)
+{
+	if(motoristas.empty())
+			return false;
+
+	tabHMotorista::iterator it = motoristas.begin();
+
+	list <unsigned> veiculos;
+
+	while(it!=motoristas.end())
+		{
+			Motorista motorista=*it;
+
+			motoristas.erase(motorista);
+
+			motorista.removerVeiculo(id);
+
+			motoristas.insert(motorista);
+
+			it++;
+		}
+
+	return true;
+}
 //===============================================================
 
 pair<bool, Escola> Empresa::verificaEscola(unsigned codigo)

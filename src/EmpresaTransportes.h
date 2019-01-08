@@ -553,6 +553,15 @@ public:
 	* @return int  nr de veiculos que ainda sao possiveis adicionar
 	*/
 	int nr_restante_veiculos(string nome);
+	/**
+	 * @briegf remove um veiculo de todos os motorista no caso de um veiculo ser removido da empresa
+	 *
+	 * @param id id do veiculo a remover
+	 *
+	 * @return true -> se o veiculo foi removido com sucesso
+	 * @return false-> se o veiculo nao foi removido com sucesso
+	 */
+	bool removeVeiculoMotoristas(unsigned id);
 //==========================================================================
 	pair<bool, Escola> verificaEscola(unsigned codigo);
 	void adicionaEscola(Escola &esc);
