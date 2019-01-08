@@ -21,6 +21,16 @@ double Oficina::getDist() const
 	return distancia;
 }
 
+void Oficina::setDisp(int disp)
+{
+	this->disponibilidade = disp;
+}
+
+void Oficina::setDist(double dist)
+{
+	this->distancia = dist;
+}
+
 void Oficina::reparacao()
 {
 	this->disponibilidade++;
@@ -33,9 +43,7 @@ bool Oficina::operator <(const Oficina &right) const
 
 bool Oficina::operator ==(const Oficina& right) const
 {
-	return (this->nome == right.nome) &&
-			(this->disponibilidade == right.disponibilidade) &&
-			(this->distancia == right.distancia);
+	return (this->nome == right.nome);
 }
 
 ostream& operator <<(ostream& out, const Oficina &of)

@@ -26,7 +26,7 @@ public:
 	 * @brief Construtor da classe Oficina
 	 *
 	 * @param nom	Nome da oficina
-	 * @param disp	Disponibilidade inicial (cpor omissao e 0)
+	 * @param disp	Disponibilidade inicial (por omissao e 0)
 	 * @param dist	Distancia a garagem (por omissao e 0)
 	*/
 	Oficina(string nom = "", int disp = 0, double dist = 0);
@@ -49,9 +49,21 @@ public:
 	*/
 	double getDist() const;
 	/**
+	 * @brief Altera a disponibilidade da oficina
+	 *
+	 * @param disp Nova disponibilidade da oficina
+	*/
+	void setDisp(int disp);
+	/**
+	 * @brief Altera a distancia da oficina
+	 *
+	 * @param dist Nova distancia da oficina
+	*/
+	void setDist(double dist);
+	/**
 	 * @brief Efetua a reparacao do veiculo.
 	 * A disponibilidade da oficina passa a ser de 1 dia
-	 * (a reparacao de um veiculo demora sempre um dia)
+	 * (a reparacao de um veiculo demora sempre 1 dia)
 	*/
 	void reparacao();
 	/**
@@ -65,8 +77,7 @@ public:
 	bool operator <(const Oficina& right) const;
 	/**
 	 * @brief Compara duas oficinas e verifica se sao iguais.
-	 * Duas oficinas sao iguais se tiverem o mesmo nome (sao da mesma cadeia de oficinas),
-	 * a mesma disponibilidade e a mesma distancia a garagem.
+	 * Duas oficinas sao iguais se tiverem o mesmo nome.
 	 *
 	 * @return true -> as oficinas sao iguais
 	 * @return false -> as oficinas sao diferentes

@@ -1,19 +1,20 @@
 #include "EmpresaTransportes.h"
 
-Empresa::Empresa(string nome) : escolas(Escola("", 0, "", "", 0))
-{
+Empresa::Empresa(string nome) :
+		escolas(Escola("", 0, "", "", 0)) {
 	nome_empresa = nome;
 	precoPessoa = -1;
 	lucrosMensais = vector<double>(12, -1);
 }
 
-Empresa::Empresa(ifstream &f) : escolas(Escola("", 0, "", "", 0))
-{
+Empresa::Empresa(ifstream &f) :
+		escolas(Escola("", 0, "", "", 0)) {
 	carregarInfo(f);
 }
 
-Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic,unsigned int precoPessoa, ifstream &fprecos) : escolas(Escola("", 0, "", "", 0))
-{
+Empresa::Empresa(string nome, vector<Utente *> vUt, vector<Veiculo *> vVeic,
+		unsigned int precoPessoa, ifstream &fprecos) :
+		escolas(Escola("", 0, "", "", 0)) {
 	nome_empresa = nome;
 	utentes = vUt;
 	veiculos = vVeic;
@@ -30,7 +31,7 @@ vector<Utente*> Empresa::getUtentes() const {
 	return utentes;
 }
 
-unsigned int Empresa::getPrecoPessoa() const{
+unsigned int Empresa::getPrecoPessoa() const {
 	return precoPessoa;
 }
 
@@ -46,7 +47,7 @@ void Empresa::setVeiculos(vector<Veiculo *> vVeic) {
 	veiculos = vVeic;
 }
 
-void Empresa::setPrecoPessoa(unsigned int precoP){
+void Empresa::setPrecoPessoa(unsigned int precoP) {
 	precoPessoa = precoP;
 }
 
@@ -95,39 +96,32 @@ void Empresa::setPrecos(const vector<vector<double>> &vet) {
 }
 
 void Empresa::adicionarVeiculo(Veiculo *vc) {
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getMatricula() == vc->getMatricula())
-		{
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getMatricula() == vc->getMatricula()) {
 			Veiculo::numVeiculos--;
 			throw VeiculoJaExiste(veiculos[i]->getMatricula());
 		}
 	}
 
 	veiculos.push_back(vc);
-	sort(veiculos.begin(),veiculos.end(),CmpId());
+	sort(veiculos.begin(), veiculos.end(), CmpId());
 }
 
 void Empresa::adicionarUtente(Utente *ut) {
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getBI() == ut->getBI())
-		{
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getBI() == ut->getBI()) {
 			Utente::ult_numUtente--;
 			throw UtenteJaExiste(utentes[i]->getNumUtente());
 		}
 	}
 
 	utentes.push_back(ut);
-	sort(utentes.begin(),utentes.end(),CmpId());
+	sort(utentes.begin(), utentes.end(), CmpId());
 }
 
-void Empresa::removerVeiculo(unsigned int id)
-{
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getId() == id)
-		{
+void Empresa::removerVeiculo(unsigned int id) {
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getId() == id) {
 			veiculos.erase(veiculos.begin() + i);
 			alocaUtentes();
 			return;
@@ -137,12 +131,9 @@ void Empresa::removerVeiculo(unsigned int id)
 	throw VeiculoNaoExistente();
 }
 
-void Empresa::removerVeiculo(string matricula)
-{
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getMatricula() == matricula)
-		{
+void Empresa::removerVeiculo(string matricula) {
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getMatricula() == matricula) {
 			veiculos.erase(veiculos.begin() + i);
 			alocaUtentes();
 			return;
@@ -152,15 +143,14 @@ void Empresa::removerVeiculo(string matricula)
 	throw VeiculoNaoExistente();
 }
 
-void Empresa::removerUtente(unsigned int numUt)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUt)
-		{
-			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+void Empresa::removerUtente(unsigned int numUt) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUt) {
+			if (tabelaPasses.find(utentes[i]->getNumUtente())
+					!= tabelaPasses.end())
 				tabelaPasses.erase(utentes[i]->getNumUtente());
-			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+			if (tabelaPassageiros.find(utentes[i]->getNumUtente())
+					!= tabelaPassageiros.end())
 				tabelaPassageiros.erase(utentes[i]->getNumUtente());
 
 			utentes.erase(utentes.begin() + i);
@@ -170,15 +160,14 @@ void Empresa::removerUtente(unsigned int numUt)
 	throw UtenteNaoExistente();
 }
 
-void Empresa::removerUtente(string BI)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getBI() == BI)
-		{
-			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+void Empresa::removerUtente(string BI) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getBI() == BI) {
+			if (tabelaPasses.find(utentes[i]->getNumUtente())
+					!= tabelaPasses.end())
 				tabelaPasses.erase(utentes[i]->getNumUtente());
-			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+			if (tabelaPassageiros.find(utentes[i]->getNumUtente())
+					!= tabelaPassageiros.end())
 				tabelaPassageiros.erase(utentes[i]->getNumUtente());
 
 			utentes.erase(utentes.begin() + i);
@@ -189,18 +178,12 @@ void Empresa::removerUtente(string BI)
 	throw UtenteNaoExistente();
 }
 
-void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
-{
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getId() == idV)
-		{
-			if(veiculos[i]->getCapacidade() != 0)
-			{
+void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona) {
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getId() == idV) {
+			if (veiculos[i]->getCapacidade() != 0) {
 				throw VeiculoNaoEscolar();
-			}
-			else
-			{
+			} else {
 				veiculos[i]->adicionarZona(zona);
 				alocaUtentes();
 				return;
@@ -211,18 +194,12 @@ void Empresa::adicionarZonaEscolar(unsigned int idV, unsigned int zona)
 	throw VeiculoNaoExistente();
 }
 
-void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
-{
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getId() == idV)
-		{
-			if(veiculos[i]->getCapacidade() != 0)
-			{
+void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona) {
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getId() == idV) {
+			if (veiculos[i]->getCapacidade() != 0) {
 				throw VeiculoNaoEscolar();
-			}
-			else
-			{
+			} else {
 				veiculos[i]->removerZona(zona);
 				alocaUtentes();
 				return;
@@ -233,16 +210,15 @@ void Empresa::removerZonaEscolar(unsigned int idV, unsigned int zona)
 	throw VeiculoNaoExistente();
 }
 
-void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUtente)
-		{
+void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUtente) {
 			utentes[i]->setZonaHabitacao(zona);
-			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+			if (tabelaPasses.find(utentes[i]->getNumUtente())
+					!= tabelaPasses.end())
 				atualizarPasses();
-			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+			if (tabelaPassageiros.find(utentes[i]->getNumUtente())
+					!= tabelaPassageiros.end())
 				alocaUtentes();
 			return;
 		}
@@ -251,16 +227,15 @@ void Empresa::alterarZonaHab(unsigned int numUtente, unsigned int zona)
 	throw UtenteNaoExistente();
 }
 
-void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUtente)
-		{
+void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUtente) {
 			utentes[i]->setZonaEscola(zona);
-			if(tabelaPasses.find(utentes[i]->getNumUtente()) != tabelaPasses.end())
+			if (tabelaPasses.find(utentes[i]->getNumUtente())
+					!= tabelaPasses.end())
 				atualizarPasses();
-			if(tabelaPassageiros.find(utentes[i]->getNumUtente()) != tabelaPassageiros.end())
+			if (tabelaPassageiros.find(utentes[i]->getNumUtente())
+					!= tabelaPassageiros.end())
 				alocaUtentes();
 			return;
 		}
@@ -268,12 +243,9 @@ void Empresa::alterarZonaEsc(unsigned int numUtente, unsigned int zona)
 	throw UtenteNaoExistente();
 }
 
-void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUtente)
-		{
+void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUtente) {
 			utentes[i]->setContacto(cont);
 			return;
 		}
@@ -281,12 +253,9 @@ void Empresa::alterarContacto(unsigned int numUtente, unsigned int cont)
 	throw UtenteNaoExistente();
 }
 
-unsigned int Empresa::getContacto(unsigned int numUtente)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUtente)
-		{
+unsigned int Empresa::getContacto(unsigned int numUtente) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUtente) {
 			return utentes[i]->getContacto();
 		}
 	}
@@ -294,12 +263,9 @@ unsigned int Empresa::getContacto(unsigned int numUtente)
 	throw UtenteNaoExistente();
 }
 
-unsigned int Empresa::getContacto(string BI)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getBI() == BI)
-		{
+unsigned int Empresa::getContacto(string BI) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getBI() == BI) {
 			return utentes[i]->getContacto();
 		}
 	}
@@ -307,39 +273,34 @@ unsigned int Empresa::getContacto(string BI)
 	throw UtenteNaoExistente();
 }
 
-double Empresa::calculoPasseMensal(unsigned int numUtente)
-{
+double Empresa::calculoPasseMensal(unsigned int numUtente) {
 	unsigned int zona1;
 	unsigned int zona2;
 
 	size_t i;
 
-	for(i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUtente)
-		{
+	for (i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUtente) {
 			zona1 = utentes[i]->getZonaHabitacao();
 			zona2 = utentes[i]->getZonaEscola();
 			break;
 		}
 	}
 
-	if(i == utentes.size())
-	{
+	if (i == utentes.size()) {
 		throw UtenteNaoExistente();
 	}
 
-	return precos_zona[zona1-1][zona2-1];
+	return precos_zona[zona1 - 1][zona2 - 1];
 }
 
-void Empresa::atualizarPasses()
-{
+void Empresa::atualizarPasses() {
 	tabelaPassageiros.clear();
 
-	for(unsigned int i = 0; i < utentes.size(); i++)
-	{
+	for (unsigned int i = 0; i < utentes.size(); i++) {
 		unsigned int num = utentes[i]->getNumUtente();
-		tabelaPasses.insert(pair<unsigned int, double>(num,calculoPasseMensal(num)));
+		tabelaPasses.insert(
+				pair<unsigned int, double>(num, calculoPasseMensal(num)));
 	}
 }
 
@@ -353,132 +314,109 @@ void Empresa::atualizarPrecos(double delta) {
 	atualizarPasses();
 }
 
-double Empresa::calcularAluguer(unsigned int idV)
-{
+double Empresa::calcularAluguer(unsigned int idV) {
 	size_t i;
-	for(i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getId() == idV)
-		{
-			if(veiculos[i]->getCapacidade() == 0)
-			{
+	for (i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getId() == idV) {
+			if (veiculos[i]->getCapacidade() == 0) {
 				throw VeiculoNaoRecreativo();
-			}
-			else
-			{
+			} else {
 				break;
 			}
 		}
 	}
 
-	if(i == veiculos.size())
-	{
+	if (i == veiculos.size()) {
 		throw VeiculoNaoExistente();
-	}
-	else if(precoPessoa == -1)
-	{
+	} else if (precoPessoa == -1) {
 		throw PrecoNaoDefinido();
 	}
 	return precoPessoa * veiculos[i]->getCapacidade();
 }
 
-string Empresa::verificaDispRecreativo(unsigned int capacidade)
-{
+string Empresa::verificaDispRecreativo(unsigned int capacidade) {
 	stringstream strst;
 	vector<unsigned int> aux;
 
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getCapacidade() != 0) //E Recreativo
-		{
-			if(!veiculos[i]->getEstado() && veiculos[i]->getCapacidade() >= capacidade)
-			{
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getCapacidade() != 0) //E Recreativo
+				{
+			if (!veiculos[i]->getEstado()
+					&& veiculos[i]->getCapacidade() >= capacidade) {
 				aux.push_back(veiculos[i]->getId());
 				aux.push_back(veiculos[i]->getCapacidade());
 			}
 		}
 	}
 
-	if(aux.size() == 0)
-		strst << "Nao existe nenhum veiculo disponivel com essa capacidade." << endl;
-	else
-	{
+	if (aux.size() == 0)
+		strst << "Nao existe nenhum veiculo disponivel com essa capacidade."
+				<< endl;
+	else {
 		strst << "Veiculos que pode alugar:" << endl;
-		for(size_t i = 0; i <= aux.size()/2; i+=2)
-		{
-			strst << "ID: " << aux[i] << "\tCapacidade: " << aux[i + 1] << "\tPreco: " << calcularAluguer(aux[i]) <<endl;
+		for (size_t i = 0; i <= aux.size() / 2; i += 2) {
+			strst << "ID: " << aux[i] << "\tCapacidade: " << aux[i + 1]
+					<< "\tPreco: " << calcularAluguer(aux[i]) << endl;
 		}
 	}
 
 	return strst.str();
 }
 
-void Empresa::alugaRecreativo(unsigned int idV)
-{
+void Empresa::alugaRecreativo(unsigned int idV) {
 	size_t i;
 
-	for(i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getId() == idV)
-		{
-			if(veiculos[i]->getCapacidade() == 0)
-			{
+	for (i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getId() == idV) {
+			if (veiculos[i]->getCapacidade() == 0) {
 				throw VeiculoNaoRecreativo();
-			}
-			else
-			{
+			} else {
 				break;
 			}
 		}
 	}
 
-	if(i == veiculos.size())
-	{
+	if (i == veiculos.size()) {
 		throw VeiculoNaoExistente();
-	}
-	else
-	{
+	} else {
 		veiculos[i]->setEstado(true);
 	}
 }
 
-void Empresa::alocaUtentes()
-{
+void Empresa::alocaUtentes() {
 	tabelaPassageiros.clear();
 
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		for(size_t j = 0; j < veiculos.size(); j++)
-		{
-			if(veiculos[j]->existeZona(utentes[i]->getZonaEscola()) &&
-				veiculos[j]->existeZona(utentes[i]->getZonaHabitacao()) && !veiculos[j]->cheio())
-			{
-				tabelaPassageiros.insert(pair<unsigned int, unsigned int>(utentes[i]->getNumUtente(),veiculos[j]->getId()));
+	for (size_t i = 0; i < utentes.size(); i++) {
+		for (size_t j = 0; j < veiculos.size(); j++) {
+			if (veiculos[j]->existeZona(utentes[i]->getZonaEscola())
+					&& veiculos[j]->existeZona(utentes[i]->getZonaHabitacao())
+					&& !veiculos[j]->cheio()) {
+				tabelaPassageiros.insert(
+						pair<unsigned int, unsigned int>(
+								utentes[i]->getNumUtente(),
+								veiculos[j]->getId()));
 				veiculos[j]->reduzLug();
 				break;
-			}
-			else if(j == veiculos.size() - 1)
+			} else if (j == veiculos.size() - 1)
 				throw VeiculosInsuficientes();
 		}
 	}
 }
 
-unsigned int Empresa::alocaUt(unsigned int numUt)
-{
-	for(size_t i = 0; i < utentes.size(); i++)
-	{
-		if(utentes[i]->getNumUtente() == numUt)
-		{
-			for(size_t j = 0; j < veiculos.size(); j++)
-			{
-				if(veiculos[j]->existeZona(utentes[i]->getZonaEscola()) &&
-						veiculos[j]->existeZona(utentes[i]->getZonaHabitacao()) && !veiculos[j]->cheio())
-				{
-					tabelaPassageiros.insert(pair<unsigned int, unsigned int>(numUt,veiculos[j]->getId()));
+unsigned int Empresa::alocaUt(unsigned int numUt) {
+	for (size_t i = 0; i < utentes.size(); i++) {
+		if (utentes[i]->getNumUtente() == numUt) {
+			for (size_t j = 0; j < veiculos.size(); j++) {
+				if (veiculos[j]->existeZona(utentes[i]->getZonaEscola())
+						&& veiculos[j]->existeZona(
+								utentes[i]->getZonaHabitacao())
+						&& !veiculos[j]->cheio()) {
+					tabelaPassageiros.insert(
+							pair<unsigned int, unsigned int>(numUt,
+									veiculos[j]->getId()));
 					veiculos[j]->reduzLug();
 					return veiculos[j]->getId();
-				}
-				else if(j == veiculos.size() - 1)
+				} else if (j == veiculos.size() - 1)
 					throw VeiculosInsuficientes();
 			}
 		}
@@ -487,24 +425,22 @@ unsigned int Empresa::alocaUt(unsigned int numUt)
 	throw UtenteNaoExistente();
 }
 
-bool Empresa::finalDia(float kmsZona)
-{
+bool Empresa::finalDia(float kmsZona) {
 	double sum = 0;
 	string str = "";
 
-	for(size_t i = 0; i < veiculos.size(); i++)
-	{
-		if(veiculos[i]->getCapacidade() == 0) //Nao e recreativo
+	for (size_t i = 0; i < veiculos.size(); i++) {
+		if (veiculos[i]->getCapacidade() == 0) //Nao e recreativo
 			sum -= veiculos[i]->calcGasto(kmsZona);
-		else//E recreativo
+		else //E recreativo
 		{
-			if(veiculos[i]->getEstado())
-			{
+			if (veiculos[i]->getEstado()) {
 				float kms;
 				veiculos[i]->setEstado(false);
 
 				cout << "Quantos kms percorreu o veiculo (recreativo) n "
-						<< veiculos[i]->getId() << "? "; cin >> kms;
+						<< veiculos[i]->getId() << "? ";
+				cin >> kms;
 
 				sum -= veiculos[i]->calcGasto(kms);
 				sum += calcularAluguer(veiculos[i]->getId());
@@ -512,26 +448,23 @@ bool Empresa::finalDia(float kmsZona)
 		}
 	}
 
-	if(registoDiario.size() <= 31){
+	if (registoDiario.size() <= 31) {
 		registoDiario.push_back(sum);
 		return true;
-	}
-	else
+	} else
 		return false;
 }
 
-bool Empresa::calculoMensal()
-{
+bool Empresa::calculoMensal() {
 	double sumPasses = 0;
 	double sumDiarios = 0;
 
-	for(map<unsigned int, double>::iterator it = tabelaPasses.begin(); it != tabelaPasses.end(); it++)
-	{
+	for (map<unsigned int, double>::iterator it = tabelaPasses.begin();
+			it != tabelaPasses.end(); it++) {
 		sumPasses += it->second;
 	}
 
-	for(size_t i = 0; i < registoDiario.size(); i++)
-	{
+	for (size_t i = 0; i < registoDiario.size(); i++) {
 		sumDiarios = registoDiario[i];
 	}
 
@@ -539,18 +472,16 @@ bool Empresa::calculoMensal()
 
 	size_t j;
 
-	for(j = 0; j < lucrosMensais.size(); j++)
-	{
-		if(lucrosMensais[j] == -1)
-		{
+	for (j = 0; j < lucrosMensais.size(); j++) {
+		if (lucrosMensais[j] == -1) {
 			lucrosMensais[j] = sumPasses + sumDiarios;
 			return false;
 		}
 	}
 
-	if(j == lucrosMensais.size())
-	{
-		cout << "Chegou ao fim do ano! Eis os lucros deste ano que passou:" << endl << showMensal();
+	if (j == lucrosMensais.size()) {
+		cout << "Chegou ao fim do ano! Eis os lucros deste ano que passou:"
+				<< endl << showMensal();
 		lucrosMensais.clear();
 		return true;
 	}
@@ -558,28 +489,25 @@ bool Empresa::calculoMensal()
 	return false;
 }
 
-void Empresa::guardarInfo(ostream &ficheiro) const
-{
+void Empresa::guardarInfo(ostream &ficheiro) const {
 	size_t i;
 
-	ficheiro << "//empresa" << endl << nome_empresa << endl << "//utentes" << endl;
+	ficheiro << "//empresa" << endl << nome_empresa << endl << "//utentes"
+			<< endl;
 
-	for (i = 0; i < utentes.size(); i++)
-	{
+	for (i = 0; i < utentes.size(); i++) {
 		ficheiro << *utentes[i] << endl;
 	}
 
 	ficheiro << "//veiculos" << endl;
 
-	for (i = 0; i < veiculos.size(); i++)
-	{
+	for (i = 0; i < veiculos.size(); i++) {
 		ficheiro << *veiculos[i] << endl;
 	}
 
 	ficheiro << "//precos" << endl << precoPessoa << endl << '\t';
 
-	for (i = 0; i < precos_zona.size(); i++)
-	{
+	for (i = 0; i < precos_zona.size(); i++) {
 		ficheiro << 'Z' << i + 1;
 
 		if (i != precos_zona.size() - 1)
@@ -588,12 +516,10 @@ void Empresa::guardarInfo(ostream &ficheiro) const
 			ficheiro << endl;
 	}
 
-	for (i = 0; i < precos_zona.size(); i++)
-	{
+	for (i = 0; i < precos_zona.size(); i++) {
 		ficheiro << 'Z' << i + 1;
 
-		for (size_t j = 0; j < precos_zona[i].size(); j++)
-		{
+		for (size_t j = 0; j < precos_zona[i].size(); j++) {
 			ficheiro << '\t' << precos_zona[i][j];
 		}
 		ficheiro << endl;
@@ -602,7 +528,7 @@ void Empresa::guardarInfo(ostream &ficheiro) const
 	ficheiro << "//lucros" << endl << '{';
 
 	for (i = 0; i < lucrosMensais.size(); i++) {
-		if(i == lucrosMensais.size() - 1)
+		if (i == lucrosMensais.size() - 1)
 			ficheiro << lucrosMensais[i] << '}' << endl;
 		else
 			ficheiro << lucrosMensais[i] << ',';
@@ -611,7 +537,7 @@ void Empresa::guardarInfo(ostream &ficheiro) const
 	ficheiro << "//diarios" << endl << '{';
 
 	for (i = 0; i < registoDiario.size(); i++) {
-		if(i == registoDiario.size() - 1)
+		if (i == registoDiario.size() - 1)
 			ficheiro << registoDiario[i];
 		else
 			ficheiro << registoDiario[i] << ',';
@@ -627,10 +553,10 @@ void Empresa::carregarInfo(ifstream &f) {
 	vector<string> atributos;
 	stringstream str;
 	/*Motorista * motorista;
-	string nome;
-	bool atual,first_time=true;
-	size_t m;
-	list<pair<string,unsigned>> veic;*/
+	 string nome;
+	 bool atual,first_time=true;
+	 size_t m;
+	 list<pair<string,unsigned>> veic;*/
 
 	while (getline(f, line)) {
 		if (line == "//empresa")
@@ -662,11 +588,23 @@ void Empresa::carregarInfo(ifstream &f) {
 					}
 				}
 				if (atributos[6] == "funcionario(a)")
-					utentes.push_back(new Funcionario(atributos[0], atributos[1], atributos[2], stoul(atributos[4]), stoul(atributos[5]), false, stoul(atributos[7])));
+					utentes.push_back(
+							new Funcionario(atributos[0], atributos[1],
+									atributos[2], stoul(atributos[4]),
+									stoul(atributos[5]), false,
+									stoul(atributos[7])));
 				else if (atributos[6] == "docente")
-					utentes.push_back(new Funcionario(atributos[0], atributos[1], atributos[2], stoul(atributos[4]), stoul(atributos[5]), true, stoul(atributos[7])));
+					utentes.push_back(
+							new Funcionario(atributos[0], atributos[1],
+									atributos[2], stoul(atributos[4]),
+									stoul(atributos[5]), true,
+									stoul(atributos[7])));
 				else
-					utentes.push_back(new Crianca(atributos[0], atributos[1], atributos[2], stoul(atributos[4]), stoul(atributos[5]), atributos[6], stoul(atributos[7])));
+					utentes.push_back(
+							new Crianca(atributos[0], atributos[1],
+									atributos[2], stoul(atributos[4]),
+									stoul(atributos[5]), atributos[6],
+									stoul(atributos[7])));
 				atributos.resize(0);
 				break;
 
@@ -680,9 +618,15 @@ void Empresa::carregarInfo(ifstream &f) {
 					}
 				}
 				if (atributos[5] == "livre")
-					veiculos.push_back(new Recreativo(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), false));
+					veiculos.push_back(
+							new Recreativo(atributos[1], stof(atributos[2]),
+									stof(atributos[3]), stoul(atributos[4]),
+									false));
 				else if (atributos[5] == "alugado")
-					veiculos.push_back(new Recreativo(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), true));
+					veiculos.push_back(
+							new Recreativo(atributos[1], stof(atributos[2]),
+									stof(atributos[3]), stoul(atributos[4]),
+									true));
 				else {
 					vector<unsigned int> vecZonas;
 					string str = atributos[5];
@@ -695,17 +639,19 @@ void Empresa::carregarInfo(ifstream &f) {
 						}
 					}
 
-					veiculos.push_back(new Escolar(atributos[1], stof(atributos[2]), stof(atributos[3]), stoul(atributos[4]), vecZonas));
+					veiculos.push_back(
+							new Escolar(atributos[1], stof(atributos[2]),
+									stof(atributos[3]), stoul(atributos[4]),
+									vecZonas));
 				}
 				atributos.resize(0);
 				break;
 
 			case 'p':
-				if(precoP){
+				if (precoP) {
 					precoPessoa = stof(line);
 					precoP = false;
-				}
-				else
+				} else
 					str << line << endl;
 				break;
 
@@ -732,79 +678,79 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 				break;
 
-			/*case 'm':
-				aux.clear();
+				/*case 'm':
+				 aux.clear();
 
-				m=0;
+				 m=0;
 
-				if(line[0]!='\t')
-				{//getting the name
+				 if(line[0]!='\t')
+				 {//getting the name
 
-					if(!first_time)
-						{
-							motoristas.erase(*motorista);
-							(*motorista).inserirVeiculos(veic);
-							motoristas.insert(*motorista);
-						}
+				 if(!first_time)
+				 {
+				 motoristas.erase(*motorista);
+				 (*motorista).inserirVeiculos(veic);
+				 motoristas.insert(*motorista);
+				 }
 
-					for (;m<line.size()-1;m++)
-						{
-							if(line[m]!='\t')
-							{
-								aux += line[m];
-							}
-							else break;
-						}
-				nome=aux;
-				cout<<"nome: "<<aux<<endl;
-				aux.clear();
-				m++;//passar o tab a frente
+				 for (;m<line.size()-1;m++)
+				 {
+				 if(line[m]!='\t')
+				 {
+				 aux += line[m];
+				 }
+				 else break;
+				 }
+				 nome=aux;
+				 cout<<"nome: "<<aux<<endl;
+				 aux.clear();
+				 m++;//passar o tab a frente
 
-					for (;m<line.size()-1;m++)//read until the end
-						{
-								aux += line[m];
-						}
+				 for (;m<line.size()-1;m++)//read until the end
+				 {
+				 aux += line[m];
+				 }
 
-				if(aux=="ativo")
-					atual=true;
-				else atual=false;
+				 if(aux=="ativo")
+				 atual=true;
+				 else atual=false;
 
-				Motorista m(nome,atual);
-				(*motorista)=m;
-				motoristas.insert(*motorista);
+				 Motorista m(nome,atual);
+				 (*motorista)=m;
+				 motoristas.insert(*motorista);
 
-				aux=nome;
-				}
-				else //lidar com veiculos
-				{
-					string matricula;
-					unsigned id;
+				 aux=nome;
+				 }
+				 else //lidar com veiculos
+				 {
+				 string matricula;
+				 unsigned id;
 
-					m=1;
+				 m=1;
 
-					for(;m<line.size()-1;m++)
-						{
-							if(line[m]=='\t')
-								break;
+				 for(;m<line.size()-1;m++)
+				 {
+				 if(line[m]=='\t')
+				 break;
 
-							aux+=line[m];
-						}
+				 aux+=line[m];
+				 }
 
-					matricula=aux;
+				 matricula=aux;
 
-					m++;
+				 m++;
 
-					aux.clear();
+				 aux.clear();
 
-					for(;m<line.size()-1;m++)
-						{
-							id=line[m]*pow(10,line.size()-m-2);
-						}
+				 for(;m<line.size()-1;m++)
+				 {
+				 id=line[m]*pow(10,line.size()-m-2);
+				 }
 
-						cout<<"ID: "<<id<<endl;
+				 cout<<"ID: "<<id<<endl;
 
-				}
-					break;*/
+				 }
+				 break;*/
 			default:
 				return;
 			}
@@ -815,56 +761,61 @@ void Empresa::carregarInfo(ifstream &f) {
 	atualizarPasses();
 }
 
-string Empresa::showUtentes() const
-{
+string Empresa::showUtentes() const {
 	ostringstream out;
 
 	out << endl << "///////////Utentes//////////" << endl;
 
 	for (size_t i = 0; i < utentes.size(); i++) {
 		out << endl << "Utente n" << utentes[i]->getNumUtente() << " :" << endl
-				<< "Nome: " << utentes[i]->getNome() << "; Data de Nascimento: " << utentes[i]->getData_Nasc()<< "; BI: " << utentes[i]->getBI() << endl
-				<< "Zona de habitacao: Z" << utentes[i]->getZonaHabitacao() << "; Zona de escola: Z" << utentes[i]->getZonaEscola() << endl;
-		if(utentes[i]->getNomeEE() == "") //E funcionario
-		{
-			if(utentes[i]->getDocente())
-				out << "Ocupacao: Docente; Contacto: " << utentes[i]->getContacto() << endl;
+				<< "Nome: " << utentes[i]->getNome() << "; Data de Nascimento: "
+				<< utentes[i]->getData_Nasc() << "; BI: " << utentes[i]->getBI()
+				<< endl << "Zona de habitacao: Z"
+				<< utentes[i]->getZonaHabitacao() << "; Zona de escola: Z"
+				<< utentes[i]->getZonaEscola() << endl;
+		if (utentes[i]->getNomeEE() == "") //E funcionario
+				{
+			if (utentes[i]->getDocente())
+				out << "Ocupacao: Docente; Contacto: "
+						<< utentes[i]->getContacto() << endl;
 			else
-				out << "Ocupacao: Funcionario; Contacto: " << utentes[i]->getContacto() << endl;
-		}
-		else //E crianca
+				out << "Ocupacao: Funcionario; Contacto: "
+						<< utentes[i]->getContacto() << endl;
+		} else //E crianca
 		{
-			out << "Nome E.Educacao: " << utentes[i]->getNomeEE() << "; Contacto do E.Educacao: " << utentes[i]->getContacto() << endl;
+			out << "Nome E.Educacao: " << utentes[i]->getNomeEE()
+					<< "; Contacto do E.Educacao: " << utentes[i]->getContacto()
+					<< endl;
 		}
 	}
 
 	return out.str();
 }
 
-string Empresa::showVeiculos() const
-{
+string Empresa::showVeiculos() const {
 	ostringstream out;
 
 	out << endl << "///////////Veiculos//////////" << endl;
 
 	for (size_t i = 0; i < veiculos.size(); i++) {
 		out << endl << "Veiculo n" << veiculos[i]->getId() << " :" << endl
-				<< "Matricula: " << veiculos[i]->getMatricula() << "; Consumo p/ 100Km: " << veiculos[i]->getConsumo()
-				<< "; Preco p/L de combustivel: " << veiculos[i]->getPreco() << endl;
+				<< "Matricula: " << veiculos[i]->getMatricula()
+				<< "; Consumo p/ 100Km: " << veiculos[i]->getConsumo()
+				<< "; Preco p/L de combustivel: " << veiculos[i]->getPreco()
+				<< endl;
 
-		if(veiculos[i]->getCapacidade() == 0)
-		{
-			out << "Lugares livres: " << veiculos[i]->getLugsLivres() << "; Zonas atravessadas:";
+		if (veiculos[i]->getCapacidade() == 0) {
+			out << "Lugares livres: " << veiculos[i]->getLugsLivres()
+					<< "; Zonas atravessadas:";
 			vector<unsigned int> zonas = veiculos[i]->getZonas();
 			for (size_t j = 0; j < zonas.size(); j++) {
 				out << " Z" << zonas[j];
 			}
 			out << endl;
-		}
-		else
-		{
-			out << "Capacidade: " << veiculos[i]->getCapacidade() << "; Estado: ";
-			if(veiculos[i]->getEstado())
+		} else {
+			out << "Capacidade: " << veiculos[i]->getCapacidade()
+					<< "; Estado: ";
+			if (veiculos[i]->getEstado())
 				out << "Alugado" << endl;
 			else
 				out << "Livre" << endl;
@@ -874,47 +825,44 @@ string Empresa::showVeiculos() const
 	return out.str();
 }
 
-string Empresa::showTabPasses() const
-{
+string Empresa::showTabPasses() const {
 	stringstream out;
 
 	out << endl << "////////Tabela de Passes/////////" << endl
 			<< "Utente\t->\tValor" << endl;
 
-	for(map<unsigned int, double>::const_iterator it = tabelaPasses.begin(); it != tabelaPasses.end(); it++)
-	{
+	for (map<unsigned int, double>::const_iterator it = tabelaPasses.begin();
+			it != tabelaPasses.end(); it++) {
 		out << " " << it->first << "\t->\t " << it->second << endl;
 	}
 
 	return out.str();
 }
 
-string Empresa::showTabPassag() const
-{
+string Empresa::showTabPassag() const {
 	stringstream out;
 
 	out << endl << "////////Tabela de Passageiros/////////" << endl
 			<< "Utente\t->\tVeiculo" << endl;
 
-	for(map<unsigned int, unsigned int>::const_iterator it = tabelaPassageiros.begin(); it != tabelaPassageiros.end(); it++)
-	{
+	for (map<unsigned int, unsigned int>::const_iterator it =
+			tabelaPassageiros.begin(); it != tabelaPassageiros.end(); it++) {
 		out << " " << it->first << "\t->\t " << it->second << endl;
 	}
 
 	return out.str();
 }
 
-string Empresa::showMensal() const
-{
+string Empresa::showMensal() const {
 	ostringstream out;
 
-	string aux[] = {"Janeiro","Fevereiro","Marco","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
+	string aux[] = { "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
+			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" };
 
 	out << endl << "///////Lucros Mensais///////" << endl;
-	for(size_t i = 0; i < lucrosMensais.size(); i++)
-	{
+	for (size_t i = 0; i < lucrosMensais.size(); i++) {
 		out << aux[i] << ": ";
-		if(lucrosMensais[i] == -1)
+		if (lucrosMensais[i] == -1)
 			out << "Nao Registado" << endl;
 		else
 			out << lucrosMensais[i] << " euros" << endl;
@@ -923,30 +871,25 @@ string Empresa::showMensal() const
 	return out.str();
 }
 
-string Empresa::showDiario() const
-{
+string Empresa::showDiario() const {
 	ostringstream out;
 
 	out << endl << "///////Registos Diarios///////" << endl;
 
-	for(size_t i = 0; i < registoDiario.size(); i++)
-	{
+	for (size_t i = 0; i < registoDiario.size(); i++) {
 		out << "Dia " << i + 1 << ": " << registoDiario[i] << " euros" << endl;
 	}
 
 	return out.str();
 }
 
-string Empresa::showPrecos() const
-{
+string Empresa::showPrecos() const {
 	ostringstream out;
 	size_t i;
 
-	out << endl << "///////Matrix de Precos///////" << endl
-			<< '\t';
+	out << endl << "///////Matrix de Precos///////" << endl << '\t';
 
-	for (i = 0; i < precos_zona.size(); i++)
-	{
+	for (i = 0; i < precos_zona.size(); i++) {
 		out << 'Z' << i + 1;
 
 		if (i != precos_zona.size() - 1)
@@ -955,12 +898,10 @@ string Empresa::showPrecos() const
 			out << endl;
 	}
 
-	for (i = 0; i < precos_zona.size(); i++)
-	{
+	for (i = 0; i < precos_zona.size(); i++) {
 		out << 'Z' << i + 1;
 
-		for (size_t j = 0; j < precos_zona[i].size(); j++)
-		{
+		for (size_t j = 0; j < precos_zona[i].size(); j++) {
 			out << '\t' << precos_zona[i][j];
 		}
 		out << endl;
@@ -969,127 +910,133 @@ string Empresa::showPrecos() const
 	return out.str();
 }
 
-ostream& operator <<(ostream& out,const Empresa &emp)
-{
+ostream& operator <<(ostream& out, const Empresa &emp) {
 	emp.guardarInfo(out);
 
 	return out;
 }
 
-//=========================================
-bool Empresa::checkOficina(const Oficina& ofc)
-{
+//=======================================================
+bool Empresa::checkOficina(const Oficina& ofc) {
 	bool flag = false;
 	vector<Oficina> aux;
 
-	while(!oficinas.empty())
-	{
-		if(oficinas.top() == ofc)
-		{
+	while (!oficinas.empty()) {
+		if (oficinas.top() == ofc) {
 			flag = true;
 			break;
-		}
-		else
-		{
+		} else {
 			aux.push_back(oficinas.top());
 			oficinas.pop();
 		}
 	}
 
-	for(size_t i = 0; i < aux.size(); i++)
-	{
+	for (size_t i = 0; i < aux.size(); i++) {
 		oficinas.push(aux[i]);
 	}
 
 	return flag;
 }
 
-bool Empresa::insertOficina(const Oficina& ofc) //TODO exceptions?
-{
-	if(!checkOficina(ofc)){
-		oficinas.push(ofc);
-		return true;
-	}
-	else
-		return false;
-}
-
-bool Empresa::removeOficina(const Oficina& ofc) //TODO exceptions?
-{
-	if(!checkOficina(ofc)){
-		return false;
-	}
-	else{
-		vector<Oficina> aux;
-
-		while(!oficinas.empty())
-		{
-			if(oficinas.top() == ofc)
-			{
-				oficinas.pop();
-				break;
-			}
-			else
-			{
-				aux.push_back(oficinas.top());
-				oficinas.pop();
-			}
-		}
-
-		for(size_t i = 0; i < aux.size(); i++)
-		{
-			oficinas.push(aux[i]);
-		}
-
-		return true;
-	}
-}
-
-Oficina Empresa::repararVeiculo(unsigned int id, double dist_max)
-{
+bool Empresa::editOficina(string nm, double newVal, bool dist) {
 	vector<Oficina> aux;
+	Oficina ofc(nm);
 	Oficina temp;
-	size_t i;
+	bool flag = false;
 
-	while(!oficinas.empty())
-	{
-		if(oficinas.top().getDist() <= dist_max)
-		{
+	while (!oficinas.empty()) {
+		if (oficinas.top() == ofc) {
 			temp = oficinas.top();
 			oficinas.pop();
-
-			for(i = 0; i < veiculos.size(); i++)
-			{
-				if(veiculos[i]->getId() == id)
-					break;
-			}
+			flag = true;
 			break;
-		}
-		else
-		{
+		} else {
 			aux.push_back(oficinas.top());
 			oficinas.pop();
 		}
 	}
 
-	if(!oficinas.empty() && i != veiculos.size()){
+	if (dist && flag) { //o valor a ser alterado e a distancia
+		temp.setDist(newVal);
+		oficinas.push(temp);
+	} else if (!dist && flag) { //o valor a ser alterado e a disponibilidade
+		temp.setDisp(newVal);
+		oficinas.push(temp);
+	}
+
+	for (size_t i = 0; i < aux.size(); i++) {
+		oficinas.push(aux[i]);
+	}
+
+	return flag;
+}
+
+bool Empresa::insertOficina(const Oficina& ofc) {
+	if (!checkOficina(ofc)) {
+		oficinas.push(ofc);
+		return true;
+	} else
+		return false;
+}
+
+bool Empresa::removeOficina(const Oficina& ofc) {
+	vector<Oficina> aux;
+	bool retVal = false;
+
+	while (!oficinas.empty()) {
+		if (oficinas.top() == ofc) {
+			oficinas.pop();
+			retVal = true;
+			break;
+		} else {
+			aux.push_back(oficinas.top());
+			oficinas.pop();
+		}
+	}
+
+	for (size_t i = 0; i < aux.size(); i++) {
+		oficinas.push(aux[i]);
+	}
+
+	return retVal;
+}
+
+Oficina Empresa::repararVeiculo(unsigned int id, double dist_max) {
+	vector<Oficina> aux;
+	Oficina temp;
+	size_t i;
+
+	while (!oficinas.empty()) {
+		if (oficinas.top().getDist() <= dist_max) {
+			temp = oficinas.top();
+			oficinas.pop();
+
+			for (i = 0; i < veiculos.size(); i++) {
+				if (veiculos[i]->getId() == id)
+					break;
+			}
+			break;
+		} else {
+			aux.push_back(oficinas.top());
+			oficinas.pop();
+		}
+	}
+
+	if (!oficinas.empty() && i != veiculos.size()) {
 		temp.reparacao();
 		veiculos[i]->setReparacao(true);
 	}
 
-	for(size_t i = 0; i < aux.size(); i++)
-	{
+	for (size_t i = 0; i < aux.size(); i++) {
 		oficinas.push(aux[i]);
 	}
-
 
 	return temp;
 }
 
 //===============================================================
-bool Empresa::contratarNovoMotorista(string nome,list<unsigned> veiculos)
-{
-	Motorista  motorista(nome,true);
+bool Empresa::contratarNovoMotorista(string nome, list<unsigned> veiculos) {
+	Motorista motorista(nome, true);
 
 	motorista.inserirVeiculos(veiculos);
 
@@ -1098,40 +1045,37 @@ bool Empresa::contratarNovoMotorista(string nome,list<unsigned> veiculos)
 	return true;
 }
 
-bool Empresa::inserirAntigoMotorista(string nome)
-{
+bool Empresa::inserirAntigoMotorista(string nome) {
 	Motorista m(nome);
 
 	pair<tabHMotorista::iterator, bool> res = motoristas.insert(m);
 
-	return  res.second;
+	return res.second;
 }
 
-bool Empresa::inserirVeiculo(string nome,unsigned id)
-{
-	if(motoristas.empty())
+bool Empresa::inserirVeiculo(string nome, unsigned id) {
+	if (motoristas.empty())
 		return false;
 
-	tabHMotorista::iterator it=motoristas.begin();
+	tabHMotorista::iterator it = motoristas.begin();
 
-	while(it!=motoristas.end())
-		{
-			if((*it).getNome()==nome)
-				{
-					break;
-				}
+	while (it != motoristas.end()) {
+		if ((*it).getNome() == nome) {
+			break;
 		}
+	}
 
-	if(it==motoristas.end())
+	if (it == motoristas.end())
 		return false;
 
-	Motorista motorista=*it;
+	Motorista motorista = *it;
 
-	if(motorista.getVeiculos().size()>=5)
-		{
-		cout<<"Nao e possivel inserir o veiculo pois exede o limite maximo de veiculos por motorista"<<endl;
+	if (motorista.getVeiculos().size() >= 5) {
+		cout
+				<< "Nao e possivel inserir o veiculo pois exede o limite maximo de veiculos por motorista"
+				<< endl;
 		return false;
-		}
+	}
 
 	motoristas.erase(it);
 
@@ -1142,29 +1086,26 @@ bool Empresa::inserirVeiculo(string nome,unsigned id)
 	return true;
 }
 
-bool Empresa::inserirVeiculos(string nome, list<unsigned> veiculos)
-{
-	if(motoristas.empty())
+bool Empresa::inserirVeiculos(string nome, list<unsigned> veiculos) {
+	if (motoristas.empty())
 		return false;
 
-	tabHMotorista::iterator it=motoristas.begin();
+	tabHMotorista::iterator it = motoristas.begin();
 
-	while(it!=motoristas.end())
-	{
-		if((*it).getNome()==nome)
-			{
-				break;
-			}
+	while (it != motoristas.end()) {
+		if ((*it).getNome() == nome) {
+			break;
+		}
 
 		it++;
 	}
 
-	if(it==motoristas.end())
+	if (it == motoristas.end())
 		return false;
 
-	Motorista motorista=*it;
+	Motorista motorista = *it;
 
-	if(motorista.getVeiculos().size()>=5)
+	if (motorista.getVeiculos().size() >= 5)
 		return false;
 
 	motoristas.erase(it);
@@ -1175,31 +1116,27 @@ bool Empresa::inserirVeiculos(string nome, list<unsigned> veiculos)
 
 	return true;
 }
-bool Empresa::removerVeiculo(string nome,unsigned id)
-{
-	if(motoristas.empty())
+bool Empresa::removerVeiculo(string nome, unsigned id) {
+	if (motoristas.empty())
 		return false;
 
-	tabHMotorista::iterator it=motoristas.begin();
+	tabHMotorista::iterator it = motoristas.begin();
 
-	while(it!=motoristas.end())
-		{
-			if((*it).getNome()==nome)
-				{
-					break;
-				}
-
-			it++;
+	while (it != motoristas.end()) {
+		if ((*it).getNome() == nome) {
+			break;
 		}
 
-    if(it==motoristas.end())
-    	{
-    		cout<<"O motorista que inserio nao existe"<<endl;
+		it++;
+	}
 
-    		return false;
-    	}
+	if (it == motoristas.end()) {
+		cout << "O motorista que inserio nao existe" << endl;
 
-	Motorista motorista=*it;
+		return false;
+	}
+
+	Motorista motorista = *it;
 
 	motoristas.erase(it);
 
@@ -1210,56 +1147,50 @@ bool Empresa::removerVeiculo(string nome,unsigned id)
 	return true;
 }
 
-bool Empresa::removerMotorista(string nome)
-{
-	if(motoristas.empty())
+bool Empresa::removerMotorista(string nome) {
+	if (motoristas.empty())
 		return false;
 
-	tabHMotorista::iterator it=motoristas.begin();
+	tabHMotorista::iterator it = motoristas.begin();
 
-	while(it!=motoristas.end())
-		{
-			if((*it).getNome()==nome)
-				{
-					break;
-				}
-
-			it++;
+	while (it != motoristas.end()) {
+		if ((*it).getNome() == nome) {
+			break;
 		}
 
-	if(it==motoristas.end())
-		{
-			cout<<"O motorista que inserio nao existe"<<endl;
-			return false;
-		}
+		it++;
+	}
+
+	if (it == motoristas.end()) {
+		cout << "O motorista que inserio nao existe" << endl;
+		return false;
+	}
 
 	motoristas.erase(it);
 
 	return true;
 }
 
-bool Empresa::mostrar_nome_motoristas()
-{
-	if(motoristas.empty())
-	{
-		cout<<"Nao ha motoristas no sistema"<<endl;
+bool Empresa::mostrar_nome_motoristas() {
+	if (motoristas.empty()) {
+		cout << "Nao ha motoristas no sistema" << endl;
 
 		return false;
 	}
 
 	tabHMotorista::iterator it = motoristas.begin();
 
-	Motorista motorista=*it;
+	Motorista motorista = *it;
 
-	while(it!=motoristas.end())
-	{
-		cout<<"Motorista: "<<it->getNome()<<"  Estado do contrato: ";
+	while (it != motoristas.end()) {
+		cout << "Motorista: " << it->getNome() << "  Estado do contrato: ";
 
-		motorista=*it;
+		motorista = *it;
 
-		if(motorista.getAtual())
-			cout<<"Ativo"<<endl;
-		else cout<<"Nao Ativo"<<endl;
+		if (motorista.getAtual())
+			cout << "Ativo" << endl;
+		else
+			cout << "Nao Ativo" << endl;
 
 		motorista.mostrar_veiculos();
 
@@ -1269,60 +1200,54 @@ bool Empresa::mostrar_nome_motoristas()
 	return true;
 }
 
-bool Empresa::averiguar_motoristas(unsigned id)
-{
-	if(motoristas.empty())
-		{
-			cout<<"Nao ha motoristas no sistema";
-			return false;
-		}
+bool Empresa::averiguar_motoristas(unsigned id) {
+	if (motoristas.empty()) {
+		cout << "Nao ha motoristas no sistema";
+		return false;
+	}
 
 	tabHMotorista::iterator it = motoristas.begin();
 	tabHMotorista::iterator it1 = motoristas.end();
 
-	Motorista motorista=*it;
+	Motorista motorista = *it;
 
-	while(it!=motoristas.end())
-	{
-		motorista=*it;
+	while (it != motoristas.end()) {
+		motorista = *it;
 
-		if(!motorista.getAtual())//se nao estiver contratado
-			{
-				it1=it;
+		if (!motorista.getAtual()) //se nao estiver contratado
+		{
+			it1 = it;
 
-				it++;
+			it++;
 
-				continue;
-			}
+			continue;
+		}
 
 		else {
-				it++;
+			it++;
 
-				list<unsigned> veiculos = motorista.getVeiculos();
+			list<unsigned> veiculos = motorista.getVeiculos();
 
-				if(find(veiculos.begin(),veiculos.end(),id)==veiculos.end() && (veiculos.size()<5))//garantir que o veiculo ja nao existe no motorista
+			if (find(veiculos.begin(), veiculos.end(), id) == veiculos.end()
+					&& (veiculos.size() < 5)) //garantir que o veiculo ja nao existe no motorista
 					{
-						motoristas.erase(motorista);
+				motoristas.erase(motorista);
 
-						motorista.inserirVeiculo(id);
+				motorista.inserirVeiculo(id);
 
-						motoristas.insert(motorista);
+				motoristas.insert(motorista);
 
-						return true;
-					}
+				return true;
+			}
 
-			 }
-
+		}
 
 	}
 	//se nao houver motoristas contratados disponiveis
-	if(it1==motoristas.end())
-	{
+	if (it1 == motoristas.end()) {
 		return false;
-	}
-	else
-	{
-		motorista=*(it1);
+	} else {
+		motorista = *(it1);
 
 		motoristas.erase(it1);
 
@@ -1335,33 +1260,29 @@ bool Empresa::averiguar_motoristas(unsigned id)
 	return false;
 }
 
-bool Empresa::despedir_motorista(string nome)
-{
-	if(motoristas.empty())
-		{
-			cout<<"Nao ha motoristas no sistema";
-			return false;
-		}
+bool Empresa::despedir_motorista(string nome) {
+	if (motoristas.empty()) {
+		cout << "Nao ha motoristas no sistema";
+		return false;
+	}
 
 	tabHMotorista::iterator it = motoristas.begin();
 
-	while(it!=motoristas.end())
-	{
+	while (it != motoristas.end()) {
 
-		if(it->getNome()==nome)
+		if (it->getNome() == nome)
 			break;
 
 		it++;
 	}
 
-	if(it==motoristas.end())
-	{
-		cout<<"O motorista nao existe"<<endl;
+	if (it == motoristas.end()) {
+		cout << "O motorista nao existe" << endl;
 
 		return false;
 	}
 
-	Motorista motorista=*it;
+	Motorista motorista = *it;
 
 	motoristas.erase(it);
 
@@ -1372,79 +1293,70 @@ bool Empresa::despedir_motorista(string nome)
 	return true;
 }
 
-int Empresa::nr_restante_veiculos(string nome)
-{
-	if(motoristas.empty())
-		{
-			cout<<"Nao ha motoristas no sistema";
-			return 6;
-		}
+int Empresa::nr_restante_veiculos(string nome) {
+	if (motoristas.empty()) {
+		cout << "Nao ha motoristas no sistema";
+		return 6;
+	}
 
-		tabHMotorista::iterator it = motoristas.begin();
+	tabHMotorista::iterator it = motoristas.begin();
 
-		while(it!=motoristas.end())
-		{
+	while (it != motoristas.end()) {
 
-			if(it->getNome()==nome)
-				break;
+		if (it->getNome() == nome)
+			break;
 
-			it++;
-		}
+		it++;
+	}
 
-		if(it==motoristas.end())
-		{
-			cout<<"O motorista nao existe"<<endl;
+	if (it == motoristas.end()) {
+		cout << "O motorista nao existe" << endl;
 
-			return 6;
-		}
+		return 6;
+	}
 
-		Motorista motorista=*it;
+	Motorista motorista = *it;
 
-		return motorista.nr_veiculos_por_inserir();
+	return motorista.nr_veiculos_por_inserir();
 }
 
-bool Empresa::remover_Veiculo(unsigned id)
-{
-	if(motoristas.empty())
+bool Empresa::remover_Veiculo(unsigned id) {
+	if (motoristas.empty())
 		return true;
 
 	tabHMotorista::iterator it = motoristas.begin();
 
-	list <unsigned> veiculos;
+	list<unsigned> veiculos;
 
-	while(it!=motoristas.end())
+	while (it != motoristas.end()) {
+		Motorista motorista = *it;
+
+		if (motorista.getAtual()) //se possuir veiculos
 		{
-			Motorista motorista=*it;
+			motoristas.erase(*it);
 
-			if(motorista.getAtual())//se possuir veiculos
-			{
-				motoristas.erase(*it);
+			motorista.removerVeiculo(id);
 
-				motorista.removerVeiculo(id);
-
-				motoristas.insert(motorista);
-			}
-
-			it++;
+			motoristas.insert(motorista);
 		}
+
+		it++;
+	}
 
 	return true;
 }
 
 //===============================================================
 
-pair<bool, Escola> Empresa::verificaEscola(unsigned codigo)
-{
+pair<bool, Escola> Empresa::verificaEscola(unsigned codigo) {
 	BSTItrIn<Escola> itr(escolas);
 
 	Escola null("", 0, "", "", 0);
 
 	pair<bool, Escola> par(false, null);
 
-	while(!itr.isAtEnd())
-	{
-		if(itr.retrieve().getCodigo() == codigo)
-		{
+	while (!itr.isAtEnd()) {
+		if (itr.retrieve().getCodigo() == codigo) {
 			par.first = true;
 			par.second = itr.retrieve();
 			return par;
@@ -1456,13 +1368,11 @@ pair<bool, Escola> Empresa::verificaEscola(unsigned codigo)
 	return par;
 }
 
-void Empresa::adicionaEscola(Escola &esc)
-{
+void Empresa::adicionaEscola(Escola &esc) {
 	escolas.insert(esc);
 }
 
-vector<Utente*> Empresa::removeEscola(Escola &esc)
-{
+vector<Utente*> Empresa::removeEscola(Escola &esc) {
 	vector<Utente*> temp = esc.getUtentes();
 
 	escolas.remove(esc);
@@ -1470,24 +1380,19 @@ vector<Utente*> Empresa::removeEscola(Escola &esc)
 	return temp;
 }
 
-pair<bool, Escola> Empresa::encontraEscolaUtente(Utente &ut)
-{
+pair<bool, Escola> Empresa::encontraEscolaUtente(Utente &ut) {
 	BSTItrIn<Escola> itr(escolas);
 
 	Escola null("", 0, "", "", 0);
 
 	pair<bool, Escola> par(false, null);
 
-	while(!itr.isAtEnd())
-	{
-		if(itr.retrieve().getZona() == ut.getZonaEscola())
-		{
+	while (!itr.isAtEnd()) {
+		if (itr.retrieve().getZona() == ut.getZonaEscola()) {
 			vector<Utente*> temp = itr.retrieve().getUtentes();
 
-			for(size_t i = 0; i < temp.size(); i++)
-			{
-				if(*(temp[i]) == ut)
-				{
+			for (size_t i = 0; i < temp.size(); i++) {
+				if (*(temp[i]) == ut) {
 					par.first = true;
 					par.second = itr.retrieve();
 					return par;
@@ -1501,14 +1406,11 @@ pair<bool, Escola> Empresa::encontraEscolaUtente(Utente &ut)
 	return par;
 }
 
-bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut)
-{
+bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut) {
 	pair<bool, Escola> res = verificaEscola(codigo);
 
-	if(res.first)
-	{
-		if(ut->getZonaEscola() == res.second.getZona())
-		{
+	if (res.first) {
+		if (ut->getZonaEscola() == res.second.getZona()) {
 			ut->setCodEscola(codigo);
 
 			Escola aux = res.second;
@@ -1520,18 +1422,16 @@ bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut)
 			escolas.insert(aux);
 
 			return true;
-		}
-		else throw ZonasIncompativeis();
-	}
-	else throw EscolaNaoExistente();
+		} else
+			throw ZonasIncompativeis();
+	} else
+		throw EscolaNaoExistente();
 }
 
-bool Empresa::RemoveUtenteEscola(Utente *ut)
-{
+bool Empresa::RemoveUtenteEscola(Utente *ut) {
 	pair<bool, Escola> res = encontraEscolaUtente(*ut);
 
-	if(res.first)
-	{
+	if (res.first) {
 		ut->setCodEscola(0);
 
 		Escola aux = res.second;
@@ -1543,25 +1443,23 @@ bool Empresa::RemoveUtenteEscola(Utente *ut)
 		escolas.insert(aux);
 
 		return true;
-	}
-	else throw EscolaNaoExistente();
+	} else
+		throw EscolaNaoExistente();
 }
 
-string Empresa::getEscolas()
-{
+string Empresa::getEscolas() {
 	ostringstream s;
 
-	for(unsigned zona = 1; zona <= this->getUtentes().size(); zona++)
-	{
+	for (unsigned zona = 1; zona <= this->getUtentes().size(); zona++) {
 		s << "======= z" << zona << " =======" << endl;
 
 		BSTItrIn<Escola> itr(escolas);
 
-		while(!itr.isAtEnd())
-		{
-			if(itr.retrieve().getZona() == zona)
-			{
-				s << itr.retrieve().getCodigo() << '\t' << itr.retrieve().getNome() << '\t' << itr.retrieve().getDiretorInfo().first << '\n';
+		while (!itr.isAtEnd()) {
+			if (itr.retrieve().getZona() == zona) {
+				s << itr.retrieve().getCodigo() << '\t'
+						<< itr.retrieve().getNome() << '\t'
+						<< itr.retrieve().getDiretorInfo().first << '\n';
 			}
 
 			itr.advance();
@@ -1573,17 +1471,15 @@ string Empresa::getEscolas()
 	return s.str();
 }
 
-string Empresa::getEscolasZona(unsigned zona)
-{
+string Empresa::getEscolasZona(unsigned zona) {
 	BSTItrIn<Escola> itr(escolas);
 
 	ostringstream s;
 
-	while(!itr.isAtEnd())
-	{
-		if(itr.retrieve().getZona() == zona)
-		{
-			s << itr.retrieve().getCodigo() << '\t' << itr.retrieve().getNome() << '\n';
+	while (!itr.isAtEnd()) {
+		if (itr.retrieve().getZona() == zona) {
+			s << itr.retrieve().getCodigo() << '\t' << itr.retrieve().getNome()
+					<< '\n';
 		}
 
 		itr.advance();
@@ -1591,5 +1487,4 @@ string Empresa::getEscolasZona(unsigned zona)
 
 	return s.str();
 }
-
 

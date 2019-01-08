@@ -1139,6 +1139,40 @@ void trabalhar_empresa(Empresa &empresa)
 	}
 }
 
+void menu_principal(Empresa &empresa)
+{
+	while (true)
+	{
+		cout << "-------------" << empresa.getNome() << "------------" << endl
+			<< "Qual dos seguintes menus da empresa pretende aceder?"
+			<< "1. Menu de inserção de novos elementos" << endl
+			<< "2. Menu de remoção de elementos" << endl
+			<< "3. Menu de edição" << endl
+			<< "4. Menu de visualização" << endl
+			<< "5. Menu de trabalho" << endl
+			<< "6. Sair" << endl;
+		switch (respostaNumeros(1,6)){
+		case(1):
+			//menu_insercao(empresa);
+			break;
+		case(2):
+			//menu_remocao(empresa);
+			break;
+		case(3):
+			//menu_edicao(empresa);
+			break;
+		case(4):
+			//menu_visualizacao(empresa);
+			break;
+		case(5):
+			//menu_trabalho(empresa);
+			break;
+		case(6):
+			return;
+		}
+	}
+}
+
 Empresa criar_empresa()
 {
 	string nome_empresa;
@@ -1209,8 +1243,16 @@ Empresa continuar_empresa()
 	}
 }
 
+void resetIDs()
+{
+	Veiculo::numVeiculos = 0;
+	Utente::ult_numUtente = 0;
+}
+
 void sair(Empresa &empresa)
 {
+	resetIDs();
+
 	cout << "Deseja salvar o progresso?(S ou N)  ";
 
 	if(respostaS_N() == 'S')
