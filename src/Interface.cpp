@@ -923,6 +923,11 @@ void inserir_oficina(Empresa &empresa)
 	cout << "Oficina inserida com sucesso!" << endl;
 }
 
+void mostrar_motoristas(Empresa &empresa)
+{
+	empresa.mostrar_nome_motoristas();
+}
+
 void inserir_motorista( Empresa &empresa)
 {
 	string nome;
@@ -941,14 +946,15 @@ void inserir_motorista( Empresa &empresa)
 
 	veiculos.push_back(id);
 
-	while(id!=0 && counter<5)
+	while(id!=0 && counter<=5)
 		{
+
+		veiculos.push_back(id);
+
+		cout<<"id: ";
+		cin>>id;
+
 			counter++;
-			cout<<"id: ";
-			cin>>id;
-
-			veiculos.push_back(id);
-
 		}
 
 	if(counter==5)
@@ -996,7 +1002,7 @@ void inserir_veiculo(Empresa &empresa)
 		 {
 			veiculos.push_back(id);
 
-			if((empresa.nr_restante_veiculos(nome)-i)>=0 && empresa.nr_restante_veiculos(nome)==6 )
+			if((empresa.nr_restante_veiculos(nome)-i)>=0 && empresa.nr_restante_veiculos(nome)!=6 )
 			  {
 				cout<<"id: ";
 				cin>>id;
@@ -1257,7 +1263,7 @@ void menu_visualizacao(Empresa &empresa)
 			mostrar_escolas(empresa);
 			break;
 		case 3:
-			//mostrar_motoristas(empresa);
+			mostrar_motoristas(empresa);
 			break;
 		case 4:
 			mostrar_veiculos(empresa);
@@ -1292,7 +1298,7 @@ void menu_trabalho(Empresa &empresa)
 			 << "13. Mostrar os balancos diarios deste mes" << endl
 			 << "14. Mostrar a matriz de precos por zona" << endl
 			 << "15. Voltar ao Menu Princiapl" << endl;
-		switch (respostaNumeros(1,6)){
+		switch (respostaNumeros(1,15)){
 		case 1:
 			alterar_precoZonas(empresa);
 			break;
@@ -1367,7 +1373,7 @@ void menu_principal(Empresa &empresa)
 			menu_visualizacao(empresa);
 			break;
 		case 5:
-			//menu_trabalho(empresa);
+			menu_trabalho(empresa);
 			break;
 		case 6:
 			return;
