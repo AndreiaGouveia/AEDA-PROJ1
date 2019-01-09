@@ -67,7 +67,7 @@ string Utente::getInfo() const
 	ostringstream out;
 
 	out << nome << '\t' << data_nascimento << '\t' << BI << '\t'
-			<< numUtente << '\t' << zonaHabitacao << '\t' << zonaEscola;
+			<< numUtente << '\t' << zonaHabitacao << '\t' << zonaEscola << '\t' << cod_escola;
 
 	return out.str();
 }

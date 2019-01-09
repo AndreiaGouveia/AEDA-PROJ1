@@ -38,6 +38,12 @@ pair<string,string> Escola::getDiretorInfo() const
 	return par;
 }
 
+void Escola::set_diretor(const string &nome, const string &morada)
+{
+	this->nome_diretor = nome;
+	this->morada_diretor = morada;
+}
+
 void Escola::addUtente(Utente *ut)
 {
 	utentes.push_back(ut);
@@ -64,4 +70,16 @@ bool Escola::operator<(const Escola &esc) const
 	}
 	else return this->getUtentes().size() < esc.getUtentes().size();
 }
+
+ostream& operator <<(ostream& out,const Escola &esc)
+{
+	pair<string,string> diretor = esc.getDiretorInfo();
+
+	out << esc.getNome() << '\t' << esc.getCodigo() << '\t'
+	  << diretor.first << '\t' << diretor.second << '\t'
+	  << esc.getZona();
+
+	return out;
+}
+
 

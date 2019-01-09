@@ -17,7 +17,9 @@ public:
 	unsigned getZona() const;
 	unsigned getCodigo() const;
 	pair<string,string> getDiretorInfo() const;
+	void set_diretor(const string &nome, const string &morada);
 	void addUtente(Utente *ut);
 	void removeUtente(Utente *ut);
 	bool operator<(const Escola &esc) const;
+	friend ostream& operator <<(ostream& out,const Escola &esc);
 };

@@ -497,12 +497,25 @@ bool Empresa::calculoMensal() {
 void Empresa::guardarInfo(ostream &ficheiro) const {
 	size_t i;
 
-	ficheiro << "//empresa" << endl << nome_empresa << endl << "//utentes"
-			<< endl;
+	ficheiro << "//empresa" << endl << nome_empresa << endl;
+
+	ficheiro << "//escolas" << endl;
+
+	BSTItrIn<Escola> itr(escolas);
+
+	while (!itr.isAtEnd())
+	{
+		ficheiro << itr.retrieve() << endl;
+
+		itr.advance();
+	}
+
+	ficheiro << "//utentes" << endl;
 
 	for (i = 0; i < utentes.size(); i++) {
 		ficheiro << *utentes[i] << endl;
 	}
+
 	ficheiro << "//motoristas" << endl;
 
 	if(!(motoristas.empty()))
@@ -598,6 +611,8 @@ void Empresa::carregarInfo(ifstream &f) {
 	while (getline(f, line)) {
 		if (line == "//empresa")
 			seletor = 'e';
+		else if (line == "//escolas")
+			seletor = 's';
 		else if (line == "//utentes")
 			seletor = 'u';
 		else if (line == "//veiculos")
@@ -616,8 +631,12 @@ void Empresa::carregarInfo(ifstream &f) {
 			case 'e':
 				nome_empresa = line.substr(0, line.length());
 				break;
-			case 'u':
-				for (size_t i = 0; i <= line.length(); i++) {
+			case 's':
+			{
+				unsigned zona, codigo;
+
+				for (size_t i = 0; i <= line.length(); i++)
+				{
 					if (line[i] == '\t' || i == line.length()) {
 						atributos.push_back(aux);
 						aux.clear();
@@ -625,28 +644,66 @@ void Empresa::carregarInfo(ifstream &f) {
 						aux += line[i];
 					}
 				}
-				if (atributos[6] == "funcionario(a)")
-					utentes.push_back(
-							new Funcionario(atributos[0], atributos[1],
-									atributos[2], stoul(atributos[4]),
-									stoul(atributos[5]), false,
-									stoul(atributos[7])));
-				else if (atributos[6] == "docente")
-					utentes.push_back(
-							new Funcionario(atributos[0], atributos[1],
-									atributos[2], stoul(atributos[4]),
-									stoul(atributos[5]), true,
-									stoul(atributos[7])));
+
+				codigo = stoul(atributos[1]);
+				zona = stoul(atributos[4]);
+
+				escolas.insert(Escola(atributos[0], codigo, atributos[2], atributos[3], zona));
+
+				break;
+			}
+			case 'u':
+			{
+				for (size_t i = 0; i <= line.length(); i++) {
+
+					if (line[i] == '\t' || i == line.length()) {
+						atributos.push_back(aux);
+						aux.clear();
+					} else {
+						aux += line[i];
+					}
+				}
+				if (atributos[7] == "funcionario(a)")
+				{
+					Utente* ut = new Funcionario(atributos[0], atributos[1],
+							atributos[2], stoul(atributos[4]),
+							stoul(atributos[5]), false,
+							stoul(atributos[8]));
+
+					InsereUtenteEscola(stoul(atributos[6]), ut);
+					ut->setCodEscola(stoul(atributos[6]));
+
+					utentes.push_back(ut);
+				}
+				else if (atributos[7] == "docente")
+				{
+					Utente* ut = new Funcionario(atributos[0], atributos[1],
+							atributos[2], stoul(atributos[4]),
+							stoul(atributos[5]), true,
+							stoul(atributos[8]));
+
+					InsereUtenteEscola(stoul(atributos[6]), ut);
+					ut->setCodEscola(stoul(atributos[6]));
+
+					utentes.push_back(ut);
+				}
 				else
-					utentes.push_back(
-							new Crianca(atributos[0], atributos[1],
-									atributos[2], stoul(atributos[4]),
-									stoul(atributos[5]), atributos[6],
-									stoul(atributos[7])));
+				{
+					Utente* ut = new Crianca(atributos[0], atributos[1],
+							atributos[2], stoul(atributos[4]),
+							stoul(atributos[5]), atributos[7],
+							stoul(atributos[8]));
+
+					InsereUtenteEscola(stoul(atributos[6]), ut);
+					ut->setCodEscola(stoul(atributos[6]));
+
+					utentes.push_back(ut);
+				}
 				atributos.resize(0);
 				break;
-
+			}
 			case 'v':
+			{
 				for (size_t i = 0; i <= line.length(); i++) {
 					if (line[i] == '\t' || i == line.length()) {
 						atributos.push_back(aux);
@@ -684,16 +741,18 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 				atributos.resize(0);
 				break;
-
+			}
 			case 'p':
+			{
 				if (precoP) {
 					precoPessoa = stof(line);
 					precoP = false;
 				} else
 					str << line << endl;
 				break;
-
+			}
 			case 'l':
+			{
 				this->setPrecos(str);
 				for (size_t i = 1; i <= line.length() - 1; i++) {
 					if (isdigit(line[i]) || line[i] == '-' || line[i] == '.') {
@@ -704,8 +763,9 @@ void Empresa::carregarInfo(ifstream &f) {
 					}
 				}
 				break;
-
+			}
 			case 'd':
+			{
 				for (size_t i = 1; i <= line.length() - 1; i++) {
 					if (isdigit(line[i]) || line[i] == '-' || line[i] == '.') {
 						aux += line[i];
@@ -715,67 +775,67 @@ void Empresa::carregarInfo(ifstream &f) {
 					}
 				}
 				break;
-
+			}
 			case 'm':
-					{
-						int counter=0;
-						int number=0;
-					nome.clear();
-					cout<<"hereee";
+			{
+				int counter=0;
+				int number=0;
+				nome.clear();
+				cout<<"hereee";
 
-					for (;line[counter]!='\t';counter++)//le o nome ate encontrar um tab
+				for (;line[counter]!='\t';counter++)//le o nome ate encontrar um tab
+				{
+					nome +=line[counter];
+				}
+
+				cout<<nome;
+
+				for (;counter<line.length()-1;counter++)//le ate encontrar um mais(esta contratado) ou um menos
+				{
+					if(line[counter]=='+')
 					{
-						nome +=line[counter];
+						atual=true;
+						break;
 					}
-
-					cout<<nome;
-
-					for (;counter<line.length()-1;counter++)//le ate encontrar um mais(esta contratado) ou um menos
+					else if(line[counter]=='-')
 					{
-						if(line[counter]=='+')
-						{
-							atual=true;
-							break;
-						}
-						else if(line[counter]=='-')
-						{
-							atual=false;
-							break;
-						}
+						atual=false;
+						break;
 					}
+				}
 
-					veic.clear();//da clear aos veiculos
-					cout<<"here"<<endl;
+				veic.clear();//da clear aos veiculos
+				cout<<"here"<<endl;
 
-					cout<<line<<endl;
-					for(;counter<=line.length();counter++)
+				cout<<line<<endl;
+				for(;counter<=line.length();counter++)
+					{
+						if(line[counter]=='\t')
 						{
-							if(line[counter]=='\t')
+							veic.push_back(number);//se for um digito coloca o id na lista de veiculos
+							cout<<"line "<<number<<endl;
+							number=0;
+						}
+						if(isdigit(line[counter]))
 							{
-								veic.push_back(number);//se for um digito coloca o id na lista de veiculos
-								cout<<"line "<<number<<endl;
-								number=0;
+								number*=10;
+								number+=((int)line[counter]-48);
+								cout<<number;
 							}
-							if(isdigit(line[counter]))
-								{
-									number*=10;
-									number+=((int)line[counter]-48);
-									cout<<number;
-								}
-						}
-
-					veic.push_back(number);//se for um digito coloca o id na lista de veiculos				cout<<"donne"<<endl;
-
-					Motorista motorista(nome, atual, veic);//cria o motorista
-
-					motoristas.insert(motorista);
-
-					cout<<"survived"<<endl;
-					nome.clear();
-					veic.clear();
-					counter=0;
-					break;
 					}
+
+				veic.push_back(number);//se for um digito coloca o id na lista de veiculos				cout<<"donne"<<endl;
+
+				Motorista motorista(nome, atual, veic);//cria o motorista
+
+				motoristas.insert(motorista);
+
+				cout<<"survived"<<endl;
+				nome.clear();
+				veic.clear();
+				counter=0;
+				break;
+			}
 			default:
 				return;
 			}
