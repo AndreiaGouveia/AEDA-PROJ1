@@ -21,11 +21,13 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 		if(codigo == "v")
 		{
 			cout << empresa.getEscolasZona(ut->getZonaEscola()) << endl;
+			cout << endl << "Introduza o codigo da escola onde pretende adicionar o utente.    ";
 		}
 		else if(codigo == "i")
 		{
 			inserir_escola(empresa);
-			break;
+
+			cout << endl << "Introduza o codigo da escola onde pretende adicionar o utente.    ";
 		}
 		else
 		{
@@ -41,7 +43,7 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 				}
 			}
 
-			if(valid)
+			if(!valid)
 				continue;
 
 			try
@@ -59,6 +61,7 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 				continue;
 			}
 
+			ut->setCodEscola(stoul(codigo));
 			break;
 		}
 	}
@@ -82,9 +85,11 @@ void mudar_escola_utente(Empresa &empresa, unsigned numUtente)
 		if(aux[i]->getNumUtente() == numUtente)
 		{
 			remover_utente_escola(empresa, aux[i]);
-			break;
+			return;
 		}
 	}
+
+	throw UtenteNaoExistente();
 }
 
 void inserir_escola(Empresa &empresa)
@@ -186,7 +191,12 @@ void remover_escola(Empresa &empresa)
 		{}
 		else
 		{
-			break;
+			if(!empresa.verificaEscola(codigo).first)
+			{}
+			else
+			{
+				break;
+			}
 		}
 
 		cerr << "Input errado. Insira um código existente.   ";
@@ -200,13 +210,12 @@ void remover_escola(Empresa &empresa)
 	if(aux.size() > 0)
 	{
 		inserir_utente_escola(empresa, aux[0]);
-	}
+		cout << "Os utentes serao recolocados na mesma escola." << endl;
 
-	cout << "Os utentes serao recolocados na mesma escola." << endl;
-
-	for(size_t i = 1; i < aux.size(); i++)
-	{
-		empresa.InsereUtenteEscola(aux[0]->getCodEscola(), aux[i]);
+		for(size_t i = 1; i < aux.size(); i++)
+		{
+			empresa.InsereUtenteEscola(aux[0]->getCodEscola(), aux[i]);
+		}
 	}
 }
 
@@ -256,6 +265,8 @@ void alterar_escola(Empresa &emp)
 
 
 	string nome, morada;
+
+	cin.ignore(10000, '\n');
 
 	cout << "Insira o nome do Diretor.   ";
 	getline(cin,nome);
@@ -392,9 +403,10 @@ void alterar_utente(Empresa &empresa)
 			 << "1. Contacto" << endl
 			 << "2. Zona de habitacao" << endl
 			 << "3. Zona escolar" << endl
-			 << "4. Voltar" << endl;
+			 << "4. Escola" << endl
+			 << "5. Voltar" << endl;
 
-		switch(respostaNumeros(1, 4))
+		switch(respostaNumeros(1, 5))
 		{
 		case 1:
 		{
@@ -472,6 +484,25 @@ void alterar_utente(Empresa &empresa)
 			break;
 		}
 		case 4:
+		{
+			unsigned int numUtente;
+
+			cout << "Qual o numero de utente?  ";
+			checkCinFail(numUtente);
+
+			try
+			{
+				mudar_escola_utente(empresa, numUtente);
+			}
+			catch (UtenteNaoExistente&e)
+			{
+				cout << e.getMsg() << endl;
+				return;
+			}
+
+			break;
+		}
+		case 5:
 			return;
 		}
 	}

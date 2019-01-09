@@ -635,8 +635,6 @@ void Empresa::carregarInfo(ifstream &f) {
 				break;
 			case 's':
 			{
-				unsigned zona, codigo;
-
 				for (size_t i = 0; i <= line.length(); i++)
 				{
 					if (line[i] == '\t' || i == line.length()) {
@@ -647,10 +645,7 @@ void Empresa::carregarInfo(ifstream &f) {
 					}
 				}
 
-				codigo = stoul(atributos[1]);
-				zona = stoul(atributos[4]);
-
-				escolas.insert(Escola(atributos[0], codigo, atributos[2], atributos[3], zona));
+				escolas.insert(Escola(atributos[0], stoul(atributos[1]), atributos[2], atributos[3], stoul(atributos[4])));
 
 				break;
 			}
@@ -667,6 +662,11 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 				if (atributos[7] == "funcionario(a)")
 				{
+					cout << "---------" << endl << atributos[0] << endl << atributos[1] << endl <<
+							atributos[2] << "num:" << atributos[4] << endl <<
+							"num:" << atributos[5] << endl << "false" << endl <<
+							"num:" << atributos[8] << endl;
+
 					Utente* ut = new Funcionario(atributos[0], atributos[1],
 							atributos[2], stoul(atributos[4]),
 							stoul(atributos[5]), false,
@@ -853,7 +853,8 @@ string Empresa::showUtentes() const {
 				<< utentes[i]->getData_Nasc() << "; BI: " << utentes[i]->getBI()
 				<< endl << "Zona de habitacao: Z"
 				<< utentes[i]->getZonaHabitacao() << "; Zona de escola: Z"
-				<< utentes[i]->getZonaEscola() << endl;
+				<< utentes[i]->getZonaEscola() << ";" << endl
+				<< "Escola: " << utentes[i]->getCodEscola() << ";" << endl;
 		if (utentes[i]->getNomeEE() == "") //E funcionario
 				{
 			if (utentes[i]->getDocente())
@@ -1281,7 +1282,7 @@ bool Empresa::removerVeiculo(string nome, unsigned id) {
 	}
 
 	if (it == motoristas.end()) {
-		cout << "O motorista que inserio nao existe" << endl;
+		cout << "O motorista que inseriu nao existe" << endl;
 
 		return false;
 	}
@@ -1291,6 +1292,9 @@ bool Empresa::removerVeiculo(string nome, unsigned id) {
 	motoristas.erase(it);
 
 	motorista.removerVeiculo(id);
+
+	if(motorista.getVeiculos().size()==0)
+			motorista.setAtual(false);
 
 	motoristas.insert(motorista);
 
@@ -1599,12 +1603,14 @@ void Empresa::RemoveUtenteEscola(Utente *ut) {
 string Empresa::getEscolas() {
 	ostringstream s;
 
-	for (unsigned zona = 1; zona <= this->getUtentes().size(); zona++) {
+	for (unsigned zona = 1; zona <= this->getPrecos().size(); zona++)
+	{
 		s << "======= z" << zona << " =======" << endl;
 
 		BSTItrIn<Escola> itr(escolas);
 
-		while (!itr.isAtEnd()) {
+		while (!itr.isAtEnd())
+		{
 			if (itr.retrieve().getZona() == zona) {
 				s << itr.retrieve().getCodigo() << '\t'
 						<< itr.retrieve().getNome() << '\t'
