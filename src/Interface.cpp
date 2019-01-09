@@ -911,11 +911,13 @@ void inserir_oficina(Empresa &empresa)
 	string nome;
 	unsigned int dist, disp;
 
-	cout << "Qual o nome da Oficina que pretende inserir? "; cin >> nome;
-	cout << "Qual a distancia, em kms, da Oficina a garagem da Empresa? "; cin >> dist;
-	cout << "Quantos dias faltam ate a Oficina estar disponivel? (Caso esteja disponivel de momento, insira 0) "; cin >> disp;
+	cout << "Qual o nome da Oficina que pretende inserir? "; checkCinFail(nome);
+	cout << "Qual a distancia, em kms, da Oficina a garagem da Empresa? "; checkCinFail(dist);
+	cout << "Quantos dias faltam ate a Oficina estar disponivel? (Caso esteja disponivel de momento, insira 0) "; checkCinFail(disp);
 
-	empresa.insertOficina(Oficina(nome,dist,disp));
+	empresa.insertOficina(Oficina(nome, disp, dist));
+
+	cout << "Oficina inserida com sucesso!" << endl;
 }
 
 void inserir_motorista( Empresa &empresa)
@@ -1132,14 +1134,14 @@ void menu_insercao(Empresa &empresa)
 		cout << "-------------" << empresa.getNome() << "------------" << endl
 			<< "O que pretende inserir na base de dados?" << endl
 			<< "1. Novo Utente" << endl
-			<< "5. Nova Escola" << endl
+			<< "2. Nova Escola" << endl
 			<< "3. Novo Motorista" << endl
 			<< "4. Antigo Motorista" << endl
-			<< "2. Novo Veiculo" << endl
+			<< "5. Novo Veiculo" << endl
 			<< "6. Nova Oficina" << endl
 			<< "7. Voltar ao Menu Principal" << endl;
 
-		switch(respostaNumeros(1,6)){
+		switch(respostaNumeros(1,7)){
 		case 1:
 			adicicionar_utente(empresa);
 			break;
@@ -1156,7 +1158,7 @@ void menu_insercao(Empresa &empresa)
 			adicicionar_veiculo(empresa);
 			break;
 		case 6:
-			//inserir_oficina(empresa);
+			inserir_oficina(empresa);
 			break;
 		case 7:
 			return;
@@ -1345,8 +1347,8 @@ void menu_principal(Empresa &empresa)
 			<< "1. Menu de insercao na base de dados" << endl
 			<< "2. Menu de remocao da base de dados" << endl
 			<< "3. Menu de edicao da base de dados" << endl
-			<< "4. Menu de visualiza��o" << endl
-			<< "5. Menu de trabalho e gest�o da empresa" << endl
+			<< "4. Menu de visualizacao da base de dados" << endl
+			<< "5. Menu de trabalho e gesta da empresa" << endl
 			<< "6. Sair" << endl;
 		switch (respostaNumeros(1,6)){
 		case 1:
