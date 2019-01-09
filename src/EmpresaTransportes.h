@@ -573,13 +573,67 @@ public:
 	 */
 	bool removeVeiculoMotoristas(unsigned id);
 //==========================================================================
+	/**
+	 * @brief Verifica a existência de uma escola com o codigo passado como parâmetro
+	 *
+	 * @param codigo Codigo da escola que queremos encontrar
+	 *
+	 * @return pair<bool, Escola> Devolvendo um par cuja parte esquerda é um booleano (true se a escola for encontrada) e a parte direita, devolve a escola, caso encontrada, vazia se não for encontrada.	 *
+	 */
 	pair<bool, Escola> verificaEscola(unsigned codigo);
+	/**
+	 * @brief Adiciona uma escola na BST escolas
+	 *
+	 * @param esc Escola que pretendemos adicionar
+	 *
+	 */
 	void adicionaEscola(Escola &esc);
+	/**
+	 * @brief Remove a escola, passada como argumento, da BST escolas
+	 *
+	 * @param codigo Codigo da escola que queremos remover
+	 *
+	 * @return vector<Utente*> Devolve os utentes que frequentavam esta escola
+	 */
 	vector<Utente*> removeEscola(Escola &esc);
+	/**
+	 * @brief Encontra a escola frequentada pelo utente passado por parâmetro
+	 *
+	 * @param ut Utente cuja escola pretendemos obter
+	 *
+	 * @return pair<bool, Escola> Devolvendo um par cuja parte esquerda é um booleano (true se a escola for encontrada) e a parte direita, devolve a escola, caso encontrada, vazia se não for encontrada.	 *
+	 */
 	pair<bool, Escola> encontraEscolaUtente(Utente &ut);
-	bool InsereUtenteEscola(unsigned codigo, Utente *ut);
-	bool RemoveUtenteEscola(Utente *ut);
+	/**
+	 * @brief Insere um utente na escola de codigo passado por parâmetro
+	 *
+	 * @param codigo Codigo da escola
+	 * @param ut Apontador para o utente a inserir
+	 *
+	 * Lança uma exceção caso a escola nao exista ou as zonas da escola e do utente sejam incompativeis
+	 */
+	void InsereUtenteEscola(unsigned codigo, Utente *ut);
+	/**
+	 * @brief Remove utente da sua escola atual
+	 *
+	 * @param ut Apontador para o utente a remover
+	 *
+	 * Lança uma exceção caso a escola nao exista
+	 */
+	void RemoveUtenteEscola(Utente *ut);
+	/**
+	 * @brief Devolve informaçao sobre todas as escolas
+	 *
+	 * @return string Devolve a informação numa string
+	 */
 	string getEscolas();
+	/**
+	 * @brief Devolve informação das escolas contidas numa zona
+	 *
+	 * @param zona Zona cujas escolas pretendemos obter
+	 *
+	 * @return string Devolve a informação numa string
+	 */
 	string getEscolasZona(unsigned zona);
 };
 

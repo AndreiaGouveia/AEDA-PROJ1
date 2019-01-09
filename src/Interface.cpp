@@ -1108,141 +1108,140 @@ void alterar_motorista(Empresa &empresa)
 	}
 }
 
-void trabalhar_empresa(Empresa &empresa)
-{
-	while(true)
-	{
-		cout << "-------------" << empresa.getNome() << "------------" << endl
-			 << "Qual o proximo passo?   " << endl
-			 //<< "1. Adicicionar utente" << endl
-			 //<< "2. Alterar informacoes de um utente" << endl
-			 //<< "3. Remover utente" << endl
-			 //<< "4. Adicionar veiculo" << endl
-			 //<< "5. Alterar zona atravessada por um veiculo" << endl
-			 //<< "6. Remover veiculo" << endl
-			 << "7. Alterar preco das zonas" << endl
-			 << "8. Calcular o valor do passe mensal de um utente" << endl
-			 << "9. Atualizar o valor dos passes mensais no registo" << endl
-			 << "10. Alocar um utente para o transporte escolar" << endl
-			 << "11. Alocar todos os utentes para os transportes escolares" << endl
-			 << "12. Alugar recreativo" << endl
-			 << "13. Processar o final do dia de hoje" << endl
-			 << "14. Processar o final deste mes" << endl
-			 //<< "15. Mostrar a lista de utentes" << endl
-			 //<< "16. Mostrar a lista de veiculos" << endl
-			 << "17. Mostrar a tabela do valor dos passes" << endl
-			 << "18. Mostrar a tabela de alocacao de utentes por veiculo" << endl
-			 << "19. Mostrar os lucros mensais deste ano" << endl
-			 << "20. Mostrar os balancos diarios deste mes" << endl
-			 << "21. Mostrar a matriz de precos por zona" << endl
-			 //<< "22. Inserir motorista" << endl
-			 //<< "23. Inserir veiculo(s)" << endl
-			 //<< "24. Remover veiculo de um motorista" << endl
-			 //<< "25. Remover Motorista" << endl
-			 //<< "26. Inserir um antigo motorista" << endl
-			 << "27. Despedir um motorista" << endl
-			 //<< "28. Adicionar Escola" << endl
-			 //<< "29. Remover Escola" << endl
-			 //<< "30. Mostrar Escolas" << endl
-			 << "31. Voltar" << endl;
-
-		switch(respostaNumeros(1, 31))
-		{
-		case 1:
-			adicicionar_utente(empresa);
-			break;
-		case 2:
-			alterar_utente(empresa);
-			break;
-		case 3:
-			remover_utente(empresa);
-			break;
-		case 4:
-			adicicionar_veiculo(empresa);
-			break;
-		case 5:
-			alterar_veiculo(empresa);
-			break;
-		case 6:
-			remover_veiculo(empresa);
-			break;
-		case 7:
-			alterar_precoZonas(empresa);
-			break;
-		case 8:
-			calcula_um_passe(empresa);
-			break;
-		case 9:
-			calcula_todos_passes(empresa);
-			break;
-		case 10:
-			alocar_um_utente(empresa);
-			break;
-		case 11:
-			alocar_todos_utentes(empresa);
-			break;
-		case 12:
-			alugar_recreativo(empresa);
-			break;
-		case 13:
-			processar_dia(empresa);
-			break;
-		case 14:
-			processar_mes(empresa);
-			break;
-		case 15:
-			mostrar_utentes(empresa);
-			break;
-		case 16:
-			mostrar_veiculos(empresa);
-			break;
-		case 17:
-			mostrar_tab_passes(empresa);
-			break;
-		case 18:
-			mostrar_tab_alocacao(empresa);
-			break;
-		case 19:
-			mostrar_lucros_mensais(empresa);
-			break;
-		case 20:
-			mostrar_registo_diario(empresa);
-			break;
-		case 21:
-			mostrar_precos(empresa);
-			break;
-		case 22:
-			inserir_motorista(empresa);
-			break;
-		case 23:
-			inserir_veiculo(empresa);
-			break;
-		case 24:
-			removerVeiculo(empresa);
-			break;
-		case 25:
-			remover_motorista(empresa);
-			break;
-		case 26:
-			inserir_antigo_motorista(empresa);
-			break;
-		case 27:
-			despedir_motorista(empresa);
-			break;
-		case 28:
-			inserir_escola(empresa);
-			break;
-		case 29:
-			remover_escola(empresa);
-			break;
-		case 30:
-			mostrar_escolas(empresa);
-			break;
-		case 31:
-			return;
-		}
-	}
-}*/
+//void trabalhar_empresa(Empresa &empresa)
+//{
+//	while(true)
+//	{
+//		cout << "-------------" << empresa.getNome() << "------------" << endl
+//			 << "Qual o proximo passo?   " << endl
+//			 //<< "1. Adicicionar utente" << endl
+//			 //<< "2. Alterar informacoes de um utente" << endl
+//			 //<< "3. Remover utente" << endl
+//			 //<< "4. Adicionar veiculo" << endl
+//			 //<< "5. Alterar zona atravessada por um veiculo" << endl
+//			 //<< "6. Remover veiculo" << endl
+//			 << "7. Alterar preco das zonas" << endl
+//			 << "8. Calcular o valor do passe mensal de um utente" << endl
+//			 << "9. Atualizar o valor dos passes mensais no registo" << endl
+//			 << "10. Alocar um utente para o transporte escolar" << endl
+//			 << "11. Alocar todos os utentes para os transportes escolares" << endl
+//			 << "12. Alugar recreativo" << endl
+//			 << "13. Processar o final do dia de hoje" << endl
+//			 << "14. Processar o final deste mes" << endl
+//			 //<< "15. Mostrar a lista de utentes" << endl
+//			 //<< "16. Mostrar a lista de veiculos" << endl
+//			 << "17. Mostrar a tabela do valor dos passes" << endl
+//			 << "18. Mostrar a tabela de alocacao de utentes por veiculo" << endl
+//			 << "19. Mostrar os lucros mensais deste ano" << endl
+//			 << "20. Mostrar os balancos diarios deste mes" << endl
+//			 << "21. Mostrar a matriz de precos por zona" << endl
+//			 //<< "22. Inserir motorista" << endl
+//			 //<< "23. Inserir veiculo(s)" << endl
+//			 //<< "24. Remover veiculo de um motorista" << endl
+//			 //<< "25. Remover Motorista" << endl
+//			 //<< "26. Inserir um antigo motorista" << endl
+//			 << "27. Despedir um motorista" << endl
+//			 //<< "28. Adicionar Escola" << endl
+//			 //<< "29. Remover Escola" << endl
+//			 //<< "30. Mostrar Escolas" << endl
+//			 << "31. Voltar" << endl;
+//
+//		switch(respostaNumeros(1, 31))
+//		{
+//		case 1:
+//			adicicionar_utente(empresa);
+//			break;
+//		case 2:
+//			alterar_utente(empresa);
+//			break;
+//		case 3:
+//			remover_utente(empresa);
+//			break;
+//		case 4:
+//			adicicionar_veiculo(empresa);
+//			break;
+//		case 5:
+//			alterar_veiculo(empresa);
+//			break;
+//		case 6:
+//			remover_veiculo(empresa);
+//			break;
+//		case 7:
+//			alterar_precoZonas(empresa);
+//			break;
+//		case 8:
+//			calcula_um_passe(empresa);
+//			break;
+//		case 9:
+//			calcula_todos_passes(empresa);
+//			break;
+//		case 10:
+//			alocar_um_utente(empresa);
+//			break;
+//		case 11:
+//			alocar_todos_utentes(empresa);
+//			break;
+//		case 12:
+//			alugar_recreativo(empresa);
+//			break;
+//		case 13:
+//			processar_dia(empresa);
+//			break;
+//		case 14:
+//			processar_mes(empresa);
+//			break;
+//		case 15:
+//			mostrar_utentes(empresa);
+//			break;
+//		case 16:
+//			mostrar_veiculos(empresa);
+//			break;
+//		case 17:
+//			mostrar_tab_passes(empresa);
+//			break;
+//		case 18:
+//			mostrar_tab_alocacao(empresa);
+//			break;
+//		case 19:
+//			mostrar_lucros_mensais(empresa);
+//			break;
+//		case 20:
+//			mostrar_registo_diario(empresa);
+//			break;
+//		case 21:
+//			mostrar_precos(empresa);
+//			break;
+//		case 22:
+//			inserir_motorista(empresa);
+//			break;
+//		case 23:
+//			inserir_veiculo(empresa);
+//			break;
+//		case 24:
+//			removerVeiculo(empresa);
+//			break;
+//		case 25:
+//			remover_motorista(empresa);
+//			break;
+//		case 26:
+//			inserir_antigo_motorista(empresa);
+//			break;
+//		case 27:
+//			despedir_motorista(empresa);
+//			break;
+//		case 28:
+//			inserir_escola(empresa);
+//			break;
+//		case 29:
+//			remover_escola(empresa);
+//			break;
+//		case 30:
+//			mostrar_escolas(empresa);
+//			break;
+//		case 31:
+//			return;
+//		}
+//	}
 
 void menu_insercao(Empresa &empresa)
 {

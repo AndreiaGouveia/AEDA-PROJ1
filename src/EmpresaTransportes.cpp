@@ -1478,32 +1478,13 @@ vector<Utente*> Empresa::removeEscola(Escola &esc) {
 }
 
 pair<bool, Escola> Empresa::encontraEscolaUtente(Utente &ut) {
-	BSTItrIn<Escola> itr(escolas);
 
-	Escola null("", 0, "", "", 0);
+	unsigned codigo = ut.getCodEscola();
 
-	pair<bool, Escola> par(false, null);
-
-	while (!itr.isAtEnd()) {
-		if (itr.retrieve().getZona() == ut.getZonaEscola()) {
-			vector<Utente*> temp = itr.retrieve().getUtentes();
-
-			for (size_t i = 0; i < temp.size(); i++) {
-				if (*(temp[i]) == ut) {
-					par.first = true;
-					par.second = itr.retrieve();
-					return par;
-				}
-			}
-		}
-
-		itr.advance();
-	}
-
-	return par;
+	return verificaEscola(codigo);
 }
 
-bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut) {
+void Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut) {
 	pair<bool, Escola> res = verificaEscola(codigo);
 
 	if (res.first) {
@@ -1517,15 +1498,13 @@ bool Empresa::InsereUtenteEscola(unsigned codigo, Utente *ut) {
 			escolas.remove(res.second);
 
 			escolas.insert(aux);
-
-			return true;
 		} else
 			throw ZonasIncompativeis();
 	} else
 		throw EscolaNaoExistente();
 }
 
-bool Empresa::RemoveUtenteEscola(Utente *ut) {
+void Empresa::RemoveUtenteEscola(Utente *ut) {
 	pair<bool, Escola> res = encontraEscolaUtente(*ut);
 
 	if (res.first) {
@@ -1538,8 +1517,6 @@ bool Empresa::RemoveUtenteEscola(Utente *ut) {
 		escolas.remove(res.second);
 
 		escolas.insert(aux);
-
-		return true;
 	} else
 		throw EscolaNaoExistente();
 }
