@@ -124,14 +124,13 @@ void Empresa::removerVeiculo(unsigned int id) {
 		if (veiculos[i]->getId() == id) {
 			veiculos.erase(veiculos.begin() + i);
 			alocaUtentes();
-			if(removeVeiculoMotoristas(id))
-				cout<<"Veiculo removido com sucesso dos motoristas";
+			if (removeVeiculoMotoristas(id))
+				cout << "Veiculo removido com sucesso dos motoristas";
 			return;
 		}
 	}
 
 	throw VeiculoNaoExistente();
-
 
 }
 
@@ -518,38 +517,35 @@ void Empresa::guardarInfo(ostream &ficheiro) const {
 
 	ficheiro << "//motoristas" << endl;
 
-	if(!(motoristas.empty()))
-		{
-			tabHMotorista::const_iterator it = motoristas.begin();
+	if (!(motoristas.empty())) {
+		tabHMotorista::const_iterator it = motoristas.begin();
 
-			Motorista motorista=*it;
+		Motorista motorista = *it;
 
-			while(it!=motoristas.end())
-				{
-					motorista=*it;
+		while (it != motoristas.end()) {
+			motorista = *it;
 
-					ficheiro<<motorista.getNome()<<"\t"<<"Estado do contracto:\t";
-					cout<<"motorsta: "<<motorista.getNome()<<endl;
+			ficheiro << motorista.getNome() << "\t" << "Estado do contracto:\t";
+			cout << "motorsta: " << motorista.getNome() << endl;
 
-					if(motorista.getAtual())
-						ficheiro<<"+ativo";
-					else ficheiro<<"-nao ativo";
+			if (motorista.getAtual())
+				ficheiro << "+ativo";
+			else
+				ficheiro << "-nao ativo";
 
-					list<unsigned > veic=motorista.getVeiculos();
+			list<unsigned> veic = motorista.getVeiculos();
 
-					list<unsigned>::iterator v=veic.begin();
+			list<unsigned>::iterator v = veic.begin();
 
-					while(v!=veic.end())
-					{
-						ficheiro<<"\t"<<*v;
-						v++;
-					}
-					ficheiro<<endl;
+			while (v != veic.end()) {
+				ficheiro << "\t" << *v;
+				v++;
+			}
+			ficheiro << endl;
 
-					it++;
-				}
+			it++;
 		}
-
+	}
 
 	ficheiro << "//veiculos" << endl;
 
@@ -604,8 +600,8 @@ void Empresa::carregarInfo(ifstream &f) {
 	string line, aux;
 	vector<string> atributos;
 	stringstream str;
-	string nome=" lool";
-	bool atual=false;
+	string nome = " lool";
+	bool atual = false;
 	list<unsigned> veic;
 
 	while (getline(f, line)) {
@@ -626,7 +622,7 @@ void Empresa::carregarInfo(ifstream &f) {
 		else if (line == "//motoristas")
 			seletor = 'm';
 		else {
-			cout<<"seletor: "<<seletor<<endl;
+			cout << "seletor: " << seletor << endl;
 			switch (seletor) {
 			case 'e':
 				nome_empresa = line.substr(0, line.length());
@@ -781,14 +777,12 @@ void Empresa::carregarInfo(ifstream &f) {
 				int counter=0;
 				int number=0;
 				nome.clear();
-				cout<<"hereee";
 
 				for (;line[counter]!='\t';counter++)//le o nome ate encontrar um tab
 				{
 					nome +=line[counter];
 				}
 
-				cout<<nome;
 
 				for (;counter<line.length()-1;counter++)//le ate encontrar um mais(esta contratado) ou um menos
 				{
@@ -805,7 +799,6 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 
 				veic.clear();//da clear aos veiculos
-				cout<<"here"<<endl;
 
 				cout<<line<<endl;
 				for(;counter<=line.length();counter++)
@@ -820,7 +813,6 @@ void Empresa::carregarInfo(ifstream &f) {
 							{
 								number*=10;
 								number+=((int)line[counter]-48);
-								cout<<number;
 							}
 					}
 
@@ -830,7 +822,6 @@ void Empresa::carregarInfo(ifstream &f) {
 
 				motoristas.insert(motorista);
 
-				cout<<"survived"<<endl;
 				nome.clear();
 				veic.clear();
 				counter=0;
@@ -842,7 +833,6 @@ void Empresa::carregarInfo(ifstream &f) {
 		}
 	}
 
-	//alocaUtentes();
 	atualizarPasses();
 }
 
@@ -1431,27 +1421,25 @@ bool Empresa::remover_Veiculo(unsigned id) {
 	return true;
 }
 
-bool Empresa::removeVeiculoMotoristas(unsigned id)
-{
-	if(motoristas.empty())
-			return false;
+bool Empresa::removeVeiculoMotoristas(unsigned id) {
+	if (motoristas.empty())
+		return false;
 
 	tabHMotorista::iterator it = motoristas.begin();
 
-	list <unsigned> veiculos;
+	list<unsigned> veiculos;
 
-	while(it!=motoristas.end())
-		{
-			Motorista motorista=*it;
+	while (it != motoristas.end()) {
+		Motorista motorista = *it;
 
-			motoristas.erase(motorista);
+		motoristas.erase(motorista);
 
-			motorista.removerVeiculo(id);
+		motorista.removerVeiculo(id);
 
-			motoristas.insert(motorista);
+		motoristas.insert(motorista);
 
-			it++;
-		}
+		it++;
+	}
 
 	return true;
 }
