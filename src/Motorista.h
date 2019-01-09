@@ -25,8 +25,8 @@ class Motorista
 {
 
 private:
-	bool atual;
 	string nome;
+	bool atual;
 	list <unsigned>  veiculos;
 
 public:

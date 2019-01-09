@@ -1015,7 +1015,7 @@ void mostrar_escolas(Empresa &empresa)
 {
 	cout << empresa.getEscolas();
 }
-
+/*
 void trabalhar_empresa(Empresa &empresa)
 {
 	while(true)
@@ -1150,7 +1150,7 @@ void trabalhar_empresa(Empresa &empresa)
 			return;
 		}
 	}
-}
+}*/
 
 void menu_insercao(Empresa &empresa)
 {
@@ -1167,25 +1167,25 @@ void menu_insercao(Empresa &empresa)
 			<< "7. Voltar ao Menu Principal" << endl;
 
 		switch(respostaNumeros(1,6)){
-		case(1):
+		case 1:
 			adicicionar_utente(empresa);
 			break;
-		case(2):
+		case 2:
 			inserir_escola(empresa);
 			break;
-		case(3):
+		case 3:
 			inserir_motorista(empresa);
 			break;
-		case(4):
+		case 4:
 			inserir_antigo_motorista(empresa);
 			break;
-		case(5):
+		case 5:
 			adicicionar_veiculo(empresa);
 			break;
-		case(6):
+		case 6:
 			//inserir_oficina(empresa);
 			break;
-		case(7):
+		case 7:
 			return;
 		}
 	}
@@ -1196,7 +1196,7 @@ void menu_remocao(Empresa &empresa)
 	while (true)
 	{
 		cout << "-------------" << empresa.getNome() << "------------" << endl
-			<< "O que pretende remover da base de dados?"
+			<< "O que pretende remover da base de dados?" << endl
 			<< "1. Remover Utente" << endl
 			<< "2. Remover Escola" << endl
 			<< "3. Remover Motorista" << endl
@@ -1204,22 +1204,22 @@ void menu_remocao(Empresa &empresa)
 			<< "5. Remover Oficina" << endl
 			<< "6. Voltar ao Menu Principal" << endl;
 		switch(respostaNumeros(1,6)){
-		case(1):
+		case 1:
 			remover_utente(empresa);
 			break;
-		case(2):
+		case 2:
 			remover_escola(empresa);
 			break;
-		case(3):
+		case 3:
 			remover_motorista(empresa);
 			break;
-		case(4):
+		case 4:
 			remover_veiculo(empresa);
 			break;
-		case(5):
+		case 5:
 			//remover_oficina(empresa);
 			break;
-		case(6):
+		case 6:
 			return;
 		}
 	}
@@ -1235,13 +1235,13 @@ void alterar_motorista(Empresa &empresa)
 			<< "2. Remover veículo" << endl
 			<< "3. Voltar" << endl;
 		switch(respostaNumeros(1,3)){
-		case(1):
+		case 1:
 			inserir_veiculo(empresa);
 			break;
-		case(2):
+		case 2:
 			removerVeiculo(empresa);
 			break;
-		case(3):
+		case 3:
 			return;
 		}
 	}
@@ -1260,22 +1260,22 @@ void menu_edicao(Empresa &empresa)
 			<< "5. Oficinas" << endl
 			<< "6. Voltar ao Menu Principal" << endl;
 		switch(respostaNumeros(1,6)){
-		case(1):
+		case 1:
 			alterar_utente(empresa);
 			break;
-		case(2):
+		case 2:
 			//alterar_escola(empresa);
 			break;
-		case(3):
+		case 3:
 			alterar_motorista(empresa);
 			break;
-		case(4):
+		case 4:
 			alterar_veiculo(empresa);
 			break;
-		case(5):
+		case 5:
 			//alterar_oficina(empresa);
 			break;
-		case(6):
+		case 6:
 			return;
 		}
 	}
@@ -1286,30 +1286,100 @@ void menu_visualizacao(Empresa &empresa)
 	while (true)
 	{
 		cout << "-------------" << empresa.getNome() << "------------" << endl
-			<< "Qual dos elementos da base de dados pretende consultar?" << endl
-			<< "1. Utentes" << endl
-			<< "2. Escolas" << endl
-			<< "3. Motoristas" << endl
-			<< "4. Veiculos" << endl
-			<< "5. Oficinas" << endl
+			<< "Qual dos elementos da base de dados pretende visualizar?" << endl
+			<< "1. Mostrar Utentes" << endl
+			<< "2. Mostrar Escolas" << endl
+			<< "3. Mostrar Motoristas" << endl
+			<< "4. Mostrar Veiculos" << endl
+			<< "5. Mostrar Oficinas" << endl
 			<< "6. Voltar ao Menu Principal" << endl;
 		switch(respostaNumeros(1,6)){
-		case(1):
+		case 1:
 			mostrar_utentes(empresa);
 			break;
-		case(2):
+		case 2:
 			mostrar_escolas(empresa);
 			break;
-		case(3):
+		case 3:
 			//mostrar_motoristas(empresa);
 			break;
-		case(4):
+		case 4:
 			mostrar_veiculos(empresa);
 			break;
-		case(5):
+		case 5:
 			//mostrar_oficinas(empresa);
 			break;
-		case(6):
+		case 6:
+			return;
+		}
+	}
+}
+
+void menu_trabalho(Empresa &empresa)
+{
+	while (true)
+	{
+		cout << "-------------" << empresa.getNome() << "------------" << endl
+			 << "Escolha o que pretende fazer na Empresa:" << endl
+			 << "1. Alterar preco das zonas" << endl
+			 << "2. Calcular o valor do passe mensal de um utente" << endl
+			 << "3. Atualizar o valor dos passes mensais no registo" << endl
+			 << "4. Alocar um utente para o transporte escolar" << endl
+			 << "5. Alocar todos os utentes para os transportes escolares" << endl
+			 << "6. Alugar trasnporte recreativo por um dia" << endl
+			 << "7. Despedir um motorista" << endl
+			 << "8. Processar o final do dia de hoje" << endl
+			 << "9. Processar o final deste mes" << endl
+			 << "10. Mostrar a tabela do valor dos passes" << endl
+			 << "11. Mostrar a tabela de alocacao de utentes por veiculo" << endl
+			 << "12. Mostrar os lucros mensais deste ano" << endl
+			 << "13. Mostrar os balancos diarios deste mes" << endl
+			 << "14. Mostrar a matriz de precos por zona" << endl
+			 << "15. Voltar ao Menu Princiapl" << endl;
+		switch (respostaNumeros(1,6)){
+		case 1:
+			alterar_precoZonas(empresa);
+			break;
+		case 2:
+			calcula_um_passe(empresa);
+			break;
+		case 3:
+			calcula_todos_passes(empresa);
+			break;
+		case 4:
+			alocar_um_utente(empresa);
+			break;
+		case 5:
+			alocar_todos_utentes(empresa);
+			break;
+		case 6:
+			alugar_recreativo(empresa);
+			break;
+		case 7:
+			despedir_motorista(empresa);
+			break;
+		case 8:
+			processar_dia(empresa);
+			break;
+		case 9:
+			processar_mes(empresa);
+			break;
+		case 10:
+			mostrar_tab_passes(empresa);
+			break;
+		case 11:
+			mostrar_tab_alocacao(empresa);
+			break;
+		case 12:
+			mostrar_lucros_mensais(empresa);
+			break;
+		case 13:
+			mostrar_registo_diario(empresa);
+			break;
+		case 14:
+			mostrar_precos(empresa);
+			break;
+		case 15:
 			return;
 		}
 	}
@@ -1320,30 +1390,30 @@ void menu_principal(Empresa &empresa)
 	while (true)
 	{
 		cout << "-------------" << empresa.getNome() << "------------" << endl
-			<< "Qual dos seguintes menus da empresa pretende aceder?"
-			<< "1. Menu de insercaoo na base de dados" << endl
-			<< "2. Menu de remocaoo da base de dados" << endl
+			<< "Qual dos seguintes menus da empresa pretende aceder?" << endl
+			<< "1. Menu de insercao na base de dados" << endl
+			<< "2. Menu de remocao da base de dados" << endl
 			<< "3. Menu de edicao da base de dados" << endl
 			<< "4. Menu de visualização" << endl
-			<< "5. Menu de trabalho" << endl
+			<< "5. Menu de trabalho e gestão da empresa" << endl
 			<< "6. Sair" << endl;
 		switch (respostaNumeros(1,6)){
-		case(1):
+		case 1:
 			menu_insercao(empresa);
 			break;
-		case(2):
+		case 2:
 			menu_remocao(empresa);
 			break;
-		case(3):
+		case 3:
 			menu_edicao(empresa);
 			break;
-		case(4):
-			//menu_visualizacao(empresa);
+		case 4:
+			menu_visualizacao(empresa);
 			break;
-		case(5):
+		case 5:
 			//menu_trabalho(empresa);
 			break;
-		case(6):
+		case 6:
 			return;
 		}
 	}
@@ -1391,7 +1461,7 @@ Empresa criar_empresa()
 
 	empresa.setPrecos(precos_zona);//Agora a empresa tem os precos
 
-	trabalhar_empresa(empresa);
+	menu_principal(empresa);
 
 	return empresa;
 }
@@ -1407,7 +1477,7 @@ Empresa continuar_empresa()
 	{
 		Empresa empresa(ficheiro);
 
-		trabalhar_empresa(empresa);
+		menu_principal(empresa);
 
 		return empresa;
 	}
