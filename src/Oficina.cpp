@@ -1,8 +1,8 @@
 #include "Oficina.h"
 
-Oficina::Oficina(std::string nom, int disp, double dist): nome(nom)
+Oficina::Oficina(std::string nom, double dist): nome(nom)
 {
-	this->disponibilidade = disp;
+	this->disponibilidade = 0;
 	this->distancia = dist;
 }
 

@@ -28,10 +28,9 @@ public:
 	 * @brief Construtor da classe Oficina
 	 *
 	 * @param nom	Nome da oficina
-	 * @param disp	Disponibilidade inicial (por omissao e 0)
 	 * @param dist	Distancia a garagem (por omissao e 0)
 	*/
-	Oficina(string nom = "", int disp = 0, double dist = 0);
+	Oficina(string nom = "", double dist = 0);
 	/**
 	 * @brief Retorna o nome da oficina
 	 *

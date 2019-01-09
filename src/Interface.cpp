@@ -919,7 +919,7 @@ void inserir_oficina(Empresa &empresa)
 	getline(cin,nome);
 	cout << "Qual a distancia, em kms, da Oficina a garagem da Empresa? "; checkCinFail(dist);
 
-	if(empresa.insertOficina(Oficina(nome, 0, dist)))
+	if(empresa.insertOficina(Oficina(nome, dist)))
 		cout << "Oficina inserida com sucesso!" << endl;
 	else
 		cout << "Uma Oficina com o mesmo nome ja existe! A insercao falhou." << endl;
