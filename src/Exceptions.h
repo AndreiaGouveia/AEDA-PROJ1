@@ -68,6 +68,15 @@ public:
 	string getMsg() { return msg; }
 };
 
+class VeiculoEmReparacao
+{
+private:
+	string msg;
+public:
+	VeiculoEmReparacao() { msg = "O veiculo encontra-sa em reparacao!"; }
+	string getMsg() { return msg; }
+};
+
 class UtenteNaoExistente
 {
 private:

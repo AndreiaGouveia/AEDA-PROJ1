@@ -27,7 +27,7 @@ protected:
 	const string matricula; ///< Matricula do veiculo (Nota: nao ha matriculas repetidas)
 	float consumo100km; ///< Volume medio de Litros consumidos por 100 kms
 	float precoComb; ///< Preco do combustivel usado no veiculo
-	bool emReparacao; ///< Estado de reparacao do veiculo (se esta ou nao a ser reparado neste momento) //TODO UML
+	bool emReparacao; ///< Estado de reparacao do veiculo (se esta ou nao a ser reparado neste momento)
 public:
 	static unsigned int numVeiculos; ///< Membro estatico que guarda qual o numero de identificacao do ultimo veiculo registado
 	/**

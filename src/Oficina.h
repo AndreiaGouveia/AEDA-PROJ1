@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <queue>
 
 using namespace std;
 
@@ -20,7 +21,8 @@ class Oficina
 {
 	string nome; ///< Nome da oficina
 	int disponibilidade; ///< Disponibilidade da oficina (numero de dias que faltam ate a oficina estar livre)
-	double distancia; ///< Distancia da oficina a garagem da Empresa
+	double distancia; ///< Distancia da oficina a garagem da Empresa (em kms)
+	queue<unsigned int> filaEspera; ///< Fila de espera onde são inseridos os veículos
 public:
 	/**
 	 * @brief Construtor da classe Oficina
@@ -49,6 +51,12 @@ public:
 	*/
 	double getDist() const;
 	/**
+	 * @brief Retorna a fila de espera
+	 *
+	 * @return Fila com os identificadores dos veiculos em reparacao
+	*/
+	queue<unsigned int> getFila() const;
+	/**
 	 * @brief Altera a disponibilidade da oficina
 	 *
 	 * @param disp Nova disponibilidade da oficina
@@ -61,11 +69,19 @@ public:
 	*/
 	void setDist(double dist);
 	/**
-	 * @brief Efetua a reparacao do veiculo.
-	 * A disponibilidade da oficina passa a ser de 1 dia
+	 * @brief Efetua a reparacao do veiculo. Esse veículo é adicionado à fila de espera.
+	 * A disponibilidade da oficina aumenta em 1 dia
 	 * (a reparacao de um veiculo demora sempre 1 dia)
+	 *
+	 * @param idV Identificacao do veiculo a ser reparado
 	*/
-	void reparacao();
+	void reparacao(unsigned int idV);
+	/**
+	 * @brief Processa o final de uma reparacao (acontece ao final de cada dia)
+	 *
+	 * @return Identificacao do veiculo que acabou de ser reparado
+	*/
+	unsigned int fimReparacao();
 	/**
 	 * @brief Compara duas oficinas e verifica se a da esquerda e maior que a da direita.
 	 * Permite ordenar as oficinas numa fila de prioridade em que o elemento do topo e o que

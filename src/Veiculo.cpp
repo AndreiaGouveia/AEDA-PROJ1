@@ -30,7 +30,12 @@ string Veiculo::getInfo() const {
 	ostringstream out;
 
 	out << idV << '\t' << matricula << '\t' << consumo100km << '\t'
-			<< precoComb;
+			<< precoComb << '\t';
+
+	if(emReparacao)
+		out << "em reparacao";
+	else
+		out << "na garagem";
 
 	return out.str();
 }
@@ -79,7 +84,7 @@ void Escolar::adicionarZona(unsigned int zona) {
 
 	zonasAtravessadas.push_back(zona);
 
-	sort(zonasAtravessadas.begin(), zonasAtravessadas.end()); //o vector zonasAtravessadas est� sempre ordenado
+	sort(zonasAtravessadas.begin(), zonasAtravessadas.end()); //o vector zonasAtravessadas esta sempre ordenado
 }
 
 void Escolar::removerZona(unsigned int zona) {
@@ -99,7 +104,7 @@ bool Escolar::existeZona(unsigned int zona)
 }
 
 float Escolar::calcGasto(float kms) const {
-	return 2 * zonasAtravessadas.size() * kms * consumo100km / 100.0;
+		return 2 * zonasAtravessadas.size() * kms * consumo100km / 100.0;
 }
 
 bool Escolar::cheio() const

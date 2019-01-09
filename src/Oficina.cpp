@@ -21,6 +21,11 @@ double Oficina::getDist() const
 	return distancia;
 }
 
+queue<unsigned int> Oficina::getFila() const
+{
+	return filaEspera;
+}
+
 void Oficina::setDisp(int disp)
 {
 	this->disponibilidade = disp;
@@ -31,9 +36,22 @@ void Oficina::setDist(double dist)
 	this->distancia = dist;
 }
 
-void Oficina::reparacao()
+void Oficina::reparacao(unsigned int idV)
 {
 	this->disponibilidade++;
+	filaEspera.push(idV);
+}
+
+unsigned int Oficina::fimReparacao()
+{
+	if(!filaEspera.empty()){
+		unsigned int temp = filaEspera.front();
+		filaEspera.pop();
+		this->disponibilidade--;
+		return temp;
+	}
+
+	return 0;
 }
 
 bool Oficina::operator <(const Oficina &right) const
@@ -48,7 +66,15 @@ bool Oficina::operator ==(const Oficina& right) const
 
 ostream& operator <<(ostream& out, const Oficina &of)
 {
-	out << of.getNome() << '\t' << of.getDisp() << '\t' << of.getDist() << '\n';
+	queue<unsigned int> aux = of.filaEspera;
+
+	out << of.getNome() << '\t' << of.getDisp() << '\t' << of.getDist();
+
+	while (!aux.empty())
+	{
+		out << '\t' << aux.front();
+		aux.pop();
+	}
 
 	return out;
 }

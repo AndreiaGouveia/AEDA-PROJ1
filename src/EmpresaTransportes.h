@@ -466,6 +466,16 @@ public:
 	 * @return Oficina escolhida para a reparacao
 	 */
 	Oficina repararVeiculo(unsigned int id, double dist_max);
+	/**
+	 * @brief Processa o final do dia em todas as oficinas
+	*/
+	void finalDiaOficinas();
+	/**
+	 * @brief Devolve a informacao de todas as oficianas registadas
+	 *
+	 * @return String contendo a informacao organizada e legivel
+	 */
+	string showOficinas();
 //==========================================================================
 	/**
 	 * @brief Contata um novo motorista colocando-o na lista de dispersao, o atual assume se como true, pois e um novo motorista

@@ -344,9 +344,10 @@ string Empresa::verificaDispRecreativo(unsigned int capacidade) {
 
 	for (size_t i = 0; i < veiculos.size(); i++) {
 		if (veiculos[i]->getCapacidade() != 0) //E Recreativo
-				{
-			if (!veiculos[i]->getEstado()
-					&& veiculos[i]->getCapacidade() >= capacidade) {
+		{
+			if (!veiculos[i]->getEstado() && !veiculos[i]->getReparacao()
+					&& veiculos[i]->getCapacidade() >= capacidade)
+			{
 				aux.push_back(veiculos[i]->getId());
 				aux.push_back(veiculos[i]->getCapacidade());
 			}
@@ -374,9 +375,10 @@ void Empresa::alugaRecreativo(unsigned int idV) {
 		if (veiculos[i]->getId() == idV) {
 			if (veiculos[i]->getCapacidade() == 0) {
 				throw VeiculoNaoRecreativo();
-			} else {
+			} else if (veiculos[i]->getReparacao()) {
+				throw VeiculoEmReparacao();
+			} else
 				break;
-			}
 		}
 	}
 
@@ -394,7 +396,7 @@ void Empresa::alocaUtentes() {
 		for (size_t j = 0; j < veiculos.size(); j++) {
 			if (veiculos[j]->existeZona(utentes[i]->getZonaEscola())
 					&& veiculos[j]->existeZona(utentes[i]->getZonaHabitacao())
-					&& !veiculos[j]->cheio()) {
+					&& !veiculos[j]->cheio() && !veiculos[j]->getReparacao()) {
 				tabelaPassageiros.insert(
 						pair<unsigned int, unsigned int>(
 								utentes[i]->getNumUtente(),
@@ -412,9 +414,8 @@ unsigned int Empresa::alocaUt(unsigned int numUt) {
 		if (utentes[i]->getNumUtente() == numUt) {
 			for (size_t j = 0; j < veiculos.size(); j++) {
 				if (veiculos[j]->existeZona(utentes[i]->getZonaEscola())
-						&& veiculos[j]->existeZona(
-								utentes[i]->getZonaHabitacao())
-						&& !veiculos[j]->cheio()) {
+						&& veiculos[j]->existeZona(utentes[i]->getZonaHabitacao())
+						&& !veiculos[j]->cheio() && !veiculos[j]->getReparacao()) {
 					tabelaPassageiros.insert(
 							pair<unsigned int, unsigned int>(numUt,
 									veiculos[j]->getId()));
@@ -435,7 +436,10 @@ bool Empresa::finalDia(float kmsZona) {
 
 	for (size_t i = 0; i < veiculos.size(); i++) {
 		if (veiculos[i]->getCapacidade() == 0) //Nao e recreativo
-			sum -= veiculos[i]->calcGasto(kmsZona);
+		{
+			if(!veiculos[i]->getReparacao())
+				sum -= veiculos[i]->calcGasto(kmsZona);
+		}
 		else //E recreativo
 		{
 			if (veiculos[i]->getEstado()) {
@@ -451,6 +455,8 @@ bool Empresa::finalDia(float kmsZona) {
 			}
 		}
 	}
+
+	finalDiaOficinas();
 
 	if (registoDiario.size() <= 31) {
 		registoDiario.push_back(sum);
@@ -774,7 +780,7 @@ void Empresa::carregarInfo(ifstream &f) {
 			}
 			case 'm':
 			{
-				int counter=0;
+				unsigned int counter=0;
 				int number=0;
 				nome.clear();
 
@@ -877,7 +883,12 @@ string Empresa::showVeiculos() const {
 				<< "Matricula: " << veiculos[i]->getMatricula()
 				<< "; Consumo p/ 100Km: " << veiculos[i]->getConsumo()
 				<< "; Preco p/L de combustivel: " << veiculos[i]->getPreco()
-				<< endl;
+				<< "; Em Reparacao: ";
+
+		if(veiculos[i]->getReparacao())
+			out << "Sim" << endl;
+		else
+			out << "Nao" << endl;
 
 		if (veiculos[i]->getCapacidade() == 0) {
 			out << "Lugares livres: " << veiculos[i]->getLugsLivres()
@@ -1097,16 +1108,76 @@ Oficina Empresa::repararVeiculo(unsigned int id, double dist_max) {
 		}
 	}
 
-	if (!oficinas.empty() && i != veiculos.size()) {
-		temp.reparacao();
+	if (!oficinas.empty() && i != veiculos.size() && !veiculos[i]->getReparacao()) {
+		temp.reparacao(id);
 		veiculos[i]->setReparacao(true);
+		alocaUtentes();
 	}
+	else
+		temp = Oficina();
 
 	for (size_t i = 0; i < aux.size(); i++) {
 		oficinas.push(aux[i]);
 	}
 
 	return temp;
+}
+
+void Empresa::finalDiaOficinas() {
+	vector<Oficina> aux;
+
+	while (!oficinas.empty()) {
+		Oficina temp = oficinas.top();
+		unsigned int id = temp.fimReparacao();
+		if(id != 0){
+			for (unsigned int i = 0; i < veiculos.size(); i++) {
+				if (veiculos[i]->getId() == id)
+					veiculos[i]->setReparacao(false);
+			}
+		}
+		aux.push_back(temp);
+		oficinas.pop();
+	}
+
+	for (size_t i = 0; i < aux.size(); i++) {
+		oficinas.push(aux[i]);
+	}
+}
+
+string Empresa::showOficinas()
+{
+	stringstream out;
+	vector<Oficina> aux;
+	unsigned int counter = 0;
+
+	out << endl << "////////Fila de Oficinas/////////" << endl;
+
+	while(!oficinas.empty())
+	{
+		counter++;
+		out << "Posicao n " << counter << ":" << endl
+			<< "Nome: " << oficinas.top().getNome() << "; Disponivel daqui a " << oficinas.top().getDisp() << " dias" << endl
+			<< "Distancia da garagem: " << oficinas.top().getDist() << " kms" << endl
+			<< "Veiculos em reparacao:";
+
+		queue<unsigned int> fila = oficinas.top().getFila();
+
+		while (!fila.empty())
+		{
+			out << ' ' << fila.front();
+			fila.pop();
+		}
+
+		out << endl << endl;
+
+		aux.push_back(oficinas.top());
+		oficinas.pop();
+	}
+
+	for(size_t i = 0; i < aux.size(); i++)
+		oficinas.push(aux[i]);
+
+	return out.str();
 }
 
 //===============================================================
