@@ -10,41 +10,43 @@ void inserir_escola(Empresa &empresa);
 
 void inserir_utente_escola(Empresa &empresa, Utente *ut)
 {
-	unsigned codigo;
+	string codigo;
+
+	cout << "A que escola pretende associar o utente? ('v' para ver lista de escolas; 'i' para inserir nova escola)   ";
 
 	while(true)
 	{
-		cout << "A que escola pretende associar o utente? (Ctrl + Z para ver lista de escolas/inserir nova escola)   ";
 		cin >> codigo;
 
-		if(cin.eof())
+		if(codigo == "v")
 		{
-			cin.clear();
-			char c;
-
-			cout << "Pretende ver a lista de escolas ('v') ou inserir uma nova escola ('i')?   ";
-			cin >> c;
-
-			if(c == 'v')
-			{
-				cout << empresa.getEscolasZona(ut->getZonaEscola()) << endl;
-			}
-			else if(c == 'i')
-			{
-				inserir_escola(empresa);
-			}
-			else continue;
+			cout << empresa.getEscolasZona(ut->getZonaEscola()) << endl;
 		}
-		else if(cin.fail())
+		else if(codigo == "i")
 		{
-			cin.ignore(10000, '\n');
-			cin.clear();
+			inserir_escola(empresa);
+			break;
 		}
 		else
 		{
+			bool valid = true;
+
+			for(size_t i = 0; i < codigo.size(); i++)
+			{
+				if(!isdigit(codigo[i]))
+				{
+					cerr << "Introduza um código válido ('v' para ver lista de escolas; 'i' para inserir nova escola)    ";
+					valid = false;
+					break;
+				}
+			}
+
+			if(valid)
+				continue;
+
 			try
 			{
-				empresa.InsereUtenteEscola(codigo, ut);
+				empresa.InsereUtenteEscola(stoul(codigo), ut);
 			}
 			catch(ZonasIncompativeis &z)
 			{
@@ -57,7 +59,7 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 				continue;
 			}
 
-			return;
+			break;
 		}
 	}
 }
@@ -1002,6 +1004,11 @@ void reparar_veiculo(Empresa &empresa)
 		cout << "O veiculo foi enviado para reparacao com sucesso!" << endl;
 }
 
+void mostrar_motoristas(Empresa &empresa)
+{
+	empresa.mostrar_nome_motoristas();
+}
+
 void inserir_motorista( Empresa &empresa)
 {
 	string nome;
@@ -1020,14 +1027,15 @@ void inserir_motorista( Empresa &empresa)
 
 	veiculos.push_back(id);
 
-	while(id!=0 && counter<5)
+	while(id!=0 && counter<=5)
 		{
+
+		veiculos.push_back(id);
+
+		cout<<"id: ";
+		cin>>id;
+
 			counter++;
-			cout<<"id: ";
-			cin>>id;
-
-			veiculos.push_back(id);
-
 		}
 
 	if(counter==5)
@@ -1075,7 +1083,7 @@ void inserir_veiculo(Empresa &empresa)
 		 {
 			veiculos.push_back(id);
 
-			if((empresa.nr_restante_veiculos(nome)-i)>=0 && empresa.nr_restante_veiculos(nome)==6 )
+			if((empresa.nr_restante_veiculos(nome)-i)>=0 && empresa.nr_restante_veiculos(nome)!=6 )
 			  {
 				cout<<"id: ";
 				cin>>id;
@@ -1336,7 +1344,7 @@ void menu_visualizacao(Empresa &empresa)
 			mostrar_escolas(empresa);
 			break;
 		case 3:
-			//mostrar_motoristas(empresa);
+			mostrar_motoristas(empresa);
 			break;
 		case 4:
 			mostrar_veiculos(empresa);
