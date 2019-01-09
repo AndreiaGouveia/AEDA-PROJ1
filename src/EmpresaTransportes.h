@@ -437,11 +437,8 @@ public:
 	 * @param nm Nome da oficina a alterar
 	 * @param newVal Novo valor do atributo a alterar
 	 * @param dist Se verdadeiro, o atributo a alterar e a distancia. Se falso, o atributo a alterar e a disponibilidade
-	 *
-	 * @return true -> a oficina foi inserida com sucesso
-	 * @return false -> a oficina ja existia e nao foi inserida
 	 */
-	bool editOficina(string nm, double newVal, bool dist);
+	void editOficina(string nm, double newVal, bool dist);
 	/**
 	 * @brief Insere uma oficina na fila de oficinas
 	 *

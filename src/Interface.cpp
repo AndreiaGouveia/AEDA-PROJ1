@@ -19,6 +19,7 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 
 		if(cin.eof())
 		{
+			cin.clear();
 			char c;
 
 			cout << "Pretende ver a lista de escolas ('v') ou inserir uma nova escola ('i')?   ";
@@ -909,15 +910,96 @@ void mostrar_oficinas(Empresa &empresa)
 void inserir_oficina(Empresa &empresa)
 {
 	string nome;
-	unsigned int dist, disp;
+	unsigned int dist;
 
-	cout << "Qual o nome da Oficina que pretende inserir? "; checkCinFail(nome);
+	cout << "Qual o nome da Oficina que pretende inserir? ";
+	cin.ignore(1000,'\n');
+	getline(cin,nome);
 	cout << "Qual a distancia, em kms, da Oficina a garagem da Empresa? "; checkCinFail(dist);
-	cout << "Quantos dias faltam ate a Oficina estar disponivel? (Caso esteja disponivel de momento, insira 0) "; checkCinFail(disp);
 
-	empresa.insertOficina(Oficina(nome, disp, dist));
+	if(empresa.insertOficina(Oficina(nome, 0, dist)))
+		cout << "Oficina inserida com sucesso!" << endl;
+	else
+		cout << "Uma Oficina com o mesmo nome ja existe! A insercao falhou." << endl;
+}
 
-	cout << "Oficina inserida com sucesso!" << endl;
+void remover_oficina(Empresa &empresa)
+{
+	string nome;
+
+	cout << "Qual o nome da Oficina que pretende remover? ";
+	cin.ignore(1000,'\n');
+	getline(cin,nome);
+
+	if(empresa.removeOficina(Oficina(nome)))
+		cout << "A Oficina foi removida com sucesso!" << endl;
+	else
+		cout << "A Oficina nao existe! A remocao falhou." << endl;
+}
+
+void alterar_oficina(Empresa &empresa)
+{
+	string nome, resp;
+	int nVal;
+	bool flag;
+
+	cout << "Qual o nome da Oficina que pretende remover? ";
+	cin.ignore(1000,'\n');
+	getline(cin,nome);
+
+	if(!empresa.checkOficina(Oficina(nome)))
+	{
+		cout << "A Oficina nao existe! Verifique o nome e tente outra vez." << endl;
+		return;
+	}
+
+	cout << "Quer alterar a distancia da garagem a Oficina ou a disponibilidade da Oficina? ";
+	checkCinFail(resp);
+
+	if(resp == "distancia")
+	{
+		flag = true;
+		cout << "Qual a nova distancia (em kms)? "; checkCinFail(nVal);
+	}
+	else
+	{
+		flag = false;
+		cout << "Quantos dias faltam para a Oficina estar disponivel? "; checkCinFail(nVal);
+	}
+
+	empresa.editOficina(nome, nVal, flag);
+
+	cout << "A edicao foi feita com sucesso! Deseja visualizar as Oficinas? ";
+
+	if(respostaS_N() == 'S')
+		mostrar_oficinas(empresa);
+}
+
+void reparar_veiculo(Empresa &empresa)
+{
+	double dist_max;
+	unsigned int id;
+
+	cout << "Qual o id do veiculo a reparar? "; checkCinFail(id);
+	cout << "Qual a distancia maxima, em kms, da Oficina a garagem? "; checkCinFail(dist_max);
+
+	Oficina temp;
+
+	try
+	{
+		temp = empresa.repararVeiculo(id,dist_max);
+	}
+	catch(VeiculoNaoExistente &e)
+	{
+		cout << e.getMsg();
+	}
+
+	if(temp == Oficina())
+	{
+		cout << "Nao existe nenhuma Oficina a essa distancia. Nao foi possivel enviar o veiculo para reparacao." << endl;
+	}
+	else
+		cout << "O veiculo foi enviado para reparacao com sucesso!" << endl;
 }
 
 void inserir_motorista( Empresa &empresa)
@@ -1192,7 +1274,7 @@ void menu_remocao(Empresa &empresa)
 			remover_veiculo(empresa);
 			break;
 		case 5:
-			//remover_oficina(empresa);
+			remover_oficina(empresa);
 			break;
 		case 6:
 			return;
@@ -1226,7 +1308,7 @@ void menu_edicao(Empresa &empresa)
 			alterar_veiculo(empresa);
 			break;
 		case 5:
-			//alterar_oficina(empresa);
+			alterar_oficina(empresa);
 			break;
 		case 6:
 			return;
@@ -1281,15 +1363,16 @@ void menu_trabalho(Empresa &empresa)
 			 << "5. Alocar todos os utentes para os transportes escolares" << endl
 			 << "6. Alugar trasnporte recreativo por um dia" << endl
 			 << "7. Despedir um motorista" << endl
-			 << "8. Processar o final do dia de hoje" << endl
-			 << "9. Processar o final deste mes" << endl
-			 << "10. Mostrar a tabela do valor dos passes" << endl
-			 << "11. Mostrar a tabela de alocacao de utentes por veiculo" << endl
-			 << "12. Mostrar os lucros mensais deste ano" << endl
-			 << "13. Mostrar os balancos diarios deste mes" << endl
-			 << "14. Mostrar a matriz de precos por zona" << endl
-			 << "15. Voltar ao Menu Princiapl" << endl;
-		switch (respostaNumeros(1,6)){
+			 << "8. Reparar um veiculo" << endl
+			 << "9. Processar o final do dia de hoje" << endl
+			 << "10. Processar o final deste mes" << endl
+			 << "11. Mostrar a tabela do valor dos passes" << endl
+			 << "12. Mostrar a tabela de alocacao de utentes por veiculo" << endl
+			 << "13. Mostrar os lucros mensais deste ano" << endl
+			 << "14. Mostrar os balancos diarios deste mes" << endl
+			 << "15. Mostrar a matriz de precos por zona" << endl
+			 << "16. Voltar ao Menu Princiapl" << endl;
+		switch (respostaNumeros(1,16)){
 		case 1:
 			alterar_precoZonas(empresa);
 			break;
@@ -1312,27 +1395,30 @@ void menu_trabalho(Empresa &empresa)
 			despedir_motorista(empresa);
 			break;
 		case 8:
-			processar_dia(empresa);
+			reparar_veiculo(empresa);
 			break;
 		case 9:
-			processar_mes(empresa);
+			processar_dia(empresa);
 			break;
 		case 10:
-			mostrar_tab_passes(empresa);
+			processar_mes(empresa);
 			break;
 		case 11:
-			mostrar_tab_alocacao(empresa);
+			mostrar_tab_passes(empresa);
 			break;
 		case 12:
-			mostrar_lucros_mensais(empresa);
+			mostrar_tab_alocacao(empresa);
 			break;
 		case 13:
-			mostrar_registo_diario(empresa);
+			mostrar_lucros_mensais(empresa);
 			break;
 		case 14:
-			mostrar_precos(empresa);
+			mostrar_registo_diario(empresa);
 			break;
 		case 15:
+			mostrar_precos(empresa);
+			break;
+		case 16:
 			return;
 		}
 	}
@@ -1364,7 +1450,7 @@ void menu_principal(Empresa &empresa)
 			menu_visualizacao(empresa);
 			break;
 		case 5:
-			//menu_trabalho(empresa);
+			menu_trabalho(empresa);
 			break;
 		case 6:
 			return;

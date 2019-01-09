@@ -2,8 +2,8 @@
 
 unsigned int Veiculo::numVeiculos = 0;
 
-Veiculo::Veiculo(const string &matricula, float consumo100km, float precoComb) :
-				idV(++numVeiculos), matricula(matricula), emReparacao(false) {
+Veiculo::Veiculo(const string &matricula, float consumo100km, float precoComb, bool emRep) :
+				idV(++numVeiculos), matricula(matricula), emReparacao(emRep) {
 	this->consumo100km = consumo100km;
 	this->precoComb = precoComb;
 }

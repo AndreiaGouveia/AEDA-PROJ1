@@ -36,8 +36,9 @@ public:
 	 * @param matricula	Matricula do veiculo
 	 * @param consumo100km	Consumo em Litros por cada 100 kms
 	 * @param precoComb	Preco do combustivel usado no veiculo
+	 * @param emRep true se o veículo estiver em reparacao, false caso contrario
 	*/
-	Veiculo(const string &matricula, float consumo100km, float precoComb);
+	Veiculo(const string &matricula, float consumo100km, float precoComb, bool emRep = false);
 	virtual ~Veiculo() {}
 	/**
 	 * @brief Permite acesso ao identificador interno do veiculo

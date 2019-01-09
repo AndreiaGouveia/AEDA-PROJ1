@@ -1024,7 +1024,7 @@ bool Empresa::checkOficina(const Oficina& ofc) {
 	return flag;
 }
 
-bool Empresa::editOficina(string nm, double newVal, bool dist) {
+void Empresa::editOficina(string nm, double newVal, bool dist) {
 	vector<Oficina> aux;
 	Oficina ofc(nm);
 	Oficina temp;
@@ -1036,10 +1036,9 @@ bool Empresa::editOficina(string nm, double newVal, bool dist) {
 			oficinas.pop();
 			flag = true;
 			break;
-		} else {
-			aux.push_back(oficinas.top());
-			oficinas.pop();
 		}
+		aux.push_back(oficinas.top());
+		oficinas.pop();
 	}
 
 	if (dist && flag) { //o valor a ser alterado e a distancia
@@ -1053,8 +1052,6 @@ bool Empresa::editOficina(string nm, double newVal, bool dist) {
 	for (size_t i = 0; i < aux.size(); i++) {
 		oficinas.push(aux[i]);
 	}
-
-	return flag;
 }
 
 bool Empresa::insertOficina(const Oficina& ofc) {
@@ -1102,22 +1099,29 @@ Oficina Empresa::repararVeiculo(unsigned int id, double dist_max) {
 					break;
 			}
 			break;
-		} else {
-			aux.push_back(oficinas.top());
-			oficinas.pop();
 		}
+
+		aux.push_back(oficinas.top());
+		oficinas.pop();
 	}
 
-	if (!oficinas.empty() && i != veiculos.size() && !veiculos[i]->getReparacao()) {
+	for (size_t j = 0; j < aux.size(); j++) {
+		oficinas.push(aux[j]);
+	}
+
+	if(i == veiculos.size()){
+		oficinas.push(temp);
+		throw VeiculoNaoExistente();
+	}
+	else if (!oficinas.empty() && !veiculos[i]->getReparacao()) {
 		temp.reparacao(id);
+		oficinas.push(temp);
 		veiculos[i]->setReparacao(true);
 		alocaUtentes();
 	}
-	else
+	else{
+		oficinas.push(temp);
 		temp = Oficina();
-
-	for (size_t i = 0; i < aux.size(); i++) {
-		oficinas.push(aux[i]);
 	}
 
 	return temp;
