@@ -373,7 +373,7 @@ public:
 	 *
 	 * @param f Ostream para onde sera escrita a informacao
 	 */
-	void guardarInfo(ostream &f) const;
+	void guardarInfo(ostream &f);
 	/**
 	 * @brief Carrega toda a informacao da empresa a partir de um ficheiro de texto.
 	 *
@@ -422,7 +422,7 @@ public:
 	 * @return String contendo a informacao organizada e legivel
 	 */
 	string showPrecos() const;
-	friend ostream& operator <<(ostream& out, const Empresa &emp);
+	friend ostream& operator <<(ostream& out, Empresa &emp);
 //==========================================================================
 	/**
 	 * @brief Verifica se a oficina especificada existe na fila de oficinas

@@ -1627,6 +1627,8 @@ void iniciar()
 
 			sair(emp);
 
+			cout << emp;
+
 			break;
 		}
 		case 2:
@@ -1639,6 +1641,8 @@ void iniciar()
 			}
 
 			sair(emp);
+
+			cout << emp;
 
 			break;
 		}

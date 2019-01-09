@@ -60,8 +60,8 @@ void Veiculo::setReparacao(bool rep)
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Escolar///////////////////////////
 ////////////////////////////////////////////////////////////////
-Escolar::Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas = vector<unsigned int>()) :
-		Veiculo(matricula, consumo100km, precoComb) , lugTotais(capacidade){
+Escolar::Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas = vector<unsigned int>(), bool emRep) :
+		Veiculo(matricula, consumo100km, precoComb, emRep) , lugTotais(capacidade){
 	lugaresLivres = capacidade;
 	this->zonasAtravessadas = zonasAtravessadas;
 }
@@ -148,8 +148,8 @@ ostream& operator <<(ostream& out, const Escolar& veic) {
 ////////////////////////////////////////////////////////////////
 //////////////////Transporte  Recreativo////////////////////////
 ////////////////////////////////////////////////////////////////
-Recreativo::Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado = false) :
-		Veiculo(matricula, consumo100km, precoComb), capacidade(cap) {
+Recreativo::Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado = false, bool emRep) :
+		Veiculo(matricula, consumo100km, precoComb, emRep), capacidade(cap) {
 	this->alugado = alugado;
 }
 

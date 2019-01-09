@@ -124,8 +124,9 @@ public:
 	 * @param precoComb	Preco do combustivel usado no trasnporte escolar
 	 * @param capacidade Capacidade total do trasnporte escolar (Inicializa tanto lugTotais como lugaresLivres)
 	 * @param zonasAtravessadas Vetor das zonas por onde o trasnporte escolar passa (por omissao e inicializado um vector vazio)
+	 * @param emRep true se o veículo estiver em reparacao, false caso contrario
 	*/
-	Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas);
+	Escolar(const string &matricula, float consumo100km, float precoComb, unsigned int capacidade, const vector<unsigned int>& zonasAtravessadas, bool emRep = false);
 	/**
 	 * @brief Permite acesso aos lugares livres no transporte escolar
 	 *
@@ -219,8 +220,9 @@ public:
 	 * @param precoComb	Preco do combustivel usado no trasnporte recreativo
 	 * @param cap Capacidade do trasnporte recreativo
 	 * @param alugado Estado de aluguer do transporte recreativo (true->alugado, false->livre). Por omissao e false.
+	 * @param emRep true se o veículo estiver em reparacao, false caso contrario
 	*/
-	Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado);
+	Recreativo(const string &matricula, float consumo100km, float precoComb, unsigned int cap, bool alugado, bool emRep = false);
 	/**
 	 * @brief Permite acesso a capacidade do transporte recreativo
 	 *

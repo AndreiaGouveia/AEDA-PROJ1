@@ -499,7 +499,7 @@ bool Empresa::calculoMensal() {
 	return false;
 }
 
-void Empresa::guardarInfo(ostream &ficheiro) const {
+void Empresa::guardarInfo(ostream &ficheiro) {
 	size_t i;
 
 	ficheiro << "//empresa" << endl << nome_empresa << endl;
@@ -557,6 +557,20 @@ void Empresa::guardarInfo(ostream &ficheiro) const {
 
 	for (i = 0; i < veiculos.size(); i++) {
 		ficheiro << *veiculos[i] << endl;
+	}
+
+	ficheiro << "//oficinas" << endl;
+	vector<Oficina> resto;
+
+	while(!oficinas.empty())
+	{
+		ficheiro << oficinas.top() << endl;
+		resto.push_back(oficinas.top());
+		oficinas.pop();
+	}
+
+	for(i = 0; i < resto.size(); i++){
+		oficinas.push(resto[i]);
 	}
 
 	ficheiro << "//precos" << endl << precoPessoa << endl << '\t';
@@ -627,8 +641,10 @@ void Empresa::carregarInfo(ifstream &f) {
 			seletor = 'd';
 		else if (line == "//motoristas")
 			seletor = 'm';
+		else if (line == "//oficinas")
+			seletor = 'o';
 		else {
-			cout << "seletor: " << seletor << endl;
+			//cout << "seletor: " << seletor << endl;
 			switch (seletor) {
 			case 'e':
 				nome_empresa = line.substr(0, line.length());
@@ -646,7 +662,7 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 
 				escolas.insert(Escola(atributos[0], stoul(atributos[1]), atributos[2], atributos[3], stoul(atributos[4])));
-
+				atributos.clear();
 				break;
 			}
 			case 'u':
@@ -706,6 +722,7 @@ void Empresa::carregarInfo(ifstream &f) {
 			}
 			case 'v':
 			{
+				bool emRep;
 				for (size_t i = 0; i <= line.length(); i++) {
 					if (line[i] == '\t' || i == line.length()) {
 						atributos.push_back(aux);
@@ -714,19 +731,23 @@ void Empresa::carregarInfo(ifstream &f) {
 						aux += line[i];
 					}
 				}
-				if (atributos[5] == "livre")
+				if(atributos[4] == "em reparacao")
+					emRep = true;
+				else
+					emRep = false;
+				if (atributos[6] == "livre")
 					veiculos.push_back(
 							new Recreativo(atributos[1], stof(atributos[2]),
-									stof(atributos[3]), stoul(atributos[4]),
-									false));
-				else if (atributos[5] == "alugado")
+									stof(atributos[3]), stoul(atributos[5]),
+									false, emRep));
+				else if (atributos[6] == "alugado")
 					veiculos.push_back(
 							new Recreativo(atributos[1], stof(atributos[2]),
-									stof(atributos[3]), stoul(atributos[4]),
-									true));
+									stof(atributos[3]), stoul(atributos[5]),
+									true, emRep));
 				else {
 					vector<unsigned int> vecZonas;
-					string str = atributos[5];
+					string str = atributos[6];
 					for (size_t i = 1; i < str.length(); i++) {
 						if (isdigit(str[i])) {
 							aux += str[i];
@@ -738,8 +759,8 @@ void Empresa::carregarInfo(ifstream &f) {
 
 					veiculos.push_back(
 							new Escolar(atributos[1], stof(atributos[2]),
-									stof(atributos[3]), stoul(atributos[4]),
-									vecZonas));
+									stof(atributos[3]), stoul(atributos[5]),
+									vecZonas, emRep));
 				}
 				atributos.resize(0);
 				break;
@@ -831,6 +852,20 @@ void Empresa::carregarInfo(ifstream &f) {
 				nome.clear();
 				veic.clear();
 				counter=0;
+				break;
+			}
+			case 'o':
+			{
+				atributos.clear();
+				for (size_t i = 0; i <= line.length(); i++)
+				{
+					if (line[i] == '\t' || i == line.length()) {
+						atributos.push_back(aux);
+						aux.clear();
+					} else {
+						aux += line[i];
+					}
+				}
 				break;
 			}
 			default:
@@ -997,7 +1032,7 @@ string Empresa::showPrecos() const {
 	return out.str();
 }
 
-ostream& operator <<(ostream& out, const Empresa &emp) {
+ostream& operator <<(ostream& out, Empresa &emp) {
 	emp.guardarInfo(out);
 
 	return out;
