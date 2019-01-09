@@ -10,40 +10,43 @@ void inserir_escola(Empresa &empresa);
 
 void inserir_utente_escola(Empresa &empresa, Utente *ut)
 {
-	unsigned codigo;
+	string codigo;
+
+	cout << "A que escola pretende associar o utente? ('v' para ver lista de escolas; 'i' para inserir nova escola)   ";
 
 	while(true)
 	{
-		cout << "A que escola pretende associar o utente? (Ctrl + Z para ver lista de escolas/inserir nova escola)   ";
 		cin >> codigo;
 
-		if(cin.eof())
+		if(codigo == "v")
 		{
-			char c;
-
-			cout << "Pretende ver a lista de escolas ('v') ou inserir uma nova escola ('i')?   ";
-			cin >> c;
-
-			if(c == 'v')
-			{
-				cout << empresa.getEscolasZona(ut->getZonaEscola()) << endl;
-			}
-			else if(c == 'i')
-			{
-				inserir_escola(empresa);
-			}
-			else continue;
+			cout << empresa.getEscolasZona(ut->getZonaEscola()) << endl;
 		}
-		else if(cin.fail())
+		else if(codigo == "i")
 		{
-			cin.ignore(10000, '\n');
-			cin.clear();
+			inserir_escola(empresa);
+			break;
 		}
 		else
 		{
+			bool valid = true;
+
+			for(size_t i = 0; i < codigo.size(); i++)
+			{
+				if(!isdigit(codigo[i]))
+				{
+					cerr << "Introduza um código válido ('v' para ver lista de escolas; 'i' para inserir nova escola)    ";
+					valid = false;
+					break;
+				}
+			}
+
+			if(valid)
+				continue;
+
 			try
 			{
-				empresa.InsereUtenteEscola(codigo, ut);
+				empresa.InsereUtenteEscola(stoul(codigo), ut);
 			}
 			catch(ZonasIncompativeis &z)
 			{
@@ -56,7 +59,7 @@ void inserir_utente_escola(Empresa &empresa, Utente *ut)
 				continue;
 			}
 
-			return;
+			break;
 		}
 	}
 }
