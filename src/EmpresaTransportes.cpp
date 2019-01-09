@@ -1647,9 +1647,9 @@ string Empresa::getEscolas() {
 		while (!itr.isAtEnd())
 		{
 			if (itr.retrieve().getZona() == zona) {
-				s << itr.retrieve().getCodigo() << '\t'
-						<< itr.retrieve().getNome() << '\t'
-						<< itr.retrieve().getDiretorInfo().first << '\n';
+				s << "Codigo: " << itr.retrieve().getCodigo() << "     "
+						<< "Nome: " << itr.retrieve().getNome() << "     "
+						<< "Diretor: " << itr.retrieve().getDiretorInfo().first << '\n';
 			}
 
 			itr.advance();
@@ -1665,6 +1665,8 @@ string Empresa::getEscolasZona(unsigned zona) {
 	BSTItrIn<Escola> itr(escolas);
 
 	ostringstream s;
+
+	s << "=== Escolas na zona " << zona << " ===" << endl;
 
 	while (!itr.isAtEnd()) {
 		if (itr.retrieve().getZona() == zona) {
