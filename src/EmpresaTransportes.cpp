@@ -532,7 +532,6 @@ void Empresa::guardarInfo(ostream &ficheiro) {
 			motorista = *it;
 
 			ficheiro << motorista.getNome() << "\t" << "Estado do contracto:\t";
-			cout << "motorsta: " << motorista.getNome() << endl;
 
 			if (motorista.getAtual())
 				ficheiro << "+ativo";
@@ -644,7 +643,6 @@ void Empresa::carregarInfo(ifstream &f) {
 		else if (line == "//oficinas")
 			seletor = 'o';
 		else {
-			//cout << "seletor: " << seletor << endl;
 			switch (seletor) {
 			case 'e':
 				nome_empresa = line.substr(0, line.length());
@@ -678,10 +676,6 @@ void Empresa::carregarInfo(ifstream &f) {
 				}
 				if (atributos[7] == "funcionario(a)")
 				{
-					cout << "---------" << endl << atributos[0] << endl << atributos[1] << endl <<
-							atributos[2] << "num:" << atributos[4] << endl <<
-							"num:" << atributos[5] << endl << "false" << endl <<
-							"num:" << atributos[8] << endl;
 
 					Utente* ut = new Funcionario(atributos[0], atributos[1],
 							atributos[2], stoul(atributos[4]),
@@ -816,11 +810,13 @@ void Empresa::carregarInfo(ifstream &f) {
 					if(line[counter]=='+')
 					{
 						atual=true;
+						counter+=7;
 						break;
 					}
 					else if(line[counter]=='-')
 					{
 						atual=false;
+						counter+=11;
 						break;
 					}
 				}
@@ -857,7 +853,9 @@ void Empresa::carregarInfo(ifstream &f) {
 			case 'o':
 			{
 				atributos.clear();
-				for (size_t i = 0; i <= line.length(); i++)
+				size_t i = 0;
+
+				for (; i <= line.length(); i++)
 				{
 					if (line[i] == '\t' || i == line.length()) {
 						atributos.push_back(aux);
@@ -866,6 +864,15 @@ void Empresa::carregarInfo(ifstream &f) {
 						aux += line[i];
 					}
 				}
+
+				Oficina temp(atributos[0], stod(atributos[2]));
+
+				for(size_t j = 3; j < atributos.size(); j++)
+				{
+					temp.reparacao(stoul(atributos[j]));
+				}
+
+				oficinas.push(temp);
 				break;
 			}
 			default:
@@ -1123,7 +1130,8 @@ bool Empresa::removeOficina(const Oficina& ofc) {
 Oficina Empresa::repararVeiculo(unsigned int id, double dist_max) {
 	vector<Oficina> aux;
 	Oficina temp;
-	size_t i;
+	unsigned int i = 0;
+	bool flag = false;
 
 	while (!oficinas.empty()) {
 		if (oficinas.top().getDist() <= dist_max) {
@@ -1131,35 +1139,40 @@ Oficina Empresa::repararVeiculo(unsigned int id, double dist_max) {
 			oficinas.pop();
 
 			for (i = 0; i < veiculos.size(); i++) {
-				if (veiculos[i]->getId() == id)
+				if (veiculos[i]->getId() == id){
+					flag = true;
 					break;
+				}
 			}
 			break;
 		}
-
-		aux.push_back(oficinas.top());
-		oficinas.pop();
+		else{
+			aux.push_back(oficinas.top());
+			oficinas.pop();
+		}
 	}
+
 
 	for (size_t j = 0; j < aux.size(); j++) {
+		cout << aux[j] << endl;
 		oficinas.push(aux[j]);
 	}
+
 
 	if(i == veiculos.size()){
 		oficinas.push(temp);
 		throw VeiculoNaoExistente();
 	}
-	else if (!oficinas.empty() && !veiculos[i]->getReparacao()) {
+	else if (flag && !veiculos[i]->getReparacao()) {
+		alocaUtentes();
 		temp.reparacao(id);
 		oficinas.push(temp);
 		veiculos[i]->setReparacao(true);
-		alocaUtentes();
 	}
 	else{
 		oficinas.push(temp);
 		temp = Oficina();
 	}
-
 	return temp;
 }
 

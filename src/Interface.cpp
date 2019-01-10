@@ -1024,7 +1024,13 @@ void reparar_veiculo(Empresa &empresa)
 	}
 	catch(VeiculoNaoExistente &e)
 	{
-		cout << e.getMsg();
+		cout << e.getMsg() << endl;
+		return;
+	}
+	catch(VeiculosInsuficientes &e)
+	{
+		cout << e.getMsg() << endl;
+		return;
 	}
 
 	if(temp == Oficina())

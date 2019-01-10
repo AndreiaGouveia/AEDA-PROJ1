@@ -1,9 +1,9 @@
 //empresa
-ToneTrans
+emp
 //escolas
-Dona Maria	12345	Antonio Freitas	Praca Maria da Cunha	1
 Alberto Sampaio	12012	Maria Frade Goncalves	Rua dos Capelistas	2
 Carlos Amarante	72638	Luis Pinto	Avenida Marquez	3
+Dona Maria	12345	Antonio Freitas	Praca Maria da Cunha	1
 Magia de Aprender	43296	Passos Dias Aguiar	Rua Namora	3
 //utentes
 Carlos	22/04/1999	30060485	1	1	3	72638	funcionario(a)	963258741
@@ -14,11 +14,11 @@ Kevinho C'Acredjita	04/7/1998	91738928	4	1	1	12345	Carlos	917899688
 Ana Sousa	Estado do contracto:	+ativo	1	2	3
 Maria Luisa	Estado do contracto:	+ativo	1	2
 //veiculos
-1	63-FO-75	8	1.4	na garagem	30	{1,2,3}
+1	63-FO-75	8	1.4	em reparacao	30	{1,2,3}
 2	12-59-PT	7	1.1	na garagem	60	alugado
 3	14-27-RT	4	0.9	em reparacao	20	livre
 //oficinas
-Roda Tudo	0	12	3
+Roda Tudo	2	12	3	1
 //precos
 15.5
 	Z1	Z2	Z3

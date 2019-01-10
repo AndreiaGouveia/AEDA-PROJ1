@@ -1,17 +1,23 @@
 //empresa
 ToneTrans
+//escolas
+Alberto Sampaio	12012	Maria Frade Goncalves	Rua dos Capelistas	2
+Carlos Amarante	72638	Luis Pinto	Avenida Marquez	3
+Dona Maria	12345	Antonio Freitas	Praca Maria da Cunha	1
+Magia de Aprender	43296	Passos Dias Aguiar	Rua Namora	3
 //utentes
-Carlos	22/04/1999	30060485	1	1	3	funcionario(a)	963258741
-Andreia Gouveia	12/1/98	12345678	2	2	3	docente	918563214
-Sofia Araujo Lajes	23/5/2012	87654321	3	3	3	Carlos	917899688
+Carlos	22/04/1999	30060485	1	1	3	72638	funcionario(a)	963258741
+Andreia Gouveia	12/1/98	12345678	2	2	3	43296	docente	918563214
+Sofia Araujo Lajes	23/5/2012	87654321	3	3	3	43296	Carlos	917899688
+Kevinho C'Acredjita	04/7/1998	91738928	4	1	1	12345	Carlos	917899688
 //motoristas
-Ana Sousa	Estado do contracto:	+ativo	0	1	2	3
-luisa	Estado do contracto:	+ativo	1	0
 Maria Luisa	Estado do contracto:	+ativo	0	1	2
+Ana Sousa	Estado do contracto:	+ativo	0	1	2	3
 //veiculos
-1	63-FO-75	8	1.4	30	{1,2,3}
-2	12-59-PT	7	1.1	60	alugado
-3	14-27-RT	4	0.9	20	livre
+1	63-FO-75	8	1.4	na garagem	30	{1,2,3}
+2	12-59-PT	7	1.1	na garagem	60	alugado
+3	14-27-RT	4	0.9	em reparacao	20	livre
+//oficinas
 //precos
 15.5
 	Z1	Z2	Z3
